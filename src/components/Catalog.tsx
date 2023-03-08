@@ -1,18 +1,27 @@
-import { useFetch } from '../utils/hooks'
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export default function Catalog() {
 
-    const [data] = useFetch('http://localhost:5000/catalog')
+
+
+    const [catalogCounts, setCatalogCount] = useState({
+        partCount: 0
+    })
+
+    useEffect(() => {
+        axios.get(`${window.location.origin}${window.location.pathname}`)
+            .then((response) => setCatalogCount(response.data))
+    }, [])
+
+    
 
     return (
         <div>
-            <h1>List from server{"\n"}</h1>
-            {data.map((item) => {
-                return (
-                    <div>
-                        {item}
-                    </div>)
-            })}
+            <h2>Summary of the catalog</h2>
+            <ul>
+                {(Object.entries(catalogCounts)).map(object => <li>{catalogCounts[object]}</li>)}
+            </ul>
         </div>
     )
 

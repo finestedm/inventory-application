@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set("view engine", "pug")
 
-app.use('/parts', partRoutes)
+app.use('/catalog', partRoutes)
 
 app.use('/', (req, res) => {
     res.send('Hello from the API')

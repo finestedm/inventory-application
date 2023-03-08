@@ -12,7 +12,7 @@ function App() {
         <h1>This is a header</h1>
       </header>
       <Routes>
-        <Route path='/parts' element={<Catalog />} />
+        <Route path='/catalog' element={<Catalog />} />
         {/* <Route path='/part:id' element={<Part />} /> */}
       </Routes>
     </div>
