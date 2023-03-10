@@ -1,12 +1,12 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
-export default function Catalog() {
+export default function Catalog(): JSX.Element {
 
     // declare types in catalogCounts
     interface ICatalogCounts {
         [key: string]: number;
-     }
+    }
 
     // set initial states of catalogCounts with declared types of data
     const [catalogCounts, setCatalogCount] = useState<ICatalogCounts>({
