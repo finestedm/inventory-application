@@ -16,7 +16,7 @@ export default function Parts(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get(`${window.location.origin}${window.location.pathname}`)
+        axios.get('/catalog/parts')
             .then((response) => setParts(response.data))
     }, [])
 

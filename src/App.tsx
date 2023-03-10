@@ -4,10 +4,11 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
 import Parts from './Pages/Parts';
+import axios from 'axios';
 
+const baseURL = axios.create({ baseURL: 'localhost:5000/catalog' })
 
 function App() {
-  console.log(`${window.location.origin}${window.location.pathname}`)
 
   return (
     <div className="App">
@@ -15,8 +16,10 @@ function App() {
         <h1>This is a header</h1>
       </header>
       <Routes>
-        <Route path='catalog' element={<Catalog />} />
-        <Route path='catalog/parts' element={<Parts />} />
+        <Route path='catalog'>
+          <Route index element={<Catalog />} />
+          <Route path='parts' element={<Parts />} />
+        </Route>
       </Routes>
     </div>
   );
