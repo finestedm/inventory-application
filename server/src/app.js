@@ -5,7 +5,10 @@ import dotenv from 'dotenv'
 import path from 'path';
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import partRoutes from '../routes/catalog.js'
+import partRoutes from '../routes/parts.js'
+import locationRoutes from '../routes/locations.js'
+import Part from '../models/part.js';
+import Location from '../models/location.js';
 dotenv.config();
 const PORT = process.env.PORT || 5000
 
@@ -16,7 +19,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set("view engine", "pug")
 
-app.use('/catalog', partRoutes)
+app.use('/catalog/parts', partRoutes)
+app.use('/catalog/locations', locationRoutes)
+
+app.use('/catalog', async (req, res) => {
+    try {
+        const [partCount, locationCount] = await Promise.all([
+            Part.countDocuments(),
+            Location.countDocuments(),
+        ]);
+        res.json({ partCount, locationCount });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+})
+
 
 app.use('/', (req, res) => {
     res.send('Hello from the API')

@@ -4,35 +4,33 @@ import { ReactNode, useEffect, useState } from "react"
 export default function Parts(): JSX.Element {
 
     // declare types in catalogCounts
-    interface IPart {
+    interface ILocation {
         _id: string;
-        name: string;
-        manufacturer: string;
-        price: number;
+        city: string;
+        country: string;
     }
 
     // set initial states of catalogCounts with declared types of data
-    const [parts, setParts] = useState<IPart[]>([])
+    const [locations, setLocations] = useState<ILocation[]>([])
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/parts')
-            .then((response) => setParts(response.data))
+        axios.get('/catalog/locations')
+            .then((response) => setLocations(response.data))
     }, [])
 
     useEffect(() => {
-        console.log(parts)
-    }, [parts])
+        console.log(locations)
+    }, [locations])
 
     return (
         <div>
             <h2>Summary of the catalog</h2>
             <ul>
-                {(parts).map(part =>
+                {(locations).map(part =>
                     <li>
-                        {part.name}
-                        {part.manufacturer}
-                        {part.price}
+                        {part.city}
+                        {part.country}
                     </li>
                 )}
             </ul>
