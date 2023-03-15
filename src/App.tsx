@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
 import Parts from './Pages/Parts';
 import Locations from './Pages/Locations'
+import Tags from './Pages/Tags';
 import axios from 'axios';
 
 const baseURL = axios.create({ baseURL: 'localhost:5000/catalog' })
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<Catalog />} />
           <Route path='parts' element={<Parts />} />
           <Route path='locations' element={<Locations />} />
+          <Route path='tags' element={<Tags />} />
         </Route>
       </Routes>
     </div>

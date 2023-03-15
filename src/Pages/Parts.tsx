@@ -1,14 +1,17 @@
 import axios from "axios"
 import { ReactNode, useEffect, useState } from "react"
+import { ITag } from "./Tags";
 
 export default function Parts(): JSX.Element {
 
-    // declare types in catalogCounts
+    // declare types
+
     interface IPart {
         _id: string;
         name: string;
         manufacturer: string;
         price: number;
+        tags: ITag[];
     }
 
     // set initial states of catalogCounts with declared types of data
@@ -33,6 +36,7 @@ export default function Parts(): JSX.Element {
                         {part.name}
                         {part.manufacturer}
                         {part.price}
+                        {<ul>{(part.tags).map(tag => <li>{tag.name}</li>)}</ul>}
                     </li>
                 )}
             </ul>

@@ -7,8 +7,10 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import partRoutes from '../routes/parts.js'
 import locationRoutes from '../routes/locations.js'
+import tagRoutes from '../routes/tags.js'
 import Part from '../models/part.js';
 import Location from '../models/location.js';
+import Tag from '../models/tag.js';
 dotenv.config();
 const PORT = process.env.PORT || 5000
 
@@ -21,14 +23,16 @@ app.set("view engine", "pug")
 
 app.use('/catalog/parts', partRoutes)
 app.use('/catalog/locations', locationRoutes)
+app.use('/catalog/tags', tagRoutes)
 
 app.use('/catalog', async (req, res) => {
     try {
-        const [partCount, locationCount] = await Promise.all([
+        const [partCount, locationCount, tagCount] = await Promise.all([
             Part.countDocuments(),
             Location.countDocuments(),
+            Tag.countDocuments(),
         ]);
-        res.json({ partCount, locationCount });
+        res.json({ partCount, locationCount, tagCount });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server Error' });
