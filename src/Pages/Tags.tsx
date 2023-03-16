@@ -26,9 +26,9 @@ export default function Tags(): JSX.Element {
         <div>
             <h2>Summary of the catalog</h2>
             <ul>
-                {(tags).map(part =>
-                    <li>
-                        {part.name}
+                {(tags).map(tag =>
+                    <li key={tag._id}>
+                        {tag.name}
                     </li>
                 )}
             </ul>

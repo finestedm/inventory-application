@@ -1,18 +1,18 @@
 import axios from "axios"
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ITag } from "./Tags";
 
+// declare types
+
+export interface IPart {
+    _id: string;
+    name: string;
+    manufacturer: string;
+    price: number;
+    tags: ITag[];
+}
+
 export default function Parts(): JSX.Element {
-
-    // declare types
-
-    interface IPart {
-        _id: string;
-        name: string;
-        manufacturer: string;
-        price: number;
-        tags: ITag[];
-    }
 
     // set initial states of catalogCounts with declared types of data
     const [parts, setParts] = useState<IPart[]>([])
@@ -32,11 +32,11 @@ export default function Parts(): JSX.Element {
             <h2>Summary of the catalog</h2>
             <ul>
                 {(parts).map(part =>
-                    <li>
+                    <li key={part._id}>
                         {part.name}
                         {part.manufacturer}
                         {part.price}
-                        {<ul>{(part.tags).map(tag => <li>{tag.name}</li>)}</ul>}
+                        {<ul>{(part.tags).map(tag => <li key={tag._id}>{tag.name}</li>)}</ul>}
                     </li>
                 )}
             </ul>

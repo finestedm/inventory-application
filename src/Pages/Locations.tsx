@@ -1,14 +1,14 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
-export default function Parts(): JSX.Element {
+export interface ILocation {
+    _id: string;
+    city: string;
+    country: string;
+}
 
-    // declare types in catalogCounts
-    interface ILocation {
-        _id: string;
-        city: string;
-        country: string;
-    }
+
+export default function Parts(): JSX.Element {
 
     // set initial states of catalogCounts with declared types of data
     const [locations, setLocations] = useState<ILocation[]>([])

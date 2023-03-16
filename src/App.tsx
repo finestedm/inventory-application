@@ -1,14 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
 import Parts from './Pages/Parts';
 import Locations from './Pages/Locations'
+import Inventories from './Pages/Inventories'
 import Tags from './Pages/Tags';
 import axios from 'axios';
 
-const baseURL = axios.create({ baseURL: 'localhost:5000/catalog' })
+axios.create({ baseURL: 'localhost:5000/catalog' })
 
 function App() {
 
@@ -23,6 +23,7 @@ function App() {
           <Route path='parts' element={<Parts />} />
           <Route path='locations' element={<Locations />} />
           <Route path='tags' element={<Tags />} />
+          <Route path='availability' element={<Inventories />} />
         </Route>
       </Routes>
     </div>
