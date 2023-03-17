@@ -1,6 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { ITag } from "./Tags";
+import { Button, Container, Typography } from "@mui/material";
+import NewPartModal from "../components/NewPartModal";
+import CardList from "../components/CardList";
 
 // declare types
 
@@ -14,33 +17,25 @@ export interface IPart {
 
 export default function Parts(): JSX.Element {
 
+    const [newPartModalOpen, setNewPartModalOpen] = useState(false);
+
     // set initial states of catalogCounts with declared types of data
     const [parts, setParts] = useState<IPart[]>([])
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/parts')
+        axios.get('/parts')
             .then((response) => setParts(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(parts)
-    }, [parts])
-
     return (
-        <div>
-            <h2>Summary of the catalog</h2>
-            <ul>
-                {(parts).map(part =>
-                    <li key={part._id}>
-                        {part.name}
-                        {part.manufacturer}
-                        {part.price}
-                        {<ul>{(part.tags).map(tag => <li key={tag._id}>{tag.name}</li>)}</ul>}
-                    </li>
-                )}
-            </ul>
-        </div>
+        <Container>
+            <NewPartModal newPartModalOpen={newPartModalOpen} setNewPartModalOpen={setNewPartModalOpen} />
+            
+            <Typography variant="h4">List of products sold in our stores</Typography>
+            <Button onClick={() => setNewPartModalOpen(true)}> Add new part </Button>
+            <CardList parts={parts} />
+        </Container>
     )
 
 }

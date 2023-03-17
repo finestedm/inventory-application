@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import CardList from "../components/CardList";
 import { IPart } from "./Parts";
+import { Container } from "@mui/material";
 
 export default function Catalog(): JSX.Element {
 
@@ -18,7 +19,7 @@ export default function Catalog(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog')
+        axios.get(`/`)
             .then((response) => setCatalogCount(response.data))
     }, [])
 
@@ -27,19 +28,19 @@ export default function Catalog(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/parts')
+        axios.get('/parts')
             .then((response) => setParts(response.data))
     }, [])
 
 
     return (
-        <div>
+        <Container>
             <CardList parts={parts} />
             {/* <CardList locations={locations} /> */}
             <ul>
                 {Object.keys(catalogCounts).map(key => <li key={key}>{key}: {catalogCounts[key]}</li>)}
             </ul>
-        </div>
+        </Container>
     )
 
 }

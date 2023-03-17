@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -14,7 +15,7 @@ export default function Tags(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/tags')
+        axios.get('/tags')
             .then((response) => setTags(response.data))
     }, [])
 
@@ -23,7 +24,7 @@ export default function Tags(): JSX.Element {
     }, [tags])
 
     return (
-        <div>
+        <Container>
             <h2>Summary of the catalog</h2>
             <ul>
                 {(tags).map(tag =>
@@ -32,7 +33,7 @@ export default function Tags(): JSX.Element {
                     </li>
                 )}
             </ul>
-        </div>
+        </Container>
     )
 
 }

@@ -1,4 +1,4 @@
-import {Box, Card, CardActions, CardContent, Button, Typography} from '@mui/material'
+import {Box, Card, CardActions, CardContent, Button, Typography, Skeleton} from '@mui/material'
 import { IPart } from '../Pages/Parts';
 import { Link } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ export default function PartCard(part: CardProps) {
     return (
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
+          <Skeleton variant='rectangular' height={200} width='100%' />
             <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
                 {part.part.name}
             </Typography>

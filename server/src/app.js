@@ -2,7 +2,6 @@ import express from 'express';
 const router = express.Router();
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
-import path from 'path';
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import partRoutes from '../routes/parts.js'
@@ -23,12 +22,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set("view engine", "pug")
 
-app.use('/catalog/parts', partRoutes)
-app.use('/catalog/locations', locationRoutes)
-app.use('/catalog/tags', tagRoutes)
-app.use('/catalog/availability', inventoryRoutes)
+app.use('/api/catalog/parts', partRoutes)
+app.use('/api/catalog/locations', locationRoutes)
+app.use('/api/catalog/tags', tagRoutes)
+app.use('/api/catalog/availability', inventoryRoutes)
 
-app.use('/catalog', async (req, res) => {
+app.use('/api/catalog', async (req, res) => {
     try {
         const [partCount, locationCount, tagCount, inventoryCount] = await Promise.all([
             Part.countDocuments(),

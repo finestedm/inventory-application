@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Container, Typography } from "@mui/material";
 
 export interface ILocation {
     _id: string;
@@ -15,7 +16,7 @@ export default function Parts(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/locations')
+        axios.get('/locations')
             .then((response) => setLocations(response.data))
     }, [])
 
@@ -24,8 +25,8 @@ export default function Parts(): JSX.Element {
     }, [locations])
 
     return (
-        <div>
-            <h2>Summary of the catalog</h2>
+        <Container>
+            <Typography variant="h4">You can buy our products in the below shops:</Typography>
             <ul>
                 {(locations).map(part =>
                     <li>
@@ -34,7 +35,7 @@ export default function Parts(): JSX.Element {
                     </li>
                 )}
             </ul>
-        </div>
+        </Container>
     )
 
 }

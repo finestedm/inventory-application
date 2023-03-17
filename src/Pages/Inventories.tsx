@@ -18,13 +18,9 @@ export default function Inventories(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/catalog/availability')
+        axios.get('/availability')
             .then((response) => setInventories(response.data))
     }, [])
-
-    useEffect(() => {
-        console.log(inventories)
-    }, [inventories])
 
     return (
         <div>

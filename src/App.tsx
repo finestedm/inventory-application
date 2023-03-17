@@ -16,12 +16,12 @@ import '@fontsource/roboto/700.css';
 import Tag from './Pages/Tag';
 import TopBar from './components/TopBar';
 
-axios.create({ baseURL: 'localhost:5000/catalog' })
+axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
 function App() {
 
   return (
-    <div className="App">
+    <div className="App" id='AppContainer'>
       <TopBar />
       <Routes>
         <Route path='/' element={<Splash />} />

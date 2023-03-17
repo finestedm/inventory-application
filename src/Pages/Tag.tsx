@@ -4,6 +4,7 @@ import { ITag } from './Tags'
 import { useParams } from "react-router-dom";
 import { IPart } from "./Parts";
 import CardList from "../components/CardList";
+import { Container, Typography } from "@mui/material";
 
 export default function Tag(): JSX.Element {
 
@@ -15,7 +16,7 @@ export default function Tag(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get(`/catalog/tags/${params.name}`)
+        axios.get(`/tags/${params.name}`)
             .then((response) => {
                 setTag(response.data.tag);
                 setPartsTagged(response.data.partsTagged);
@@ -23,10 +24,14 @@ export default function Tag(): JSX.Element {
     }, [])
 
     return (
-        <div>
-            {tag && <h2>{tag.name}</h2>}
-            {partsTagged && <CardList parts={partsTagged}/>}
-        </div>
+        <Container>
+            {tag &&
+                <div style={{ display: 'flex' }}>
+                    <Typography noWrap variant="h4" sx={{marginRight: '.5rem'}}>Browse parts tagged with: </Typography>
+                    <Typography noWrap variant="h4" sx={{fontWeight: 700}} color='primary'>#{tag.name}</Typography>
+                </div>}
+            {partsTagged && <CardList parts={partsTagged} />}
+        </Container>
     )
 
 }
