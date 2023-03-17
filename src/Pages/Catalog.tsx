@@ -1,5 +1,7 @@
 import axios from "axios"
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import CardList from "../components/CardList";
+import { IPart } from "./Parts";
 
 export default function Catalog(): JSX.Element {
 
@@ -20,12 +22,22 @@ export default function Catalog(): JSX.Element {
             .then((response) => setCatalogCount(response.data))
     }, [])
 
+    // set initial states of catalogCounts with declared types of data
+    const [parts, setParts] = useState<IPart[]>([])
+
+    // get data from server: number of elements in each category
+    useEffect(() => {
+        axios.get('/catalog/parts')
+            .then((response) => setParts(response.data))
+    }, [])
+
 
     return (
         <div>
-            <h2>Summary of the catalog</h2>
+            <CardList parts={parts} />
+            {/* <CardList locations={locations} /> */}
             <ul>
-                {Object.keys(catalogCounts).map(key => <li>{key}: {catalogCounts[key]}</li>)}
+                {Object.keys(catalogCounts).map(key => <li key={key}>{key}: {catalogCounts[key]}</li>)}
             </ul>
         </div>
     )
