@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 
 
-
 export default function NewPartModal(props: { newPartModalOpen: boolean, setNewPartModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { newPartModalOpen, setNewPartModalOpen } = props
 

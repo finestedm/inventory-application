@@ -1,4 +1,4 @@
-import {Box, Card, CardActions, CardContent, Button, Typography, Skeleton} from '@mui/material'
+import {Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid} from '@mui/material'
 import { IPart } from '../Pages/Parts';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ interface CardProps extends React.PropsWithChildren<{}> {
 
 export default function PartCard(part: CardProps) {
     return (
-      <Card sx={{ minWidth: 275 }}>
+      <Card component={Grid} item xs={12} sm={6} md={4} lg={3}>
         <CardContent>
           <Skeleton variant='rectangular' height={200} width='100%' />
             <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
