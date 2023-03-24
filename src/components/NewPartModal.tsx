@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 
 
+
 export default function NewPartModal(props: { newPartModalOpen: boolean, setNewPartModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { newPartModalOpen, setNewPartModalOpen } = props
 
@@ -12,7 +13,7 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
         name: string;
         price: number;
         manufacturer: string;
-        tags: string[]
+        tags: ITag[]
     }
 
     const [newPartData, setNewPartData] = useState<INewPartData>({
@@ -21,6 +22,15 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
         manufacturer: '',
         tags: []
     })
+
+    function resetNewPartData() {
+        setNewPartData({
+            name: '',
+            price: 0,
+            manufacturer: '',
+            tags: []
+        });
+    }
 
     const [manufacturers, setManufacturers] = useState([])
     const [tags, setTags] = useState<ITag[]>([])
@@ -33,9 +43,21 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
             .then((response) => setTags(response.data))
     }, [])
 
-    // useEffect(() => {
-    //     console.log(tags.map((k, v)=> tags[v].name))
-    // }, [tags])
+
+    async function createNewPart(newPartData: INewPartData) {
+        try {
+            const response = await axios.post('/parts/new_part', newPartData);
+            setNewPartModalOpen(false)
+            resetNewPartData()
+            return response.data;
+        } catch (error) {
+            throw new Error();
+        }
+    }
+    
+    useEffect(() => {
+        console.log(newPartData)
+    }, [newPartData])
 
     return (
         <Modal open={newPartModalOpen} onClose={() => setNewPartModalOpen(false)}>
@@ -56,20 +78,30 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
                             onChange={(e) => setNewPartData({ ...newPartData, price: parseInt(e.target.value) })}
                         />
                         <Autocomplete
-                            options={tags.map((k, v)=> tags[v].name)}
-                            renderInput={(p) => <TextField {...p} label="Tags" />}
-                            freeSolo
+                            options={tags}
+                            value={newPartData.tags}
+                            getOptionLabel={(tag: string | ITag) => typeof tag === 'string' ? tag : tag.name}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Tags" variant="outlined" />
+                            )}
+                            // freeSolo  // this needs to be disabled for now as I do not allow creating new tags here.
                             multiple
+                            onChange={(e, v) => {
+                                const newTags = v.map(tag => typeof tag === 'string' ? tags.find(t => t.name === tag) as ITag : tag);
+                                setNewPartData({ ...newPartData, tags: newTags });
+                            }}
                         />
                         <Autocomplete
-                            options={manufacturers}
+                            options={[...new Set(manufacturers)]}
+                            value={newPartData.manufacturer}
                             renderInput={(p) => <TextField {...p} label="Manufacturer" />}
-                            freeSolo
+                            // freeSolo  // this needs to be disabled for now as I do not allow creating new tags here.
+                            onChange={(e, v) => typeof v === 'string' ? setNewPartData({ ...newPartData, manufacturer: v }) : ''}
                         />
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
-                        <Button>Add new part</Button>
-                        <Button>Cancel  </Button>
+                        <Button onClick={() => createNewPart(newPartData)}>Add new part</Button>
+                        <Button onClick={() => setNewPartModalOpen(false)}>Cancel</Button>
                     </Stack>
                 </CardContent>
             </Card>

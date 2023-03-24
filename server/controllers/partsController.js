@@ -33,3 +33,18 @@ export async function manufacturers(req, res) {
     }
 }
 
+export async function create_new_part(req, res) {
+    const { name, price, manufacturer, tags } = req.body;
+    const newPart = new Part({
+        name,
+        price,
+        manufacturer,
+        tags
+    });
+    try {
+        const createdPart = await newPart.save();
+        res.status(201).json(createdPart);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
