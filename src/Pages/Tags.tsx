@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Button, Container, Menu } from "@mui/material";
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -19,19 +19,26 @@ export default function Tags(): JSX.Element {
             .then((response) => setTags(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(tags)
-    }, [tags])
+    const [newTagMenuOpen, setNewTagMenuOpen] = useState(false)
 
     return (
         <Container>
-            <h2>Summary of the catalog</h2>
+            <h2>List of tags</h2>
             <ul>
                 {(tags).map(tag =>
                     <li key={tag._id}>
-                        {tag.name}
+                        <Button href={`/catalog/tags/${tag.name}`}>
+                            {tag.name}
+                        </Button>
                     </li>
                 )}
+                {/* <li>
+                    <Menu
+                        open={newTagMenuOpen}
+                    >
+
+                    </Menu>
+                </li> */}
             </ul>
         </Container>
     )
