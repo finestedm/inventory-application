@@ -1,11 +1,21 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Container, Typography } from "@mui/material";
+import CardList from "../components/CardList";
+
+interface OpeningHours {
+    day: string; // This could be restricted to a specific set of values, e.g. 'monday', 'tuesday', etc.
+    open: string;
+    close: string;
+}
 
 export interface ILocation {
     _id: string;
+    zip: string;
+    street: string;
     city: string;
     country: string;
+    openingHours: OpeningHours[]
 }
 
 
@@ -20,21 +30,10 @@ export default function Parts(): JSX.Element {
             .then((response) => setLocations(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(locations)
-    }, [locations])
-
     return (
         <Container>
             <Typography variant="h4">You can buy our products in the below shops:</Typography>
-            <ul>
-                {(locations).map(part =>
-                    <li>
-                        {part.city}
-                        {part.country}
-                    </li>
-                )}
-            </ul>
+            <CardList locations={locations} />
         </Container>
     )
 

@@ -13,7 +13,6 @@ export async function part_list(req, res) {
 
 export async function part_details(req, res) {
     try {
-        console.log(req.params.id)
         const part = await Part.findOne({ _id: req.params.id })
             .populate("tags");
         res.status(200).json(part)

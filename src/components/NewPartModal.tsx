@@ -3,19 +3,13 @@ import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormC
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
+import { IPart } from "../Pages/Parts";
 
 
 export default function NewPartModal(props: { newPartModalOpen: boolean, setNewPartModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { newPartModalOpen, setNewPartModalOpen } = props
 
-    interface INewPartData {
-        name: string;
-        price: number;
-        manufacturer: string;
-        tags: ITag[]
-    }
-
-    const [newPartData, setNewPartData] = useState<INewPartData>({
+    const [newPartData, setNewPartData] = useState<IPart>({
         name: '',
         price: 0,
         manufacturer: '',
@@ -43,7 +37,7 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
     }, [])
 
 
-    async function createNewPart(newPartData: INewPartData) {
+    async function createNewPart(newPartData: IPart) {
         try {
             const response = await axios.post('/parts/new_part', newPartData);
             setNewPartModalOpen(false)
@@ -53,7 +47,7 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
             throw new Error();
         }
     }
-    
+
     useEffect(() => {
         console.log(newPartData)
     }, [newPartData])

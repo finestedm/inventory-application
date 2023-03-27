@@ -2,7 +2,9 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import CardList from "../components/CardList";
 import { IPart } from "./Parts";
-import { Container } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
+import { ILocation } from "./Locations";
+import TagCloud from "../components/TagCloud";
 
 export default function Catalog(): JSX.Element {
 
@@ -25,18 +27,34 @@ export default function Catalog(): JSX.Element {
 
     // set initial states of catalogCounts with declared types of data
     const [parts, setParts] = useState<IPart[]>([])
+    const [locations, setLocations] = useState<ILocation[]>([])
+
 
     // get data from server: number of elements in each category
     useEffect(() => {
         axios.get('/parts')
             .then((response) => setParts(response.data))
+        axios.get('/locations')
+            .then((response) => setLocations(response.data))
     }, [])
 
 
     return (
         <Container>
-            <CardList parts={parts} />
-            {/* <CardList locations={locations} /> */}
+            <Stack spacing={3}>
+                <Box>
+                    <Typography variant='h3'>Browser newest parts:</Typography>
+                    <CardList parts={parts} />
+                </Box>
+                <Box>
+                    <Typography variant='h3'>Our shops are in these cities:</Typography>
+                    <CardList locations={locations} />
+                </Box>
+                <Box>
+                    <Typography variant='h3'>Look for products categorized by tags:</Typography>
+                    <TagCloud />
+                </Box>
+            </Stack>
             <ul>
                 {Object.keys(catalogCounts).map(key => <li key={key}>{key}: {catalogCounts[key]}</li>)}
             </ul>

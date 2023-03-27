@@ -1,7 +1,8 @@
 import { Grid, Paper } from "@mui/material";
 import { ILocation } from "../Pages/Locations";
 import { IPart } from "../Pages/Parts";
-import CardPart from "./Card";
+import CardPart from "./CardPart";
+import CardLocation from "./CardLocation";
 
 interface CardListProps extends React.PropsWithChildren<{}> {
     parts?: IPart[];
@@ -14,8 +15,11 @@ export default function CardList(props: CardListProps) {
     return (
         <Grid container spacing={2} justifyContent='space-between'>
             {
-                parts?.map(part => <CardPart  key={part._id} part={part} />)
-                // locations?.map(part => <CardLocation locations={locations} />)
+                parts?.map(part => <CardPart key={part._id} part={part} />)
+            }
+            
+            {
+                locations?.map(location => <CardLocation key={location._id} location={location} />)
             }
         </Grid>
     )

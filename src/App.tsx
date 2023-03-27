@@ -8,6 +8,7 @@ import Inventories from './Pages/Inventories'
 import Tags from './Pages/Tags';
 import Splash from './Pages/Splash';
 import Part from './Pages/Part';
+import Location from './Pages/Location';
 import axios from 'axios';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -15,6 +16,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Tag from './Pages/Tag';
 import TopBar from './components/TopBar';
+import BreadcrumbsComponent from './components/Breadcrumbs';
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
@@ -23,6 +25,7 @@ function App() {
   return (
     <div className="App" id='AppContainer'>
       <TopBar />
+      <BreadcrumbsComponent />
       <Routes>
         <Route path='/' element={<Splash />} />
         <Route path='catalog'>
@@ -30,6 +33,7 @@ function App() {
           <Route path='parts' element={<Parts />} />
           <Route path='parts/:id' element={<Part />} />
           <Route path='locations' element={<Locations />} />
+          <Route path='locations/:id' element={<Location />} />
           <Route path='tags' element={<Tags />} />
           <Route path='tags/:name' element={<Tag />} />
           <Route path='availability' element={<Inventories />} />

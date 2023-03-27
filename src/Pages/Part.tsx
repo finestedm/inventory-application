@@ -21,7 +21,7 @@ export default function Part(): JSX.Element {
     if (part) {
         return (
             <Container>
-                <Grid container spacing={2}>
+                <Grid container>
                     <Grid item xs={12} md={4}>
                         <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh' }} />
                     </Grid>

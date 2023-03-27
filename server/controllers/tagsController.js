@@ -22,3 +22,15 @@ export async function tag_details(req, res) {
     }
 }
 
+export async function create_new_tag(req, res) {
+    const { name } = req.body;
+    const newTag = new Tag({
+        name
+    })
+    try {
+        const createdTag = await newTag.save()
+        res.status(201).json(createdTag)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}

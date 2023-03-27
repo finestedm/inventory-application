@@ -8,7 +8,7 @@ import CardList from "../components/CardList";
 // declare types
 
 export interface IPart {
-    _id: string;
+    _id?: string;
     name: string;
     manufacturer: string;
     price: number;
