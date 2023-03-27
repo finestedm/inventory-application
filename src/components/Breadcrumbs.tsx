@@ -1,4 +1,4 @@
-import { Box, Link, Breadcrumbs, Typography } from "@mui/material";
+import { Box, Link, Breadcrumbs, Typography, Stack } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BreadcrumbsComponent() {
@@ -8,8 +8,8 @@ export default function BreadcrumbsComponent() {
     const pathnames = pathname.split("/").filter(Boolean);
 
     return (
-        <Box>
-            <Breadcrumbs aria-label='breadcrumb'>
+        <Stack>
+            <Breadcrumbs separator="›" aria-label='breadcrumb'>
                 {pathnames.length ?
                     (
                         <Link onClick={() => navigate("/")}>Home</Link>
@@ -30,6 +30,6 @@ export default function BreadcrumbsComponent() {
                         )
                 })}
             </Breadcrumbs>
-        </Box>
+        </Stack>
     )
 }

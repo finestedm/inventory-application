@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { ITag } from "../Pages/Tags"
-import { Chip, CircularProgress, Stack } from "@mui/material"
+import { Box, Chip, CircularProgress, Stack } from "@mui/material"
 
 export default function TagCloud(): JSX.Element {
 
@@ -18,7 +18,7 @@ export default function TagCloud(): JSX.Element {
 
     if (tags) {
         return (
-            <Stack>
+            <Box>
                 {tags.map(tag =>
                     <Chip
                         key={tag._id}
@@ -28,7 +28,7 @@ export default function TagCloud(): JSX.Element {
                         clickable
                     />
                 )}
-            </Stack>
+            </Box>
             
         )
     } else {
