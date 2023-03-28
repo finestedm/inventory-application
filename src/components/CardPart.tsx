@@ -1,8 +1,8 @@
 import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, Link, CardActionArea, Stack, Menu, MenuItem } from '@mui/material'
 import { IPart } from '../Pages/Parts';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
+import BuyButton from './BuyButton';
 
 interface CardProps extends React.PropsWithChildren<{}> {
   part: IPart;
@@ -49,9 +49,7 @@ export default function CardPart({ part }: CardProps) {
                     {part.price} PLN
                   </Typography>
                 </Stack>
-                <Button sx={{ minWidth: '3rem', backgroundColor: `${theme.palette.primary.light}`, aspectRatio: '1/1' }}>
-                  <AddShoppingCartIcon sx={{ color: 'white', height: '1.2rem' }} />
-                </Button>
+                <BuyButton />
               </Stack>
             </Box>
           </CardContent>

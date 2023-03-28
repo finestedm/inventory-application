@@ -14,3 +14,16 @@ export async function inventory_list(req, res) {
     }
 }
 
+export async function part_availability_locations(req, res) {
+    try {
+        const locations = await Inventory
+            .find({ part: { _id: req.params.id }, available: { $gt: 0 } })
+            .select('location available')
+            .populate('location')
+        console.log(locations)
+        res.status(200).json(locations)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+

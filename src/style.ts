@@ -26,6 +26,21 @@ theme = createTheme(theme, {
                     borderRadius: '.75rem',
                 }
             }
+        },
+        MuiDivider: {
+            styleOverrides: {
+                root: {
+                    borderColor: theme.palette.grey[200]
+                }
+            }
+        },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    borderBottom: '1px solid',
+                    borderColor: theme.palette.grey[300],
+                }
+            }
         }
     }
 })

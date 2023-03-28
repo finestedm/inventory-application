@@ -4,10 +4,10 @@ import { IPart } from "./Parts";
 import { ILocation } from "./Locations";
 
 export interface IInventory {
-    _id: string;
-    part: IPart;
-    location: ILocation;
-    available: number
+    _id?: string;
+    part?: IPart;
+    location?: ILocation;
+    available?: number
 }
 
 export default function Inventories(): JSX.Element {
@@ -28,8 +28,8 @@ export default function Inventories(): JSX.Element {
             <ul>
                 {(inventories).map(inventory =>
                     <li key={inventory._id}>
-                        {inventory.part.name}
-                        {inventory.location.city}
+                        {inventory.part && inventory.part.name}
+                        {inventory.location && inventory.location.city}
                         {inventory.available}
                     </li>
                 )}
