@@ -13,7 +13,7 @@ interface CardListProps extends React.PropsWithChildren<{}> {
 export default function CardList(props: CardListProps) {
     const { parts, locations } = props
     return (
-        <Grid container spacing={2} justifyContent='space-between'>
+        <Grid container spacing={2}>
             {
                 parts?.map(part => <CardPart key={part._id} part={part} />)
             }

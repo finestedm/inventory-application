@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
@@ -17,11 +16,12 @@ import '@fontsource/roboto/700.css';
 import Tag from './Pages/Tag';
 import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
+import { useTheme } from '@mui/material';
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
 function App() {
-
+  const theme = useTheme();
   return (
     <div className="App" id='AppContainer'>
       <TopBar />
