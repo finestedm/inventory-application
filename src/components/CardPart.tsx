@@ -22,7 +22,7 @@ export default function CardPart({ part }: CardProps) {
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card sx={{ position: 'relative' }}>
         <Button sx={{ position: 'absolute', zIndex: 9999, right: 0, top: 15 }} onClick={handleAnchorSetting}>
-          <MoreVertIcon sx={{color: 'black'}} />
+          <MoreVertIcon sx={{ color: 'black' }} />
         </Button>
         <Menu
           anchorEl={anchorEl}
@@ -34,23 +34,23 @@ export default function CardPart({ part }: CardProps) {
         >
           <MenuItem>Edit</MenuItem>
         </Menu>
-        
+
         <CardActionArea href={`/catalog/parts/${part._id}`}>
           <CardContent>
             <Skeleton variant='rectangular' height={250} width='100%' />
             <Box p={2}>
-              <Typography sx={{ fontSize: '1.25rem', fontWeight: 500 }} letterSpacing={'-.5px'} gutterBottom>
+              <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'} gutterBottom>
                 {part.name}
               </Typography>
               <Stack direction='row' justifyContent='space-between' alignItems='end'>
                 <Stack>
                   <Typography color={theme.palette.grey[400]}> Price: </Typography>
-                  <Typography sx={{ fontSize: '1.25rem', fontWeight: 500}} letterSpacing={'-.5px'}>
+                  <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'}>
                     {part.price} PLN
                   </Typography>
                 </Stack>
-                <Button sx={{minWidth: '50px', backgroundColor: `${theme.palette.primary.light}`, aspectRatio: '1/1'}}>
-                  <AddShoppingCartIcon sx={{color: 'white'}}/>
+                <Button sx={{ minWidth: '3rem', backgroundColor: `${theme.palette.primary.light}`, aspectRatio: '1/1' }}>
+                  <AddShoppingCartIcon sx={{ color: 'white', height: '1.2rem' }} />
                 </Button>
               </Stack>
             </Box>

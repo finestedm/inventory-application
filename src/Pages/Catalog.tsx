@@ -40,7 +40,7 @@ export default function Catalog(): JSX.Element {
 
 
     return (
-        <Container>
+        <Container maxWidth='xl'>
             <Stack spacing={3}>
                 <Box>
                     <Typography variant='h3'>Browser newest parts:</Typography>
