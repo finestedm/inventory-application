@@ -2,7 +2,8 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IPart } from "./Parts"
 import { useParams } from "react-router-dom"
-import { Typography, CircularProgress, Button, Container, Grid, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider } from "@mui/material";
+import { Typography, CircularProgress, Button, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { ILocation } from "./Locations";
 import { IInventory } from "./Inventories";
 import TagCloud from "../components/TagCloud";
@@ -33,11 +34,11 @@ export default function Part(): JSX.Element {
     if (part && inventory) {
         return (
             <Container>
-                <Grid container spacing={12}>
-                    <Grid item xs={12} sm={6}>
+                <Grid2 container sx={{ marginTop: 0 }} spacing={12}>
+                    <Grid2 xs={12} sm={6}>
                         <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh' }} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    </Grid2>
+                    <Grid2 xs={12} sm={6}>
                         <Stack spacing={2}>
                             <Typography mb={2} variant='h4' sx={{ fontWeight: 500 }}> {part.name}</Typography >
                             <Divider />
@@ -80,8 +81,8 @@ export default function Part(): JSX.Element {
                             <Divider />
                             <BuyButton />
                         </Stack>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Container >
         )
     } else {

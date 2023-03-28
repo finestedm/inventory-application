@@ -1,7 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
-import Parts from './Pages/Parts';
+import Parts, { IPart } from './Pages/Parts';
 import Locations from './Pages/Locations'
 import Inventories from './Pages/Inventories'
 import Tags from './Pages/Tags';
@@ -16,29 +16,68 @@ import '@fontsource/roboto/700.css';
 import Tag from './Pages/Tag';
 import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
-import { useTheme } from '@mui/material';
+import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
+interface IModalState {
+  newPartModalOpen: boolean;
+  newPartData: IPart | null;
+}
+
+const initialState: IModalState = {
+  newPartModalOpen: false,
+  newPartData: null,  
+};
+
+const modalSlice = createSlice({
+  name: "modal",
+  initialState,
+  reducers: {
+    setNewPartModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.newPartModalOpen = action.payload;
+    },
+    setNewPartData(state, action: PayloadAction<IPart>) {
+      state.newPartData = action.payload;
+    },
+  },
+});
+
+const rootReducer = combineReducers({
+  modal: modalSlice.reducer,
+  newPartData: modalSlice.reducer,
+});
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+export const { setNewPartModalOpen, setNewPartData } = modalSlice.actions;
+export type RootState = ReturnType<typeof store.getState>
+
 function App() {
-  const theme = useTheme();
+
   return (
     <div className="App" id='AppContainer'>
-      <TopBar />
-      <BreadcrumbsComponent />
-      <Routes>
-        <Route path='/' element={<Splash />} />
-        <Route path='catalog'>
-          <Route index element={<Catalog />} />
-          <Route path='parts' element={<Parts />} />
-          <Route path='parts/:id' element={<Part />} />
-          <Route path='locations' element={<Locations />} />
-          <Route path='locations/:id' element={<Location />} />
-          <Route path='tags' element={<Tags />} />
-          <Route path='tags/:name' element={<Tag />} />
-          <Route path='availability' element={<Inventories />} />
-        </Route>
-      </Routes>
+      <Provider store={store}>
+        <TopBar />
+        <BreadcrumbsComponent />
+        <Routes>
+          <Route path='/' element={<Splash />} />
+          <Route path='catalog'>
+            <Route index element={<Catalog />} />
+            <Route path='parts' element={<Parts />} />
+            <Route path='parts/:id' element={<Part />} />
+            <Route path='locations' element={<Locations />} />
+            <Route path='locations/:id' element={<Location />} />
+            <Route path='tags' element={<Tags />} />
+            <Route path='tags/:name' element={<Tag />} />
+            <Route path='availability' element={<Inventories />} />
+          </Route>
+        </Routes>
+      </Provider>
     </div>
   );
 }

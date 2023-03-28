@@ -4,6 +4,8 @@ import { ITag } from "./Tags";
 import { Button, Container, Typography } from "@mui/material";
 import NewPartModal from "../components/NewPartModal";
 import CardList from "../components/CardList";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, setNewPartModalOpen } from "../App";
 
 // declare types
 
@@ -17,7 +19,8 @@ export interface IPart {
 
 export default function Parts(): JSX.Element {
 
-    const [newPartModalOpen, setNewPartModalOpen] = useState(false);
+    const newPartModalOpen = useSelector((state: RootState) => state.modal.newPartModalOpen);
+    const dispatch = useDispatch();
 
     // set initial states of catalogCounts with declared types of data
     const [parts, setParts] = useState<IPart[]>([])
@@ -30,10 +33,9 @@ export default function Parts(): JSX.Element {
 
     return (
         <Container>
-            <NewPartModal newPartModalOpen={newPartModalOpen} setNewPartModalOpen={setNewPartModalOpen} />
-            
+            <NewPartModal  />
             <Typography variant="h4">List of products sold in our stores</Typography>
-            <Button onClick={() => setNewPartModalOpen(true)}> Add new part </Button>
+            <Button onClick={() => dispatch(setNewPartModalOpen(true))}> Add new part </Button>
             <CardList parts={parts} />
         </Container>
     )

@@ -3,6 +3,8 @@ import { IPart } from '../Pages/Parts';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, setNewPartData, setNewPartModalOpen } from "../App";
 
 interface CardProps extends React.PropsWithChildren<{}> {
   part: IPart;
@@ -17,6 +19,8 @@ export default function CardPart({ part }: CardProps) {
     setAnchorEl(event.currentTarget);
   };
 
+  const newPartModalOpen = useSelector((state: RootState) => state.modal.newPartModalOpen);
+  const dispatch = useDispatch();
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -32,7 +36,12 @@ export default function CardPart({ part }: CardProps) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem>Edit</MenuItem>
+          <MenuItem onClick={() => {
+            dispatch(setNewPartModalOpen(true))
+            dispatch(setNewPartData(part))
+          }
+            
+          }>Edit</MenuItem>
         </Menu>
 
         <CardActionArea href={`/catalog/parts/${part._id}`}>

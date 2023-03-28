@@ -4,10 +4,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 import { IPart } from "../Pages/Parts";
+import { useSelector, useDispatch } from "react-redux";
+import { setNewPartModalOpen, RootState } from "../App";
 
+export default function NewPartModal() {
 
-export default function NewPartModal(props: { newPartModalOpen: boolean, setNewPartModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const { newPartModalOpen, setNewPartModalOpen } = props
+    const newPartModalOpen = useSelector((state: RootState) => state.modal.newPartModalOpen);
+    const part = useSelector((state: RootState) => state.newPartData.newPartData);
+    const dispatch = useDispatch();
 
     const [newPartData, setNewPartData] = useState<IPart>({
         name: '',
@@ -28,6 +32,13 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
     const [manufacturers, setManufacturers] = useState([])
     const [tags, setTags] = useState<ITag[]>([])
 
+    console.log(part)
+    // if part is edited instead of created then populate partData with the props data passed
+    useEffect(() => {
+        if (part) {
+            setNewPartData(part)
+        }
+    }, [part])
 
     useEffect(() => {
         axios.get('/parts/manufacturers')
@@ -40,7 +51,7 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
     async function createNewPart(newPartData: IPart) {
         try {
             const response = await axios.post('/parts/new_part', newPartData);
-            setNewPartModalOpen(false)
+            dispatch(setNewPartModalOpen(true));
             resetNewPartData()
             return response.data;
         } catch (error) {
@@ -94,7 +105,7 @@ export default function NewPartModal(props: { newPartModalOpen: boolean, setNewP
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         <Button onClick={() => createNewPart(newPartData)}>Add new part</Button>
-                        <Button onClick={() => setNewPartModalOpen(false)}>Cancel</Button>
+                        <Button onClick={() => dispatch(setNewPartModalOpen(false))}>Cancel</Button>
                     </Stack>
                 </CardContent>
             </Card>

@@ -1,4 +1,4 @@
-import { Box, Link, Breadcrumbs, Typography, Stack } from "@mui/material";
+import { Box, Link, Breadcrumbs, Typography, Stack, Container } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function BreadcrumbsComponent() {
@@ -8,28 +8,30 @@ export default function BreadcrumbsComponent() {
     const pathnames = pathname.split("/").filter(Boolean);
 
     return (
-        <Stack>
-            <Breadcrumbs separator="›" aria-label='breadcrumb'>
-                {pathnames.length ?
-                    (
-                        <Link onClick={() => navigate("/")}>Home</Link>
-                    ) : (
-                        <Typography> Home </Typography>
-                    )
-                }
-                {pathnames.map((name, index) => {
-                    const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-                    const isLast = index === pathnames.length - 1;
-                    return isLast ?
+        <Container maxWidth='xl'>
+            <Stack>
+                <Breadcrumbs separator="›" aria-label='breadcrumb'>
+                    {pathnames.length ?
                         (
-                            <Typography key={name}>{name}</Typography>
+                            <Link onClick={() => navigate("/")}>Home</Link>
                         ) : (
-                            <Link key={name} onClick={() => navigate(routeTo)}>
-                                {name}
-                            </Link>
+                            <Typography> Home </Typography>
                         )
-                })}
-            </Breadcrumbs>
-        </Stack>
+                    }
+                    {pathnames.map((name, index) => {
+                        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+                        const isLast = index === pathnames.length - 1;
+                        return isLast ?
+                            (
+                                <Typography key={name}>{name}</Typography>
+                            ) : (
+                                <Link key={name} onClick={() => navigate(routeTo)}>
+                                    {name}
+                                </Link>
+                            )
+                    })}
+                </Breadcrumbs>
+            </Stack>
+        </Container>
     )
 }

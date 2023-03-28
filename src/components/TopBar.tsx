@@ -1,9 +1,9 @@
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
 
 export default function TopBar() {
     
     return (
-        <Box sx={{ flexGrow: 1}} >
+        <Container maxWidth='xl' sx={{ flexGrow: 1}} >
             <AppBar position="static" sx={{backgroundColor: 'white', boxShadow: 'none' }}>
                 <Toolbar>
                     <Button href='/'>
@@ -13,6 +13,6 @@ export default function TopBar() {
                     </Button>
                 </Toolbar>
             </AppBar>
-        </Box>
+        </Container>
     )
 }
