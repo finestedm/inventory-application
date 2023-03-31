@@ -22,7 +22,7 @@ export default function Tags(): JSX.Element {
     const [newTagMenuOpen, setNewTagMenuOpen] = useState(false)
 
     return (
-        <Container>
+        <Container maxWidth='xl'>
             <h2>List of tags</h2>
             <ul>
                 {(tags).map(tag =>

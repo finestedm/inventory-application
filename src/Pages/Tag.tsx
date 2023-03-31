@@ -24,7 +24,7 @@ export default function Tag(): JSX.Element {
     }, [])
 
     return (
-        <Container>
+        <Container maxWidth='xl'>
             {tag &&
                 <div style={{ display: 'flex' }}>
                     <Typography noWrap variant="h4" sx={{marginRight: '.5rem'}}>Browse parts tagged with: </Typography>

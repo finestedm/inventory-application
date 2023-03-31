@@ -32,8 +32,7 @@ export default function Parts(): JSX.Element {
     }, [])
 
     return (
-        <Container>
-            <NewPartModal  />
+        <Container maxWidth='xl'>
             <Typography variant="h4">List of products sold in our stores</Typography>
             <Button onClick={() => dispatch(setNewPartModalOpen(true))}> Add new part </Button>
             <CardList parts={parts} />

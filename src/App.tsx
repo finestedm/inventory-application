@@ -18,6 +18,7 @@ import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
 import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import NewPartModal from './components/NewPartModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -64,6 +65,7 @@ function App() {
       <Provider store={store}>
         <TopBar />
         <BreadcrumbsComponent />
+        <NewPartModal />
         <Routes>
           <Route path='/' element={<Splash />} />
           <Route path='catalog'>

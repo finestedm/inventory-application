@@ -33,7 +33,7 @@ export default function Part(): JSX.Element {
 
     if (part && inventory) {
         return (
-            <Container>
+            <Container maxWidth='xl'>
                 <Grid2 container sx={{ marginTop: 0 }} spacing={12}>
                     <Grid2 xs={12} sm={6}>
                         <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh' }} />
