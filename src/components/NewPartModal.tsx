@@ -104,7 +104,12 @@ export default function NewPartModal() {
                         />
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
-                        <Button onClick={() => createNewPart(newPartData)}>Add new part</Button>
+                        {(part) ?
+                            // this button should fire edit method instead of cretion of new part
+                            <Button onClick={() => createNewPart(newPartData)}>Edit part data</Button> 
+                            :
+                            <Button onClick={() => createNewPart(newPartData)}>Add new part</Button>
+                        }
                         <Button onClick={() => dispatch(setNewPartModalOpen(false))}>Cancel</Button>
                     </Stack>
                 </CardContent>
