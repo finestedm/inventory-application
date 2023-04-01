@@ -39,6 +39,19 @@ theme = createTheme(theme, {
                 root: {
                     borderBottom: '1px solid',
                     borderColor: theme.palette.grey[300],
+                    boxShadow: `0 0 .5rem ${theme.palette.grey[300]}`,
+                }
+            }
+        },
+        MuiContainer: {
+            styleOverrides: {
+                root: {
+                    '&.breadcrumbs-container': {
+
+                        borderBottom: '1px solid',
+                        borderColor: theme.palette.grey[300],
+                        boxShadow: `0 0 .5rem ${theme.palette.grey[300]}`,
+                    }
                 }
             }
         }

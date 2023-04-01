@@ -32,7 +32,7 @@ export default function TopBar() {
     ];
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
+        <AppBar position="static" sx={{ backgroundColor: 'white' }}>
             <Container maxWidth='xl' sx={{ flexGrow: 1 }} >
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography href='/' variant="h5" component="a" color='text.primary' sx={{ fontWeight: 700 }}>

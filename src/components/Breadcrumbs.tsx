@@ -8,7 +8,7 @@ export default function BreadcrumbsComponent() {
     const pathnames = pathname.split("/").filter(Boolean);
 
     return (
-        <Container maxWidth='xl'>
+        <Container maxWidth='xl' className='breadcrumbs-container'>
             <Stack>
                 <Breadcrumbs separator="›" aria-label='breadcrumb'>
                     {pathnames.length ?
