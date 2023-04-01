@@ -47,3 +47,14 @@ export async function create_new_part(req, res) {
         res.status(404).json({ message: error.message })
     }
 }
+
+export async function edit_part(req, res) {
+    const { _id, name, price, manufacturer, tags } = req.body;
+    try {
+        const foundPart = await Part.findOne({ _id: _id })
+        console.log(foundPart)
+        res.status(201).json(createdPart);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}

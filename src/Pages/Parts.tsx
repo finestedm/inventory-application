@@ -2,10 +2,10 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { ITag } from "./Tags";
 import { Button, Container, Typography } from "@mui/material";
-import NewPartModal from "../components/NewPartModal";
+import NewPartModal from "../components/PartEditModal";
 import CardList from "../components/CardList";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setNewPartModalOpen } from "../App";
+import { RootState, setPartEditModalOpen } from "../App";
 
 // declare types
 
@@ -19,7 +19,7 @@ export interface IPart {
 
 export default function Parts(): JSX.Element {
 
-    const newPartModalOpen = useSelector((state: RootState) => state.modal.newPartModalOpen);
+    const partEditModalOpen = useSelector((state: RootState) => state.modal.partEditModalOpen);
     const dispatch = useDispatch();
 
     // set initial states of catalogCounts with declared types of data
@@ -34,7 +34,7 @@ export default function Parts(): JSX.Element {
     return (
         <Container maxWidth='xl'>
             <Typography variant="h4">List of products sold in our stores</Typography>
-            <Button onClick={() => dispatch(setNewPartModalOpen(true))}> Add new part </Button>
+            <Button onClick={() => dispatch(setPartEditModalOpen(true))}> Add new part </Button>
             <CardList parts={parts} />
         </Container>
     )

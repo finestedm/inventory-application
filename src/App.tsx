@@ -18,45 +18,49 @@ import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
 import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import NewPartModal from './components/NewPartModal';
+import NewPartModal from './components/PartEditModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
+// Part Modal for new parts and editing existing - boilerplate
+
 interface IModalState {
-  newPartModalOpen: boolean;
-  newPartData: IPart | null;
+  partEditModalOpen: boolean;
+  partData: IPart | null;
 }
 
 const initialState: IModalState = {
-  newPartModalOpen: false,
-  newPartData: null,  
+  partEditModalOpen: false,
+  partData: null,
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    setNewPartModalOpen: (state, action: PayloadAction<boolean>) => {
-      state.newPartModalOpen = action.payload;
+    setPartEditModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.partEditModalOpen = action.payload;
     },
-    setNewPartData(state, action: PayloadAction<IPart>) {
-      state.newPartData = action.payload;
+    setPartData(state, action: PayloadAction<IPart>) {
+      state.partData = action.payload;
     },
   },
 });
 
 const rootReducer = combineReducers({
   modal: modalSlice.reducer,
-  newPartData: modalSlice.reducer,
+  partData: modalSlice.reducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setNewPartModalOpen, setNewPartData } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartData } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
+
+// Part Modal for new parts and editing existing - boilerplate
 
 function App() {
 
