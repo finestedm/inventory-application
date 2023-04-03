@@ -26,7 +26,7 @@ export async function manufacturers(req, res) {
         const manufacturers = await Part.find({}, { _id: 0, manufacturer: 1 })
         const manufacturers2 = manufacturers.map((m, e) => manufacturers[e].manufacturer)
         // res sends json of arrays
-        res.status(200).json(manufacturers2)
+        res.status(200).json([...new Set(manufacturers2)])
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
@@ -50,10 +50,16 @@ export async function create_new_part(req, res) {
 
 export async function edit_part(req, res) {
     const { _id, name, price, manufacturer, tags } = req.body;
+    const newData = {
+        name,
+        price,
+        manufacturer,
+        tags
+    };
     try {
-        const foundPart = await Part.findOne({ _id: _id })
-        console.log(foundPart)
-        res.status(201).json(createdPart);
+        console.log(req.body)
+        const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
+        res.status(201).json(updatedPart);
     } catch (error) {
         res.status(404).json({ message: error.message })
     }

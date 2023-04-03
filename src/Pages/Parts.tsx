@@ -19,7 +19,6 @@ export interface IPart {
 
 export default function Parts(): JSX.Element {
 
-    const partEditModalOpen = useSelector((state: RootState) => state.modal.partEditModalOpen);
     const dispatch = useDispatch();
 
     // set initial states of catalogCounts with declared types of data

@@ -27,12 +27,18 @@ axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
 interface IModalState {
   partEditModalOpen: boolean;
-  partData: IPart | null;
+  partData: IPart;
 }
 
 const initialState: IModalState = {
   partEditModalOpen: false,
-  partData: null,
+  partData: {
+    _id: '',
+    name: '',
+    price: 0,
+    manufacturer: '',
+    tags: []
+  },
 };
 
 const modalSlice = createSlice({
@@ -41,9 +47,16 @@ const modalSlice = createSlice({
   reducers: {
     setPartEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.partEditModalOpen = action.payload;
+      if (!action.payload) {
+        // Dispatch resetPartDataDeep when partEditModalOpen is set to false
+        state.partData = initialState.partData;
+      }
     },
     setPartData(state, action: PayloadAction<IPart>) {
       state.partData = action.payload;
+    },
+    resetPartDataDeep(state) {
+      state.partData = initialState.partData;
     },
   },
 });

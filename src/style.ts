@@ -8,8 +8,8 @@ theme = createTheme(theme, {
             styleOverrides: {
                 root: {
                     boxShadow: 'none',
-                    borderRadius: '1.2rem',
-                    border: `2px solid ${theme.palette.grey[200]}`,
+                    borderRadius: '.5rem',
+                    border: `1px solid ${theme.palette.grey[200]}`,
                 }
             }
         },
