@@ -40,6 +40,7 @@ export async function create_new_part(req, res) {
 
     // name validation
     await check('name')
+        .trim()
         .isLength({ min: 2 })
         .withMessage('name has to be at least 2 letters long')
         .isLength({ max: 50 })
