@@ -1,5 +1,6 @@
 // IMPORT MODELS
 import Part from '../models/part.js'
+import { body, validationResult, check } from 'express-validator';
 
 export async function part_list(req, res) {
     try {
@@ -33,7 +34,24 @@ export async function manufacturers(req, res) {
 }
 
 export async function create_new_part(req, res) {
+
     const { name, price, manufacturer, tags } = req.body;
+
+
+    // name validation
+    await check('name')
+        .isLength({ min: 2 })
+        .withMessage('name has to be at least 2 letters long')
+        .isLength({ max: 50 })
+        .withMessage('name has to be max 50 letters long')
+        .run(req)
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
     const newPart = new Part({
         name,
         price,

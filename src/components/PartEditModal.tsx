@@ -1,6 +1,6 @@
 import { ConstructionOutlined } from "@mui/icons-material";
 import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button } from "@mui/material";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 import { IPart } from "../Pages/Parts";
@@ -29,9 +29,12 @@ export default function PartEditModal() {
         try {
             const response = await axios.post('/parts/new_part', partData);
             dispatch(setPartEditModalOpen(false));
+            console.log(response.data)
             return response.data;
         } catch (error) {
-            throw new Error();
+            const AxiosError = error as AxiosError<any>;
+            console.log(AxiosError.response?.data.errors)
+            // throw new Error();
         }
     }
 
