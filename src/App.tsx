@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
 import Parts, { IPart } from './Pages/Parts';
 import Locations from './Pages/Locations'
@@ -76,12 +76,14 @@ export type RootState = ReturnType<typeof store.getState>
 // Part Modal for new parts and editing existing - boilerplate
 
 function App() {
+  const location = useLocation();
+  const isSplashPage = location.pathname === '/';
 
   return (
     <div className="App" id='AppContainer'>
       <Provider store={store}>
-        <TopBar />
-        <BreadcrumbsComponent />
+        {!isSplashPage && <TopBar />}
+        {!isSplashPage && <BreadcrumbsComponent />}
         <NewPartModal />
         <Routes>
           <Route path='/' element={<Splash />} />
