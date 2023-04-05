@@ -1,6 +1,7 @@
 // IMPORT MODELS
 import Part from '../models/part.js'
 import { body, validationResult, check } from 'express-validator';
+import validator from 'validator';
 
 export async function part_list(req, res) {
     try {
@@ -37,26 +38,61 @@ export async function create_new_part(req, res) {
 
     const { name, price, manufacturer, tags } = req.body;
 
-
     // name validation
     await check('name')
         .trim()
+        .escape()
+        .stripLow()
         .isLength({ min: 2 })
         .withMessage('name has to be at least 2 letters long')
         .isLength({ max: 50 })
         .withMessage('name has to be max 50 letters long')
         .run(req)
+    
+    const sanitizedName = validator.escape(name)
 
+    // price validation
+    await check('price')
+        .toFloat()
+        .isFloat({
+            min: 0,
+            max: 999999,
+        })
+        .withMessage('value cannot be smaller than 0 PLN and larger than 999999 PLN')
+        .custom((value) => {
+            const price = parseFloat(value);
+            if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
+              return true;
+            }
+            throw new Error('Price must have at most two decimal places');
+          })
+        .run(req)
+    
+    // manufacturer validation
+    await check('manufacturer')
+        .trim()
+        .escape()
+        .stripLow()
+        .isLength({ min: 2 })
+        .withMessage('manufacturer name has to be at least 2 letters long')
+        .isLength({ max: 50 })
+        .withMessage('manufacturer name has to be max 50 letters long')
+        .run(req)
+    
+    const sanitizedManufacturer = validator.escape(manufacturer)
+    
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
 
+    // creation of new part
+
     const newPart = new Part({
-        name,
+        sanitizedName,
         price,
-        manufacturer,
+        sanitizedManufacturer,
         tags
     });
     try {
@@ -68,7 +104,52 @@ export async function create_new_part(req, res) {
 }
 
 export async function edit_part(req, res) {
+    
     const { _id, name, price, manufacturer, tags } = req.body;
+    
+    // name validation
+    await check('name')
+        .trim()
+        .escape()
+        .stripLow()
+        .isLength({ min: 2 })
+        .withMessage('name has to be at least 2 letters long')
+        .isLength({ max: 50 })
+        .withMessage('name has to be max 50 letters long')
+        .run(req)
+    
+    const sanitizedName = validator.escape(name)
+
+    // price validation
+    await check('price')
+        .toFloat()
+        .isFloat({
+            min: 0,
+            max: 999999,
+        })
+        .withMessage('value cannot be smaller than 0 PLN and larger than 999999 PLN')
+        .custom((value) => {
+            const price = parseFloat(value);
+            if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
+              return true;
+            }
+            throw new Error('Price must have at most two decimal places');
+          })
+        .run(req)
+    
+    // manufacturer validation
+    await check('manufacturer')
+        .trim()
+        .escape()
+        .stripLow()
+        .isLength({ min: 2 })
+        .withMessage('manufacturer name has to be at least 2 letters long')
+        .isLength({ max: 50 })
+        .withMessage('manufacturer name has to be max 50 letters long')
+        .run(req)
+    
+    const sanitizedManufacturer = validator.escape(manufacturer)
+    
     const newData = {
         name,
         price,
