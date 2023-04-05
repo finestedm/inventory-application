@@ -31,9 +31,8 @@ export default function PartEditModal() {
             dispatch(setPartEditModalOpen(false));
             console.log(response.data)
             return response.data;
-        } catch (error) {
-            const AxiosError = error as AxiosError<any>;
-            console.log(AxiosError.response?.data.errors)
+        } catch (error: any) {
+            console.log(error.response?.data.errors)
             // throw new Error();
         }
     }
@@ -63,12 +62,21 @@ export default function PartEditModal() {
                             label='New part name'
                             value={partData.name}
                             onChange={(e) => dispatch(setPartData({ ...partData, name: e.target.value }))}
+                            error={(partData.name.length > 1) || (partData.name.length > 50)}
                         />
                         <TextField
                             label='Price'
                             value={partData.price}
                             type="number"
-                            InputProps={{ endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment> }}
+                            error={(partData.price > 999999) || (partData.price < 0.01)}
+                            InputProps={{
+                                inputProps: {
+                                    step: 0.01,
+                                    min: 0.01,
+                                    max: 999999,
+                                    endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment>
+                                },
+                            }}
                             onChange={(e) => dispatch(setPartData({ ...partData, price: parseInt(e.target.value) }))}
                         />
                         <Autocomplete
@@ -90,7 +98,12 @@ export default function PartEditModal() {
                             options={manufacturers}
                             value={partData.manufacturer}
                             isOptionEqualToValue={(option, value) => option === value}
-                            renderInput={(p) => <TextField {...p} label="Manufacturer" />}
+                            renderInput={(p) => (
+                                <TextField {...p}
+                                    label="Manufacturer"
+                                    error={(partData.manufacturer.length > 1) || (partData.manufacturer.length > 50)}
+                                />
+                            )}
                             freeSolo
                             onChange={(e, v) => typeof v === 'string' ? dispatch(setPartData({ ...partData, manufacturer: v })) : ''}
                         />
