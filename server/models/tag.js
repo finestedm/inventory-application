@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const TagSchema = new Schema({
-    name: { type: String, required: true, unique: true},
+    name: { type: String, required: true, unique: true, minLength: 2, maxLength: 50},
 })
 
 //Virtual for tag's URL

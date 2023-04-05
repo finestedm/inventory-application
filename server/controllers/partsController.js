@@ -38,17 +38,7 @@ export async function create_new_part(req, res) {
 
     const { name, price, manufacturer, tags } = req.body;
 
-    // name validation
-    await check('name')
-        .trim()
-        .escape()
-        .stripLow()
-        .isLength({ min: 2 })
-        .withMessage('name has to be at least 2 letters long')
-        .isLength({ max: 50 })
-        .withMessage('name has to be max 50 letters long')
-        .run(req)
-    
+    // name sanitization
     const sanitizedName = validator.escape(name)
 
     // price validation
@@ -66,19 +56,9 @@ export async function create_new_part(req, res) {
             }
             throw new Error('Price must have at most two decimal places');
           })
-        .run(req)
+          .validate(req)
     
-    // manufacturer validation
-    await check('manufacturer')
-        .trim()
-        .escape()
-        .stripLow()
-        .isLength({ min: 2 })
-        .withMessage('manufacturer name has to be at least 2 letters long')
-        .isLength({ max: 50 })
-        .withMessage('manufacturer name has to be max 50 letters long')
-        .run(req)
-    
+    // manufacturer sanitization
     const sanitizedManufacturer = validator.escape(manufacturer)
     
     const errors = validationResult(req)
@@ -90,11 +70,12 @@ export async function create_new_part(req, res) {
     // creation of new part
 
     const newPart = new Part({
-        sanitizedName,
-        price,
-        sanitizedManufacturer,
+        name: sanitizedName,
+        price: parseFloat(price),
+        manufacturer: sanitizedManufacturer,
         tags
     });
+    
     try {
         const createdPart = await newPart.save();
         res.status(201).json(createdPart);
@@ -106,18 +87,8 @@ export async function create_new_part(req, res) {
 export async function edit_part(req, res) {
     
     const { _id, name, price, manufacturer, tags } = req.body;
-    
-    // name validation
-    await check('name')
-        .trim()
-        .escape()
-        .stripLow()
-        .isLength({ min: 2 })
-        .withMessage('name has to be at least 2 letters long')
-        .isLength({ max: 50 })
-        .withMessage('name has to be max 50 letters long')
-        .run(req)
-    
+
+    // name sanitization
     const sanitizedName = validator.escape(name)
 
     // price validation
@@ -135,29 +106,24 @@ export async function edit_part(req, res) {
             }
             throw new Error('Price must have at most two decimal places');
           })
-        .run(req)
+          .validate(req)
     
-    // manufacturer validation
-    await check('manufacturer')
-        .trim()
-        .escape()
-        .stripLow()
-        .isLength({ min: 2 })
-        .withMessage('manufacturer name has to be at least 2 letters long')
-        .isLength({ max: 50 })
-        .withMessage('manufacturer name has to be max 50 letters long')
-        .run(req)
-    
+    // manufacturer sanitization
     const sanitizedManufacturer = validator.escape(manufacturer)
     
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+        
     const newData = {
-        name,
-        price,
-        manufacturer,
+        name: sanitizedName,
+        price: parseFloat(price),
+        manufacturer: sanitizedManufacturer,
         tags
     };
     try {
-        console.log(req.body)
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
         res.status(201).json(updatedPart);
     } catch (error) {

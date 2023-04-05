@@ -1,6 +1,8 @@
 // IMPORT MODELS
 import Tag from '../models/tag.js'
 import Part from '../models/part.js';
+import { body, validationResult, check } from 'express-validator';
+import validator from 'validator';
 
 export async function tag_list(req, res) {
     try {
@@ -24,8 +26,11 @@ export async function tag_details(req, res) {
 
 export async function create_new_tag(req, res) {
     const { name } = req.body;
+    
+    const sanitizedName = validator.escape(name)
+
     const newTag = new Tag({
-        name
+        name: sanitizedName
     })
     try {
         const createdTag = await newTag.save()
