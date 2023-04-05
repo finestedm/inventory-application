@@ -19,6 +19,7 @@ import BreadcrumbsComponent from './components/Breadcrumbs';
 import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import NewPartModal from './components/PartEditModal';
+import { useEffect } from 'react';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -40,6 +41,7 @@ const initialState: IModalState = {
     tags: []
   },
 };
+
 
 const modalSlice = createSlice({
   name: "modal",

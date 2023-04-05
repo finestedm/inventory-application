@@ -48,9 +48,9 @@ export default function PartEditModal() {
         }
     }
 
-    // useEffect(() => {
-    //     console.log(partData)
-    // }, [partData])
+    useEffect(() => {
+        console.log(partData);
+    }, [partData]);
 
     return (
         <Modal open={partEditModalOpen} onClose={() => setPartEditModalOpen(false)}>
@@ -62,22 +62,22 @@ export default function PartEditModal() {
                             label='New part name'
                             value={partData.name}
                             onChange={(e) => dispatch(setPartData({ ...partData, name: e.target.value }))}
-                            error={(partData.name.length > 1) || (partData.name.length > 50)}
+                            error={(partData.name.length < 2) || (partData.name.length > 50)}
                         />
                         <TextField
                             label='Price'
                             value={partData.price}
                             type="number"
-                            error={(partData.price > 999999) || (partData.price < 0.01)}
+                            error={(partData.price > 999999) || (partData.price < 0.01) ? true : false}
                             InputProps={{
                                 inputProps: {
                                     step: 0.01,
                                     min: 0.01,
                                     max: 999999,
-                                    endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment>
                                 },
+                                endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment>
                             }}
-                            onChange={(e) => dispatch(setPartData({ ...partData, price: parseInt(e.target.value) }))}
+                            onChange={(e) => dispatch(setPartData({ ...partData, price: parseFloat(e.target.value) }))}
                         />
                         <Autocomplete
                             options={tags}
@@ -96,16 +96,16 @@ export default function PartEditModal() {
                         />
                         <Autocomplete
                             options={manufacturers}
-                            value={partData.manufacturer}
+                            inputValue={partData.manufacturer}
                             isOptionEqualToValue={(option, value) => option === value}
                             renderInput={(p) => (
                                 <TextField {...p}
                                     label="Manufacturer"
-                                    error={(partData.manufacturer.length > 1) || (partData.manufacturer.length > 50)}
+                                    error={(partData.manufacturer.length < 2) || (partData.manufacturer.length > 50)}
                                 />
                             )}
                             freeSolo
-                            onChange={(e, v) => typeof v === 'string' ? dispatch(setPartData({ ...partData, manufacturer: v })) : ''}
+                            onInputChange={(e, v) => dispatch(setPartData({ ...partData, manufacturer: v }))}
                         />
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">

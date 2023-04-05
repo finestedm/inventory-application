@@ -49,13 +49,6 @@ export async function create_new_part(req, res) {
             max: 999999,
         })
         .withMessage('value cannot be smaller than 0 PLN and larger than 999999 PLN')
-        .custom((value) => {
-            const price = parseFloat(value);
-            if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
-                return true;
-            }
-            throw new Error('Price must have at most two decimal places');
-        })
         .run(req)
 
     // manufacturer sanitization
@@ -99,13 +92,6 @@ export async function edit_part(req, res) {
             max: 999999,
         })
         .withMessage('value cannot be smaller than 0 PLN and larger than 999999 PLN')
-        .custom((value) => {
-            const price = parseFloat(value);
-            if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
-                return true;
-            }
-            throw new Error('Price must have at most two decimal places');
-        })
         .run(req)
 
     // manufacturer sanitization
