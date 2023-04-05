@@ -52,15 +52,15 @@ export async function create_new_part(req, res) {
         .custom((value) => {
             const price = parseFloat(value);
             if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
-              return true;
+                return true;
             }
             throw new Error('Price must have at most two decimal places');
-          })
-          .validate(req)
-    
+        })
+        .run(req)
+
     // manufacturer sanitization
     const sanitizedManufacturer = validator.escape(manufacturer)
-    
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -75,7 +75,7 @@ export async function create_new_part(req, res) {
         manufacturer: sanitizedManufacturer,
         tags
     });
-    
+
     try {
         const createdPart = await newPart.save();
         res.status(201).json(createdPart);
@@ -85,7 +85,7 @@ export async function create_new_part(req, res) {
 }
 
 export async function edit_part(req, res) {
-    
+
     const { _id, name, price, manufacturer, tags } = req.body;
 
     // name sanitization
@@ -102,21 +102,21 @@ export async function edit_part(req, res) {
         .custom((value) => {
             const price = parseFloat(value);
             if (!Number.isNaN(price) && (price * 100) % 1 === 0) {
-              return true;
+                return true;
             }
             throw new Error('Price must have at most two decimal places');
-          })
-          .validate(req)
-    
+        })
+        .run(req)
+
     // manufacturer sanitization
     const sanitizedManufacturer = validator.escape(manufacturer)
-    
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
-        
+
     const newData = {
         name: sanitizedName,
         price: parseFloat(price),
