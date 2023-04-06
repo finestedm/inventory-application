@@ -4,8 +4,12 @@ import { body, validationResult, check } from 'express-validator';
 import validator from 'validator';
 
 export async function part_list(req, res) {
+
+    // number of returned elements can now be controlled via limit query param
+    const limit = req.query.limit
+
     try {
-        const part_list = await Part.find()
+        const part_list = await Part.find().limit(limit ? parseInt(limit) : undefined)
             .populate("tags");
         res.status(200).json(part_list)
     } catch (error) {
@@ -41,10 +45,15 @@ export async function create_new_part(req, res) {
     await check('name')
         .notEmpty()
         .withMessage('Name is required')
-        .isLength({ min: 2 })
-        .withMessage('Minimum name length is 2 letters')
-        .isLength({ max: 50 })
-        .withMessage('Maximum letters in name is 50')
+        .custom(value => {
+            if (value.length < 2 && value.length > 0) {
+                throw new Error('Minimum name length is 2 letters');
+            } else if (value.length > 50) {
+                throw new Error('Maximum letters in name is 50');
+            } else {
+                return true;
+            }
+        })
         .run(req)
 
     // name sanitization
@@ -65,10 +74,15 @@ export async function create_new_part(req, res) {
     await check('manufacturer')
         .notEmpty()
         .withMessage('Manufacturer name is required')
-        .isLength({ min: 2 })
-        .withMessage('Minimum manufacturer name length is 2 letters')
-        .isLength({ max: 50 })
-        .withMessage('Maximum letters in manufacturer name is 50')
+        .custom(value => {
+            if (value.length < 2 && value.length > 0) {
+                throw new Error('Minimum manufacturer name length is 2 letters');
+            } else if (value.length > 50) {
+                throw new Error('Maximum letters in manufacturer name is 50');
+            } else {
+                return true;
+            }
+        })
         .run(req)
 
     const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
@@ -104,10 +118,15 @@ export async function edit_part(req, res) {
     await check('name')
         .notEmpty()
         .withMessage('Name is required')
-        .isLength({ min: 2 })
-        .withMessage('Minimum name length is 2 letters')
-        .isLength({ max: 50 })
-        .withMessage('Maximum letters in name is 50')
+        .custom(value => {
+            if (value.length < 2 && value.length > 0) {
+                throw new Error('Minimum name length is 2 letters');
+            } else if (value.length > 50) {
+                throw new Error('Maximum letters in name is 50');
+            } else {
+                return true;
+            }
+        })
         .run(req)
 
     const sanitizedName = validator.trim(validator.escape(name))
@@ -126,10 +145,15 @@ export async function edit_part(req, res) {
     await check('manufacturer')
         .notEmpty()
         .withMessage('Manufacturer name is required')
-        .isLength({ min: 2 })
-        .withMessage('Minimum manufacturer name length is 2 letters')
-        .isLength({ max: 50 })
-        .withMessage('Maximum letters in manufacturer name is 50')
+        .custom(value => {
+            if (value.length < 2 && value.length > 0) {
+                throw new Error('Minimum manufacturer name length is 2 letters');
+            } else if (value.length > 50) {
+                throw new Error('Maximum letters in manufacturer name is 50');
+            } else {
+                return true;
+            }
+        })
         .run(req)
 
     const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
