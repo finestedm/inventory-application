@@ -62,7 +62,7 @@ export default function PartEditModal() {
                             label='New part name'
                             value={partData.name}
                             onChange={(e) => dispatch(setPartData({ ...partData, name: e.target.value }))}
-                            error={(partData.name.length > 1) || (partData.name.length > 50)}
+                            error={(partData.name.length < 1) || (partData.name.length > 50)}
                         />
                         <TextField
                             label='Price'
@@ -101,7 +101,7 @@ export default function PartEditModal() {
                             renderInput={(p) => (
                                 <TextField {...p}
                                     label="Manufacturer"
-                                    error={(partData.manufacturer.length > 1) || (partData.manufacturer.length > 50)}
+                                    error={partData.manufacturer.length < 1 || partData.manufacturer.length > 50}
                                 />
                             )}
                             freeSolo
