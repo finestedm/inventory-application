@@ -9,7 +9,10 @@ export async function part_list(req, res) {
     const limit = req.query.limit
 
     try {
-        const part_list = await Part.find().limit(limit ? parseInt(limit) : undefined)
+        const part_list = await Part
+            .find()
+            .sort({ created_at: -1 })
+            .limit(limit ? parseInt(limit) : undefined)
             .populate("tags");
         res.status(200).json(part_list)
     } catch (error) {
@@ -176,6 +179,16 @@ export async function edit_part(req, res) {
     try {
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
         res.status(201).json(updatedPart);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
+export async function delete_part(req, res) {
+
+    try {
+        const deletedPart = await Part.findByIdAndDelete(req.params.id)
+        res.status(200).json(deletedPart)
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
