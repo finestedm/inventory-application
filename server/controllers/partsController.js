@@ -38,8 +38,17 @@ export async function create_new_part(req, res) {
 
     const { name, price, manufacturer, tags } = req.body;
 
+    await check('name')
+        .notEmpty()
+        .withMessage('Name is required')
+        .isLength({ min: 2 })
+        .withMessage('Minimum name length is 2 letters')
+        .isLength({ max: 50 })
+        .withMessage('Maximum letters in name is 50')
+        .run(req)
+
     // name sanitization
-    const sanitizedName = validator.escape(name)
+    const sanitizedName = validator.trim(validator.escape(name))
 
     // price validation
     await check('price')
@@ -52,7 +61,17 @@ export async function create_new_part(req, res) {
         .run(req)
 
     // manufacturer sanitization
-    const sanitizedManufacturer = validator.escape(manufacturer)
+
+    await check('manufacturer')
+        .notEmpty()
+        .withMessage('Manufacturer name is required')
+        .isLength({ min: 2 })
+        .withMessage('Minimum manufacturer name length is 2 letters')
+        .isLength({ max: 50 })
+        .withMessage('Maximum letters in manufacturer name is 50')
+        .run(req)
+
+    const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
 
     const errors = validationResult(req)
 
@@ -64,7 +83,7 @@ export async function create_new_part(req, res) {
 
     const newPart = new Part({
         name: sanitizedName,
-        price: parseFloat(price),
+        price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
         tags
     });
@@ -105,10 +124,13 @@ export async function edit_part(req, res) {
 
     const newData = {
         name: sanitizedName,
-        price: parseFloat(price),
+        price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
         tags
     };
+
+    console.log(newData)
+
     try {
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
         res.status(201).json(updatedPart);

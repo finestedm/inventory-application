@@ -15,7 +15,13 @@ export default function PartEditModal() {
 
     const [manufacturers, setManufacturers] = useState([])
     const [tags, setTags] = useState<ITag[]>([])
+    const [errors, setErrors] = useState<IError[]>([])
 
+    interface IError {
+        value: string,
+        msg: string,
+        param: string
+    }
 
     useEffect(() => {
         axios.get('/parts/manufacturers')
@@ -29,10 +35,10 @@ export default function PartEditModal() {
         try {
             const response = await axios.post('/parts/new_part', partData);
             dispatch(setPartEditModalOpen(false));
-            console.log(response.data)
             return response.data;
         } catch (error: any) {
-            console.log(error.response?.data.errors)
+            console.log(error.response.data.errors)
+            setErrors(error.response.data.errors)
             // throw new Error();
         }
     }
@@ -41,16 +47,11 @@ export default function PartEditModal() {
         try {
             const response = await axios.post(`/parts/edit_part`, partData)
             dispatch(setPartEditModalOpen(false));
-            console.log(response.data)
             return response.data;
         } catch (error) {
             throw new Error();
         }
     }
-
-    useEffect(() => {
-        console.log(partData);
-    }, [partData]);
 
     return (
         <Modal open={partEditModalOpen} onClose={() => setPartEditModalOpen(false)}>
@@ -61,23 +62,32 @@ export default function PartEditModal() {
                         <TextField
                             label='New part name'
                             value={partData.name}
-                            onChange={(e) => dispatch(setPartData({ ...partData, name: e.target.value }))}
-                            error={(partData.name.length < 2) || (partData.name.length > 50)}
+                            helperText={(errors.filter(error => error.param === 'name')).map(msg => msg.msg).join(' • ')}
+                            onChange={(e) => {
+                                dispatch(setPartData({ ...partData, name: e.target.value }))
+                                setErrors(errors.filter(error => error.param !== 'name'))
+                            }}
+                            error={(partData.name.length < 2) || (partData.name.length > 50) || (errors.filter(error => error.param === 'name').length > 0)}
                         />
                         <TextField
                             label='Price'
-                            value={partData.price.toFixed(2)}
+                            value={partData.price}
+                            helperText={(errors.filter(error => error.param === 'price')).map(msg => msg.msg).join(' • ')}
                             type="number"
-                            error={(partData.price > 999999) || (partData.price < 0.01) ? true : false}
+                            error={(partData.price > 999999) || (partData.price < 0.01) || (errors.filter(error => error.param === 'price').length > 0) ? true : false}
                             InputProps={{
                                 inputProps: {
-                                    step: 0.01,
+                                    step: 1,
                                     min: 0.01,
                                     max: 999999,
                                 },
                                 endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment>
                             }}
-                            onChange={(e) => dispatch(setPartData({ ...partData, price: parseFloat(e.target.value) }))}
+                            onChange={(e) => {
+                                dispatch(setPartData({ ...partData, price: parseFloat(parseFloat((e.target.value)).toFixed(2)) }))
+                                setErrors(errors.filter(error => error.param !== 'price'))
+                            }}
+
                         />
                         <Autocomplete
                             options={tags}
@@ -85,13 +95,18 @@ export default function PartEditModal() {
                             getOptionLabel={(tag: ITag) => tag.name}
                             isOptionEqualToValue={(option, value) => option.name === value.name}
                             renderInput={(params) => (
-                                <TextField {...params} label="Tags" variant="outlined" />
+                                <TextField {...params}
+                                    label="Tags"
+                                    variant="outlined"
+                                    helperText={(errors.filter(error => error.param === 'tag')).map(msg => msg.msg).join(' • ')}
+                                />
                             )}
                             // freeSolo  // this needs to be disabled for now as I do not allow creating new tags here.
                             multiple
                             onChange={(e, v) => {
                                 const newTags = v.map(tag => typeof tag === 'string' ? tags.find(t => t.name === tag) as ITag : tag);
                                 dispatch(setPartData({ ...partData, tags: newTags }));
+                                setErrors(errors.filter(error => error.param !== 'tags'))
                             }}
                         />
                         <Autocomplete
@@ -101,11 +116,15 @@ export default function PartEditModal() {
                             renderInput={(p) => (
                                 <TextField {...p}
                                     label="Manufacturer"
-                                    error={(partData.manufacturer.length < 2) || (partData.manufacturer.length > 50)}
+                                    helperText={(errors.filter(error => error.param === 'manufacturer')).map(msg => msg.msg).join(' • ')}
+                                    error={(partData.manufacturer.length < 2) || (partData.manufacturer.length > 50) || (errors.filter(error => error.param === 'manufacturer').length > 0)}
                                 />
                             )}
                             freeSolo
-                            onInputChange={(e, v) => dispatch(setPartData({ ...partData, manufacturer: v }))}
+                            onInputChange={(e, v) => {
+                                dispatch(setPartData({ ...partData, manufacturer: v }))
+                                setErrors(errors.filter(error => error.param !== 'manufacturer'))
+                            }}
                         />
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">

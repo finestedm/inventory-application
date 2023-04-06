@@ -18,8 +18,6 @@ export default function CardPart({ part }: CardProps) {
   const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const partEditModalOpen = useSelector((state: RootState) => state.modal.partEditModalOpen);
   const dispatch = useDispatch();
 
   return (
@@ -55,7 +53,7 @@ export default function CardPart({ part }: CardProps) {
                 <Stack>
                   <Typography color={theme.palette.grey[400]}> Price: </Typography>
                   <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'}>
-                    {part.price} PLN
+                    {part.price.toFixed(2)} PLN
                   </Typography>
                 </Stack>
                 <BuyButton />

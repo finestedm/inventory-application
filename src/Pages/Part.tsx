@@ -2,12 +2,14 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IPart } from "./Parts"
 import { useParams } from "react-router-dom"
-import { Typography, CircularProgress, Button, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider } from "@mui/material";
+import { Typography, CircularProgress, Button, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { ILocation } from "./Locations";
 import { IInventory } from "./Inventories";
-import TagCloud from "../components/TagCloud";
 import BuyButton from "../components/BuyButton";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useDispatch } from "react-redux";
+import { setPartData, setPartEditModalOpen } from "../App";
+
 
 export default function Part(): JSX.Element {
 
@@ -25,27 +27,49 @@ export default function Part(): JSX.Element {
             .then((response) => setInventory(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(inventory)
-    }, [inventory])
-
     const theme = useTheme()
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const editMenuOpen = Boolean(anchorEl);
+    const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const dispatch = useDispatch();
 
     if (part && inventory) {
         return (
             <Container maxWidth='xl'>
                 <Grid2 container sx={{ marginTop: 0 }} spacing={12}>
                     <Grid2 xs={12} sm={6}>
-                        <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem'}} />
+                        <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
                     </Grid2>
-                    <Grid2 xs={12} sm={6}>
+                    <Grid2 xs={12} sm={6} position='relative'>
+
+                        <Button sx={{ position: 'absolute', zIndex: 1000, right: 25 }} onClick={handleAnchorSetting}>
+                            <MoreVertIcon sx={{ color: 'black' }} />
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={editMenuOpen}
+                            onClose={() => setAnchorEl(null)}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={() => {
+                                dispatch(setPartEditModalOpen(true))
+                                dispatch(setPartData(part))
+                            }
+                            }>Edit</MenuItem>
+                        </Menu>
+
                         <Stack spacing={2}>
                             <Typography mb={2} variant='h4' sx={{ fontWeight: 500 }}> {part.name}</Typography >
                             <Divider />
                             <Typography color={theme.palette.grey[500]}> {part.manufacturer}</Typography >
                             <Divider />
                             <div style={{ display: 'flex' }}>
-                                <Typography noWrap variant="h4"> {part.price} </Typography >
+                                <Typography noWrap variant="h4"> {part.price.toFixed(2)} </Typography >
                                 <Typography noWrap variant="h6" color={theme.palette.grey[500]}>PLN</Typography>
                             </div>
                             <Divider />
@@ -87,7 +111,9 @@ export default function Part(): JSX.Element {
         )
     } else {
         return (
-            < CircularProgress />
+            <Box display="flex" alignItems='center' justifyContent='center' width={'100%'} height={300}>
+                < CircularProgress />
+            </Box>
         )
     }
 
