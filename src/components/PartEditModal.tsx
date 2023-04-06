@@ -66,7 +66,7 @@ export default function PartEditModal() {
                         />
                         <TextField
                             label='Price'
-                            value={partData.price}
+                            value={partData.price.toFixed(2)}
                             type="number"
                             error={(partData.price > 999999) || (partData.price < 0.01) ? true : false}
                             InputProps={{
