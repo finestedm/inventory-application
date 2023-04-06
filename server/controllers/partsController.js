@@ -101,7 +101,16 @@ export async function edit_part(req, res) {
     const { _id, name, price, manufacturer, tags } = req.body;
 
     // name sanitization
-    const sanitizedName = validator.escape(name)
+    await check('name')
+        .notEmpty()
+        .withMessage('Name is required')
+        .isLength({ min: 2 })
+        .withMessage('Minimum name length is 2 letters')
+        .isLength({ max: 50 })
+        .withMessage('Maximum letters in name is 50')
+        .run(req)
+
+    const sanitizedName = validator.trim(validator.escape(name))
 
     // price validation
     await check('price')
@@ -114,7 +123,16 @@ export async function edit_part(req, res) {
         .run(req)
 
     // manufacturer sanitization
-    const sanitizedManufacturer = validator.escape(manufacturer)
+    await check('manufacturer')
+        .notEmpty()
+        .withMessage('Manufacturer name is required')
+        .isLength({ min: 2 })
+        .withMessage('Minimum manufacturer name length is 2 letters')
+        .isLength({ max: 50 })
+        .withMessage('Maximum letters in manufacturer name is 50')
+        .run(req)
+
+    const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
 
     const errors = validationResult(req)
 

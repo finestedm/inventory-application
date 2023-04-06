@@ -48,8 +48,8 @@ export default function PartEditModal() {
             const response = await axios.post(`/parts/edit_part`, partData)
             dispatch(setPartEditModalOpen(false));
             return response.data;
-        } catch (error) {
-            throw new Error();
+        } catch (error: any) {
+            setErrors(error.response.data.errors)
         }
     }
 
