@@ -19,6 +19,7 @@ import BreadcrumbsComponent from './components/Breadcrumbs';
 import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import NewPartModal from './components/PartEditModal';
+import PartDeleteModal from './components/PartDeleteModal';
 import { useEffect } from 'react';
 
 
@@ -28,11 +29,13 @@ axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
 
 interface IModalState {
   partEditModalOpen: boolean;
+  partDeleteModalOpen: boolean;
   partData: IPart;
 }
 
 const initialState: IModalState = {
   partEditModalOpen: false,
+  partDeleteModalOpen: false,
   partData: {
     _id: '',
     name: '',
@@ -54,6 +57,10 @@ const modalSlice = createSlice({
         state.partData = initialState.partData;
       }
     },
+    setPartDeleteModalOpen: (state, action: PayloadAction<{ partDeleteModalOpen: boolean, partData?: IPart }>) => {
+      state.partDeleteModalOpen = action.payload.partDeleteModalOpen;
+      state.partData = action.payload.partData ? action.payload.partData : state.partData = initialState.partData
+    },
     setPartData(state, action: PayloadAction<IPart>) {
       state.partData = action.payload;
     },
@@ -72,7 +79,7 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartData } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
 
 // Part Modal for new parts and editing existing - boilerplate
@@ -87,6 +94,7 @@ function App() {
         {!isSplashPage && <TopBar />}
         {!isSplashPage && <BreadcrumbsComponent />}
         <NewPartModal />
+        <PartDeleteModal />
         <Routes>
           <Route path='/' element={<Splash />} />
           <Route path='catalog'>

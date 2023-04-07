@@ -10,11 +10,12 @@ import { RootState, setPartEditModalOpen } from "../App";
 // declare types
 
 export interface IPart {
-    _id?: string;
+    _id: string;
     name: string;
     manufacturer: string;
     price: number;
     tags: ITag[];
+    createdAt?: Date
 }
 
 export default function Parts(): JSX.Element {

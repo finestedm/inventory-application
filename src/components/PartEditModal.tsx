@@ -37,7 +37,6 @@ export default function PartEditModal() {
             dispatch(setPartEditModalOpen(false));
             return response.data;
         } catch (error: any) {
-            console.log(error.response.data.errors)
             setErrors(error.response.data.errors)
             // throw new Error();
         }
@@ -54,7 +53,10 @@ export default function PartEditModal() {
     }
 
     return (
-        <Modal open={partEditModalOpen} onClose={() => setPartEditModalOpen(false)}>
+        <Modal open={partEditModalOpen} onClose={() => {
+            dispatch(setPartEditModalOpen(false))
+            setErrors([])
+        }}>
             <Card sx={{ position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)" }}>
                 <CardHeader title='Add new part' />
                 <CardContent component={Stack} spacing={3}>
@@ -71,13 +73,13 @@ export default function PartEditModal() {
                         />
                         <TextField
                             label='Price'
-                            value={partData.price}
+                            value={partData.price.toFixed(2)}
                             helperText={(errors.filter(error => error.param === 'price')).map(msg => msg.msg).join(' • ')}
                             type="number"
                             error={(partData.price > 999999) || (partData.price < 0.01) || (errors.filter(error => error.param === 'price').length > 0) ? true : false}
                             InputProps={{
                                 inputProps: {
-                                    step: 1,
+                                    step: 0.01,
                                     min: 0.01,
                                     max: 999999,
                                 },
@@ -134,7 +136,8 @@ export default function PartEditModal() {
                             :
                             <Button onClick={() => createNewPart(partData)}>Add new part</Button>
                         }
-                        <Button onClick={() => dispatch(setPartEditModalOpen(false))}>Cancel</Button>
+                        <Button onClick={() => { dispatch(setPartEditModalOpen(false)) }
+                        }>Cancel</Button>
                     </Stack>
                 </CardContent>
             </Card>

@@ -8,7 +8,8 @@ import { IInventory } from "./Inventories";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setPartData, setPartEditModalOpen } from "../App";
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen } from "../App";
+import deletePart from "../methods/deletePart";
 
 
 export default function Part(): JSX.Element {
@@ -61,6 +62,8 @@ export default function Part(): JSX.Element {
                                 dispatch(setPartData(part))
                             }
                             }>Edit</MenuItem>
+                            <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part }) ) }
+                            }>Delete</MenuItem>
                         </Menu>
 
                         <Stack spacing={2}>

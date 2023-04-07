@@ -4,7 +4,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartData, setPartEditModalOpen } from "../App";
+import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../App";
+import deletePart from '../methods/deletePart';
 
 interface CardProps extends React.PropsWithChildren<{}> {
   part: IPart;
@@ -37,9 +38,9 @@ export default function CardPart({ part }: CardProps) {
           <MenuItem onClick={() => {
             dispatch(setPartEditModalOpen(true))
             dispatch(setPartData(part))
-          }
-
-          }>Edit</MenuItem>
+          }}>Edit</MenuItem>
+          <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }
+          }>Delete</MenuItem>
         </Menu>
 
         <CardActionArea href={`/catalog/parts/${part._id}`}>

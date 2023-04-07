@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import CardList from "../components/CardList";
 import { IPart } from "./Parts";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { ILocation } from "./Locations";
 import TagCloud from "../components/TagCloud";
 
@@ -32,7 +32,7 @@ export default function Catalog(): JSX.Element {
 
     // get data from server: number of elements in each category
     useEffect(() => {
-        axios.get('/parts')
+        axios.get(`/parts?limit=4`)
             .then((response) => setParts(response.data))
         axios.get('/locations')
             .then((response) => setLocations(response.data))
@@ -43,7 +43,10 @@ export default function Catalog(): JSX.Element {
         <Container maxWidth='xl'>
             <Stack spacing={3}>
                 <Box>
-                    <Typography variant='h3'>Browser newest parts:</Typography>
+                    <Stack>
+                        <Typography variant='h3'>Browser newest parts:</Typography>
+                        <Button>See all parts</Button>
+                    </Stack>
                     <CardList parts={parts} />
                 </Box>
                 <Box>
