@@ -8,8 +8,8 @@ export default function BreadcrumbsComponent() {
     const pathnames = pathname.split("/").filter(Boolean);
 
     return (
-        <Container maxWidth='xl'>
-            <Stack>
+        <Box className='breadcrumbs-box'>
+            <Container maxWidth='xl'>
                 <Breadcrumbs separator="›" aria-label='breadcrumb'>
                     {pathnames.length ?
                         (
@@ -31,7 +31,7 @@ export default function BreadcrumbsComponent() {
                             )
                     })}
                 </Breadcrumbs>
-            </Stack>
-        </Container>
+            </Container>
+        </Box>
     )
 }

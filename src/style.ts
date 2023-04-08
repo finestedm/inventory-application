@@ -39,6 +39,21 @@ theme = createTheme(theme, {
                 root: {
                     borderBottom: '1px solid',
                     borderColor: theme.palette.grey[300],
+                    backgroundColor: 'white',
+                    boxShadow: 'none'
+                }
+            }
+        },
+        MuiBox: {
+            '&.breadcrumbs-box': {
+                styleOverrides: {
+                    root: {
+                        borderBottom: '1px solid',
+                        borderColor: theme.palette.grey[300],
+                        marginBottom: '1rem',
+                        paddingTop: '.25rem',
+                        paddingBottom: '.25rem'
+                    }
                 }
             }
         }

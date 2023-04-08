@@ -21,6 +21,8 @@ import { Provider } from "react-redux";
 import NewPartModal from './components/PartEditModal';
 import PartDeleteModal from './components/PartDeleteModal';
 import { useEffect } from 'react';
+import { theme } from './style'
+import { ThemeProvider } from '@mui/material';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -90,25 +92,27 @@ function App() {
 
   return (
     <div className="App" id='AppContainer'>
-      <Provider store={store}>
-        {!isSplashPage && <TopBar />}
-        {!isSplashPage && <BreadcrumbsComponent />}
-        <NewPartModal />
-        <PartDeleteModal />
-        <Routes>
-          <Route path='/' element={<Splash />} />
-          <Route path='catalog'>
-            <Route index element={<Catalog />} />
-            <Route path='parts' element={<Parts />} />
-            <Route path='parts/:id' element={<Part />} />
-            <Route path='locations' element={<Locations />} />
-            <Route path='locations/:id' element={<Location />} />
-            <Route path='tags' element={<Tags />} />
-            <Route path='tags/:name' element={<Tag />} />
-            <Route path='availability' element={<Inventories />} />
-          </Route>
-        </Routes>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          {!isSplashPage && <TopBar />}
+          {!isSplashPage && <BreadcrumbsComponent />}
+          <NewPartModal />
+          <PartDeleteModal />
+          <Routes>
+            <Route path='/' element={<Splash />} />
+            <Route path='catalog'>
+              <Route index element={<Catalog />} />
+              <Route path='parts' element={<Parts />} />
+              <Route path='parts/:id' element={<Part />} />
+              <Route path='locations' element={<Locations />} />
+              <Route path='locations/:id' element={<Location />} />
+              <Route path='tags' element={<Tags />} />
+              <Route path='tags/:name' element={<Tag />} />
+              <Route path='availability' element={<Inventories />} />
+            </Route>
+          </Routes>
+        </Provider>
+      </ThemeProvider>
     </div>
   );
 }

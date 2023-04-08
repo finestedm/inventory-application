@@ -16,7 +16,7 @@ export default function PartDeleteModal(): JSX.Element {
     const navigate = useNavigate()
     const location = useLocation();
 
-    function checkPartAndNavUp() {
+    function checkAndNavUp() {
         const parts = location.pathname.split('/');
         const lastPart = parts[parts.length - 1];
         if (lastPart === partData._id) {
@@ -25,22 +25,23 @@ export default function PartDeleteModal(): JSX.Element {
         }
     }
 
+    function handlePartDeletion() {
+        deletePart(partData._id)
+        dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: false }))
+        checkAndNavUp()
+    }
+
     return (
         <Modal open={partDeleteModalOpen} onClose={() => {
             dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: false }))
         }}>
-            <Card sx={{ position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)", p: 2  }}>
+            <Card sx={{ position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)", p: 2 }}>
                 <CardHeader title='Are you sure you want to delete the part?' />
                 <CardActionArea>
                     <Stack spacing={1}>
                         <Button
                             color='error'
-                            onClick={() => {
-                                deletePart(partData._id)
-                                dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: false }))
-                                checkPartAndNavUp()
-                                
-                            }}
+                            onClick={handlePartDeletion }
                         >
                             Delete
                         </Button>

@@ -44,17 +44,17 @@ export default function Catalog(): JSX.Element {
             <Stack spacing={3}>
                 <Box>
                     <Stack>
-                        <Typography variant='h3'>Browser newest parts:</Typography>
+                        <Typography variant='h5'>Browser newest parts:</Typography>
                         <Button>See all parts</Button>
                     </Stack>
                     <CardList parts={parts} />
                 </Box>
                 <Box>
-                    <Typography variant='h3'>Our shops are in these cities:</Typography>
+                    <Typography variant='h5'>Our shops are in these cities:</Typography>
                     <CardList locations={locations} />
                 </Box>
                 <Box>
-                    <Typography variant='h3'>Look for products categorized by tags:</Typography>
+                    <Typography variant='h5'>Look for products categorized by tags:</Typography>
                     <TagCloud />
                 </Box>
             </Stack>
