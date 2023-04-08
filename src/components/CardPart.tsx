@@ -1,4 +1,4 @@
-import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, Link, CardActionArea, Stack, Menu, MenuItem } from '@mui/material'
+import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, Link, CardActionArea, Stack, Menu, MenuItem, CardMedia } from '@mui/material'
 import { IPart } from '../Pages/Parts';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
@@ -23,7 +23,7 @@ export default function CardPart({ part }: CardProps) {
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ position: 'relative' }}>
+      <Card sx={{ position: 'relative'}} >
         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 15 }} onClick={handleAnchorSetting}>
           <MoreVertIcon sx={{ color: 'black' }} />
         </Button>
@@ -44,8 +44,10 @@ export default function CardPart({ part }: CardProps) {
         </Menu>
 
         <CardActionArea href={`/catalog/parts/${part._id}`}>
-          <CardContent>
+          <CardMedia>
             <Skeleton variant='rectangular' height={250} width='100%' />
+          </CardMedia>
+          <CardContent>
             <Box p={2}>
               <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'} gutterBottom>
                 {part.name}
