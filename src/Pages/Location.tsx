@@ -20,7 +20,7 @@ export default function Location(): JSX.Element {
 
     if (location) {
         return (
-            <Container>
+            <Container maxWidth='xl'>
                 <Grid container>
                     <Grid item xs={12} md={4}>
                         <Skeleton variant="rectangular" style={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh' }} />

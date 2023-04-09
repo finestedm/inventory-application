@@ -1,5 +1,7 @@
 import { Box, Link, Breadcrumbs, Typography, Stack, Container } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import makeStyles from "@mui/material";
+import { theme } from '../style'
 
 export default function BreadcrumbsComponent() {
 
@@ -7,8 +9,9 @@ export default function BreadcrumbsComponent() {
     const { pathname } = useLocation();
     const pathnames = pathname.split("/").filter(Boolean);
 
+
     return (
-        <Box className='breadcrumbs-box'>
+        <Box className='breadcrumbsBox' sx={{ borderBottom: `1px solid ${theme.palette.grey[300]}`, py: '.25rem' }}>
             <Container maxWidth='xl'>
                 <Breadcrumbs separator="›" aria-label='breadcrumb'>
                     {pathnames.length ?

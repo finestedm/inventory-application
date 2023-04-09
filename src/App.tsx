@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
 import Parts, { IPart } from './Pages/Parts';
-import Locations from './Pages/Locations'
+import Locations, { ILocation, OpeningHours } from './Pages/Locations'
 import Inventories from './Pages/Inventories'
 import Tags from './Pages/Tags';
 import Splash from './Pages/Splash';
@@ -18,11 +18,12 @@ import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
 import { configureStore, createSlice, combineReducers, PayloadAction } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import NewPartModal from './components/PartEditModal';
+import PartEditModal from './components/PartEditModal';
 import PartDeleteModal from './components/PartDeleteModal';
 import { useEffect } from 'react';
 import { theme } from './style'
 import { ThemeProvider } from '@mui/material';
+import LocationEditModal from './components/LocationEditModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -33,7 +34,16 @@ interface IModalState {
   partEditModalOpen: boolean;
   partDeleteModalOpen: boolean;
   partData: IPart;
+  locationEditModalOpen: boolean;
+  locationData: ILocation
 }
+
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const initialOpeningHours: OpeningHours[] = daysOfWeek.map(day => ({
+  day,
+  open: '',
+  close: '',
+}));
 
 const initialState: IModalState = {
   partEditModalOpen: false,
@@ -45,6 +55,15 @@ const initialState: IModalState = {
     manufacturer: '',
     tags: []
   },
+  locationEditModalOpen: false,
+  locationData: {
+    _id: '',
+    zip: '',
+    street: '',
+    city: '',
+    country: '',
+    openingHours: initialOpeningHours
+  }
 };
 
 
@@ -69,19 +88,30 @@ const modalSlice = createSlice({
     resetPartDataDeep(state) {
       state.partData = initialState.partData;
     },
+    setLocationEditModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.locationEditModalOpen = action.payload;
+      if (!action.payload) {
+        state.locationData = initialState.locationData;
+      }
+    },
+    setLocationData(state, action: PayloadAction<ILocation>) {
+      state.locationData = action.payload;
+    },
+    resetLocationDataDeep(state) {
+      state.locationData = initialState.locationData;
+    },
   },
 });
 
 const rootReducer = combineReducers({
   modal: modalSlice.reducer,
-  partData: modalSlice.reducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
 
 // Part Modal for new parts and editing existing - boilerplate
@@ -96,8 +126,9 @@ function App() {
         <Provider store={store}>
           {!isSplashPage && <TopBar />}
           {!isSplashPage && <BreadcrumbsComponent />}
-          <NewPartModal />
+          <PartEditModal />
           <PartDeleteModal />
+          <LocationEditModal />
           <Routes>
             <Route path='/' element={<Splash />} />
             <Route path='catalog'>

@@ -5,6 +5,7 @@ import { IPart } from "./Parts";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { ILocation } from "./Locations";
 import TagCloud from "../components/TagCloud";
+import { Link } from "react-router-dom";
 
 export default function Catalog(): JSX.Element {
 
@@ -43,14 +44,17 @@ export default function Catalog(): JSX.Element {
         <Container maxWidth='xl'>
             <Stack spacing={3}>
                 <Box>
-                    <Stack>
-                        <Typography variant='h5'>Browser newest parts:</Typography>
-                        <Button>See all parts</Button>
+                    <Stack direction='row' justifyContent='space-between'>
+                        <Typography variant='h5' noWrap>Browser newest parts:</Typography>
+                        <Button href="catalog/parts/">See all parts</Button>
                     </Stack>
                     <CardList parts={parts} />
                 </Box>
                 <Box>
-                    <Typography variant='h5'>Our shops are in these cities:</Typography>
+                    <Stack direction='row' justifyContent='space-between'>
+                        <Typography variant='h5'>Our shops are in these cities:</Typography>
+                        <Button href="catalog/locations/">See all shops</Button>
+                    </Stack>
                     <CardList locations={locations} />
                 </Box>
                 <Box>

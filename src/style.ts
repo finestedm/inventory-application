@@ -45,17 +45,16 @@ theme = createTheme(theme, {
             }
         },
         MuiBox: {
-            '&.breadcrumbs-box': {
-                styleOverrides: {
-                    root: {
-                        borderBottom: '1px solid',
-                        borderColor: theme.palette.grey[300],
-                        marginBottom: '1rem',
-                        paddingTop: '.25rem',
-                        paddingBottom: '.25rem'
-                    }
+            styleOverrides: {
+                root: {
+                    borderBottom: '1px solid',
+                    borderColor: theme.palette.grey[300],
+                    marginBottom: '1rem',
+                    paddingTop: '.25rem',
+                    paddingBottom: '.25rem'
                 }
             }
         }
+
     }
 })

@@ -9,7 +9,7 @@ export default function PartDeleteModal(): JSX.Element {
 
     // read states 
     const partDeleteModalOpen = useSelector((state: RootState) => state.modal.partDeleteModalOpen);
-    const partData = useSelector((state: RootState) => state.partData.partData);
+    const partData = useSelector((state: RootState) => state.modal.partData);
     const dispatch = useDispatch();
 
     // set up navigation to move up one level if part deletion occurs on part screen
@@ -41,7 +41,7 @@ export default function PartDeleteModal(): JSX.Element {
                     <Stack spacing={1}>
                         <Button
                             color='error'
-                            onClick={handlePartDeletion }
+                            onClick={handlePartDeletion}
                         >
                             Delete
                         </Button>

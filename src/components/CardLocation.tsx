@@ -1,28 +1,68 @@
-import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid } from '@mui/material'
-import { IPart } from '../Pages/Parts';
-import { Link } from 'react-router-dom';
+import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, Menu, MenuItem, CardActionArea, CardMedia, Stack, useTheme } from '@mui/material'
 import { ILocation } from '../Pages/Locations';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { setLocationData, setLocationEditModalOpen } from '../App';
+
 
 interface CardProps extends React.PropsWithChildren<{}> {
     location: ILocation;
 }
 
 export default function CardLocation({ location }: CardProps) {
+    const theme = useTheme()
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const editMenuOpen = Boolean(anchorEl);
+    const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const dispatch = useDispatch();
+
+
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>
-            <Card >
-                <CardContent>
-                    <Skeleton variant='rectangular' height={200} width='100%' />
-                    <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-                        {location.city}
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {location.street}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button href={`/catalog/locations/${location._id}`} size="small">Learn More</Button>
-                </CardActions>
+            <Card sx={{ position: 'relative' }} >
+                <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 15 }} onClick={handleAnchorSetting}>
+                    <MoreVertIcon sx={{ color: 'black' }} />
+                </Button>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={editMenuOpen}
+                    onClose={() => setAnchorEl(null)}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <MenuItem onClick={() => {
+                        dispatch(setLocationEditModalOpen(true))
+                        dispatch(setLocationData(location))
+                    }}>
+                        Edit</MenuItem>
+                    {/* <MenuItem onClick={() => { dispatch(setLocationDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }}>
+                        Delete</MenuItem> */}
+                </Menu>
+
+                <CardActionArea href={`/catalog/locations/${location._id}`}>
+                    <CardMedia>
+                        <Skeleton variant='rectangular' height={250} width='100%' />
+                    </CardMedia>
+                    <CardContent>
+                        <Box p={2}>
+                            <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'} gutterBottom>
+                                {location.city}
+                            </Typography>
+                            <Stack direction='row' justifyContent='space-between' alignItems='end'>
+                                <Stack>
+                                    <Typography sx={{ fontWeight: 500 }} letterSpacing={'-.25px'}>
+                                        {location.zip.toString().slice(0, 2) + '-' + location.zip.toString().slice(2)}, {location.street}
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                        </Box>
+                    </CardContent>
+                </CardActionArea>
             </Card>
         </Grid>
     );

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Container, Typography } from "@mui/material";
 import CardList from "../components/CardList";
 
-interface OpeningHours {
+export interface OpeningHours {
     day: string; // This could be restricted to a specific set of values, e.g. 'monday', 'tuesday', etc.
     open: string;
     close: string;
@@ -31,7 +31,7 @@ export default function Parts(): JSX.Element {
     }, [])
 
     return (
-        <Container>
+        <Container maxWidth='xl'>
             <Typography variant="h4">You can buy our products in the below shops:</Typography>
             <CardList locations={locations} />
         </Container>

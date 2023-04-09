@@ -6,22 +6,18 @@ import { ITag } from "../Pages/Tags";
 import { IPart } from "../Pages/Parts";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setPartData } from "../App";
+import {IError} from "./interfaces";
 
 export default function PartEditModal() {
 
     const partEditModalOpen = useSelector((state: RootState) => state.modal.partEditModalOpen);
-    const partData = useSelector((state: RootState) => state.partData.partData);
+    const partData = useSelector((state: RootState) => state.modal.partData);
     const dispatch = useDispatch();
 
     const [manufacturers, setManufacturers] = useState([])
     const [tags, setTags] = useState<ITag[]>([])
     const [errors, setErrors] = useState<IError[]>([])
 
-    interface IError {
-        value: string,
-        msg: string,
-        param: string
-    }
 
     useEffect(() => {
         axios.get('/parts/manufacturers')
