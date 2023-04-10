@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const LocationSchema = new Schema({
     zip: {
-        type: Number,
+        type: String,
         required: true,
         validate: {
             validator: function (v) {
@@ -13,7 +13,7 @@ const LocationSchema = new Schema({
             message: props => `${props.value} is not a valid 5-digit number!`
         }
     },
-    street: { type: String, required: true, minLength: 2, maxLength: 30 },
+    street: { type: String, required: true, minLength: 2, maxLength: 50 },
     city: { type: String, required: true, minLength: 2, maxLength: 30 },
     country: { type: String, required: true, minLength: 2, maxLength: 30 },
     openingHours: {
@@ -36,7 +36,6 @@ const LocationSchema = new Schema({
     email: {
         type: String,
         maxLength: 40,
-        unique: true,
         validate: {
             validator: function (v) {
                 // Regular expression for validating email format
