@@ -36,6 +36,7 @@ const LocationSchema = new Schema({
     email: {
         type: String,
         maxLength: 40,
+        unique: true,
         validate: {
             validator: function (v) {
                 // Regular expression for validating email format

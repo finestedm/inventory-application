@@ -23,7 +23,7 @@ export async function location_details(req, res) {
 }
 
 export async function create_new_location(req, res) {
-    const { city, street, country, zip } = req.body
+    const { city, street, country, zip, phoneNumber, email } = req.body
     await check('city')
         .notEmpty()
         .withMessage('Name is required')
@@ -92,6 +92,36 @@ export async function create_new_location(req, res) {
     // zip sanitization
     const sanitizedZip = validator.trim(validator.escape(zip))
 
+    await check('phoneNumber')
+        .custom(value => {
+            if (!/^(\+?\d+|\d+)$/.test(value)) {
+                throw new Error('This is not a valid phone number');
+            } else {
+                return true;
+            }
+        })
+        .run(req)
+
+    // phoneNumber sanitization
+    const sanitizedPhoneNumber = validator.trim(validator.escape(phoneNumber))
+
+    await check('email')
+        .notEmpty()
+        .withMessage('Email is required')
+        .isLength({ max: 40 })
+        .withMessage('email cannot be longer than 40 characters')
+        .custom(value => {
+            if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+                throw new Error('This is not a valid email address');
+            } else {
+                return true;
+            }
+        })
+        .run(req)
+
+    // email sanitization
+    const sanitizedEmail = validator.trim(validator.escape(email))
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -103,6 +133,8 @@ export async function create_new_location(req, res) {
         street: sanitizedStreet,
         country: sanitizedCountry,
         zip: sanitizedZip,
+        phoneNumber: sanitizedPhoneNumber,
+        email: sanitizedEmail
     });
 
     try {
@@ -115,8 +147,7 @@ export async function create_new_location(req, res) {
 }
 
 export async function edit_location(req, res) {
-    const { _id, city, street, country, zip } = req.body
-    console.log(city, street, country, zip)
+    const { _id, city, street, country, zip, phoneNumber, email } = req.body
 
     await check('city')
         .notEmpty()
@@ -186,6 +217,36 @@ export async function edit_location(req, res) {
     // zip sanitization
     const sanitizedZip = validator.trim(validator.escape(zip.toString()))
 
+    await check('phoneNumber')
+        .custom(value => {
+            if (!/^(\+?\d+|\d+)$/.test(value)) {
+                throw new Error('This is not a valid phone number');
+            } else {
+                return true;
+            }
+        })
+        .run(req)
+
+    // phoneNumber sanitization
+    const sanitizedPhoneNumber = validator.trim(validator.escape(phoneNumber))
+
+    await check('email')
+        .notEmpty()
+        .withMessage('Email is required')
+        .isLength({ max: 40 })
+        .withMessage('email cannot be longer than 40 characters')
+        .custom(value => {
+            if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+                throw new Error('This is not a valid email address');
+            } else {
+                return true;
+            }
+        })
+        .run(req)
+
+    // email sanitization
+    const sanitizedEmail = validator.trim(validator.escape(email))
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -197,6 +258,8 @@ export async function edit_location(req, res) {
         street: sanitizedStreet,
         country: sanitizedCountry,
         zip: sanitizedZip,
+        phoneNumber: sanitizedPhoneNumber,
+        email: sanitizedEmail
     };
 
     try {
