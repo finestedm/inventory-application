@@ -7,6 +7,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
 import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from "../App";
+import LocationMap from "../components/LocationMap";
 
 
 export default function Location(): JSX.Element {
@@ -36,7 +37,7 @@ export default function Location(): JSX.Element {
             <Container maxWidth='xl'>
                 <Grid2 container sx={{ marginTop: 0 }} spacing={12}>
                     <Grid2 xs={12} sm={6}>
-                        <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
+                        <LocationMap city={location.city} street={location.street} />
                     </Grid2>
                     <Grid2 xs={12} md={6} position='relative'>
 
