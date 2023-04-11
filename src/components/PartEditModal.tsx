@@ -69,7 +69,7 @@ export default function PartEditModal() {
                             />
                             <TextField
                                 label='Price'
-                                value={partData.price.toFixed(2)}
+                                value={partData.price}
                                 helperText={(errors.filter(error => error.param === 'price')).map(msg => msg.msg).join(' • ')}
                                 type="number"
                                 error={(partData.price > 999999) || (partData.price < 0.01) || (errors.filter(error => error.param === 'price').length > 0) ? true : false}
@@ -82,7 +82,7 @@ export default function PartEditModal() {
                                     endAdornment: <InputAdornment disableTypography position="end">PLN</InputAdornment>
                                 }}
                                 onChange={(e) => {
-                                    dispatch(setPartData({ ...partData, price: parseFloat(parseFloat((e.target.value)).toFixed(2)) }))
+                                    dispatch(setPartData({ ...partData, price: parseFloat(e.target.value) }))
                                     setErrors(errors.filter(error => error.param !== 'price'))
                                 }}
 

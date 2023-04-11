@@ -24,6 +24,7 @@ import { useEffect } from 'react';
 import { theme } from './style'
 import { ThemeProvider } from '@mui/material';
 import LocationEditModal from './components/LocationEditModal';
+import LocationDeleteModal from './components/LocationDeleteModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -36,6 +37,7 @@ interface IModalState {
   partData: IPart;
   locationEditModalOpen: boolean;
   locationData: ILocation
+  locationDeleteModalOpen: boolean;
 }
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -51,7 +53,7 @@ const initialState: IModalState = {
   partData: {
     _id: '',
     name: '',
-    price: 0,
+    price: 0.00,
     manufacturer: '',
     tags: []
   },
@@ -62,8 +64,11 @@ const initialState: IModalState = {
     street: '',
     city: '',
     country: '',
-    openingHours: initialOpeningHours
-  }
+    openingHours: initialOpeningHours,
+    phoneNumber: '',
+    email: '',
+  },
+  locationDeleteModalOpen: false,
 };
 
 
@@ -100,6 +105,10 @@ const modalSlice = createSlice({
     resetLocationDataDeep(state) {
       state.locationData = initialState.locationData;
     },
+    setLocationDeleteModalOpen: (state, action: PayloadAction<{ locationDeleteModalOpen: boolean, locationData?: ILocation }>) => {
+      state.locationDeleteModalOpen = action.payload.locationDeleteModalOpen;
+      state.locationData = action.payload.locationData ? action.payload.locationData : state.locationData = initialState.locationData;
+    }
   },
 });
 
@@ -111,7 +120,7 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
 
 // Part Modal for new parts and editing existing - boilerplate
@@ -129,6 +138,7 @@ function App() {
           <PartEditModal />
           <PartDeleteModal />
           <LocationEditModal />
+          <LocationDeleteModal />
           <Routes>
             <Route path='/' element={<Splash />} />
             <Route path='catalog'>

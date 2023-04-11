@@ -23,6 +23,7 @@ export default function LocationEditModal() {
             dispatch(setLocationEditModalOpen(false));
             return response.data;
         } catch (error: any) {
+            console.log(error)
             setErrors(error.response.data.errors)
             // throw new Error();
         }
@@ -30,10 +31,11 @@ export default function LocationEditModal() {
 
     async function editLocation(locationData: ILocation) {
         try {
-            const response = await axios.post(`/location/edit_location`, locationData)
+            const response = await axios.post(`/locations/edit_location`, locationData)
             dispatch(setLocationEditModalOpen(false));
             return response.data;
         } catch (error: any) {
+            console.log(error)
             setErrors(error.response.data.errors)
         }
     }
@@ -90,6 +92,28 @@ export default function LocationEditModal() {
                             onChange={(e) => {
                                 dispatch(setLocationData({ ...locationData, country: e.target.value }))
                                 setErrors(errors.filter(error => error.param !== 'country'))
+                            }}
+                        />
+                        <TextField
+                            label='Phone number'
+                            type='phone'
+                            value={locationData.phoneNumber}
+                            helperText={(errors.filter(error => error.param === 'phoneNumber')).map(msg => msg.msg).join(' • ')}
+                            error={(!/^\+[1-9]{1}[0-9]{3,14}$/.test(locationData.phoneNumber)) || (locationData.phoneNumber.length < 5) || (locationData.phoneNumber.length > 20) || (errors.filter(error => error.param === 'phoneNumber').length > 0)}
+                            onChange={(e) => {
+                                dispatch(setLocationData({ ...locationData, phoneNumber: e.target.value }))
+                                setErrors(errors.filter(error => error.param !== 'phoneNumber'))
+                            }}
+                        />
+                        <TextField
+                            label='Email address'
+                            type='email'
+                            value={locationData.email}
+                            helperText={(errors.filter(error => error.param === 'email')).map(msg => msg.msg).join(' • ')}
+                            error={(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(locationData.email)) || (locationData.email.length < 5) || (locationData.email.length > 40) || (errors.filter(error => error.param === 'email').length > 0)}
+                            onChange={(e) => {
+                                dispatch(setLocationData({ ...locationData, email: e.target.value }))
+                                setErrors(errors.filter(error => error.param !== 'email'))
                             }}
                         />
 

@@ -3,7 +3,7 @@ import { ILocation } from '../Pages/Locations';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setLocationData, setLocationEditModalOpen } from '../App';
+import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from '../App';
 
 
 interface CardProps extends React.PropsWithChildren<{}> {
@@ -40,8 +40,8 @@ export default function CardLocation({ location }: CardProps) {
                         dispatch(setLocationData(location))
                     }}>
                         Edit</MenuItem>
-                    {/* <MenuItem onClick={() => { dispatch(setLocationDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }}>
-                        Delete</MenuItem> */}
+                    <MenuItem onClick={() => { dispatch(setLocationDeleteModalOpen({ locationDeleteModalOpen: true, locationData: location })) }}>
+                        Delete</MenuItem>
                 </Menu>
 
                 <CardActionArea href={`/catalog/locations/${location._id}`}>

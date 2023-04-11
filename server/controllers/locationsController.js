@@ -94,7 +94,7 @@ export async function create_new_location(req, res) {
 
     await check('phoneNumber')
         .custom(value => {
-            if (!/^(\+?\d+|\d+)$/.test(value)) {
+            if (!/^\+[1-9]{1}[0-9]{3,14}$/.test(value)) {
                 throw new Error('This is not a valid phone number');
             } else {
                 return true;
@@ -219,7 +219,7 @@ export async function edit_location(req, res) {
 
     await check('phoneNumber')
         .custom(value => {
-            if (!/^(\+?\d+|\d+)$/.test(value)) {
+            if (!/^\+[1-9]{1}[0-9]{3,14}$/.test(value)) {
                 throw new Error('This is not a valid phone number');
             } else {
                 return true;
@@ -252,7 +252,6 @@ export async function edit_location(req, res) {
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
-
     const newData = {
         city: sanitizedCity,
         street: sanitizedStreet,
@@ -269,4 +268,14 @@ export async function edit_location(req, res) {
         res.status(404).json({ message: error.message })
     }
 
+}
+
+export async function delete_location(req, res) {
+
+    try {
+        const deletedLocation = await Location.findByIdAndDelete(req.params.id)
+        res.status(200).json(deletedLocation)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
 }
