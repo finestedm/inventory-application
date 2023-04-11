@@ -8,7 +8,6 @@ import partRoutes from '../routes/parts.js'
 import locationRoutes from '../routes/locations.js'
 import tagRoutes from '../routes/tags.js'
 import inventoryRoutes from '../routes/inventories.js'
-import mapRoute from '../routes/map.js'
 import Part from '../models/part.js';
 import Location from '../models/location.js';
 import Tag from '../models/tag.js';
@@ -27,7 +26,6 @@ app.use('/api/catalog/parts', partRoutes)
 app.use('/api/catalog/locations', locationRoutes)
 app.use('/api/catalog/tags', tagRoutes)
 app.use('/api/catalog/availability', inventoryRoutes)
-app.use('/api/catalog/map_embed', mapRoute)
 
 app.use('/api/catalog', async (req, res) => {
     try {

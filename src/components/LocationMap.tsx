@@ -1,6 +1,9 @@
 import { Skeleton } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { Component, useEffect, useState } from 'react';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import axios from "axios";
+
+
 
 interface ILocationMapProps {
     city: string;
@@ -10,36 +13,40 @@ interface ILocationMapProps {
 
 export default function LocationMap({ city, street }: ILocationMapProps) {
 
-    const [googleMapData, setGoogleMapData] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
 
+    // api keys and address setup
+    const googleMapsApiKey = "AIzaSyDlJh02GjhxXq70SMNFAU81lNiVVXFyvf0"
+    const address = `${city},${street}`
+
+    //getting geo data from address using google api
+    interface IGeoData {
+        lat: number,
+        lng: number
+    }
+    const [geoData, setGeoData] = useState<IGeoData>()
+
+    // setting geoData
     useEffect(() => {
-        axios.post(`/map_embed`, { city, street })
-            .then((response) => {
-                setGoogleMapData(response.data)
-                console.log(response.data)
-            })
-            .catch((error) => console.log(error))
-        setIsLoading(false)
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`)
+            .then(res => setGeoData(res.data.results[0].geometry.location))
     }, [])
 
-    useEffect(() => {
-        console.log(googleMapData)
-
-    }, [googleMapData])
 
     return (
-        isLoading ?
-            <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
-
+        (geoData)
+            ?
+            <LoadScript
+                googleMapsApiKey={googleMapsApiKey}
+            >
+                <GoogleMap
+                    mapContainerStyle={{ width: '100%', height: '100%' }}
+                    zoom={15}
+                    center={geoData}
+                >
+                </GoogleMap>
+            </LoadScript>
             :
-            <iframe
-                width='100%'
-                height='100%'
-                srcDoc={googleMapData ? googleMapData : ''}
-                allowFullScreen
-            />
-
+            <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
     )
 
 }
