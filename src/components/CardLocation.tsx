@@ -4,6 +4,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from '../App';
+import LocationMap from './LocationMap';
 
 
 interface CardProps extends React.PropsWithChildren<{}> {
@@ -46,7 +47,9 @@ export default function CardLocation({ location }: CardProps) {
 
                 <CardActionArea href={`/catalog/locations/${location._id}`}>
                     <CardMedia>
-                        <Skeleton variant='rectangular' height={250} width='100%' />
+                        <Box sx={{ height: 250, width: '100%' }}>
+                            <LocationMap city={location.city} street={location.street} />
+                        </Box>
                     </CardMedia>
                     <CardContent>
                         <Box p={2}>
