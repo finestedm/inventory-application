@@ -12,7 +12,6 @@ interface CardProps extends React.PropsWithChildren<{}> {
 }
 
 export default function CardLocation({ location }: CardProps) {
-    const theme = useTheme()
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const editMenuOpen = Boolean(anchorEl);
@@ -21,6 +20,9 @@ export default function CardLocation({ location }: CardProps) {
     };
     const dispatch = useDispatch();
 
+    const googleMapOptions = {
+        disableDefaultUI: true
+    }
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -48,7 +50,7 @@ export default function CardLocation({ location }: CardProps) {
                 <CardActionArea href={`/catalog/locations/${location._id}`}>
                     <CardMedia>
                         <Box sx={{ height: 250, width: '100%' }}>
-                            <LocationMap city={location.city} street={location.street} />
+                            <LocationMap city={location.city} street={location.street} options={googleMapOptions} />
                         </Box>
                     </CardMedia>
                     <CardContent>
