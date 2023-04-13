@@ -77,7 +77,7 @@ export default function Location(): JSX.Element {
 
                             {(location.openingHours).map(day =>
                                 <Typography key={day.day} variant="h5" >
-                                    {`${day.day}: ${day.open} - ${day.close} `}
+                                    {day.open === '' && day.close === '' ? `${day.day}: Closed` : `${day.day}: ${day.open} - ${day.close} `}
                                 </Typography>
                             )}
                         </Stack>
