@@ -36,6 +36,7 @@ export default function LocationMap({ city, street, options }: ILocationMapProps
     useEffect(() => {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`)
             .then((res) => {
+                console.log(res.data)
                 if (res.data.status === "OK") {
                     setGeoData(res.data.results[0]?.geometry.location);
                 } else {

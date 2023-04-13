@@ -6,7 +6,7 @@ import { ILocation } from "./Locations";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from "../App";
+import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../App";
 import LocationMap from "../components/LocationMap";
 
 
@@ -57,6 +57,11 @@ export default function Location(): JSX.Element {
                                 dispatch(setLocationData(location))
                             }
                             }>Edit</MenuItem>
+                            <MenuItem onClick={() => {
+                                dispatch(setLocationOpenHoursEditModalOpen(true))
+                                dispatch(setLocationData(location))
+                            }
+                            }>Edit opening hours</MenuItem>
                             <MenuItem onClick={() => { dispatch(setLocationDeleteModalOpen({ locationDeleteModalOpen: true, locationData: location })) }
                             }>Delete</MenuItem>
                         </Menu>
