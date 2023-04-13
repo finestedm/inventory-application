@@ -270,6 +270,41 @@ export async function edit_location(req, res) {
 
 }
 
+export async function edit_location_hours(req, res) {
+    await body('openingHours')
+        .isArray().withMessage('Opening hours must be an array')
+        .custom((openingHours) => {
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const hasValidDays = openingHours.every((day) => daysOfWeek.includes(day.day.charAt(0).toUpperCase() + day.day.slice(1)));
+        const hasValidTimes = openingHours.every((day) => {
+            const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9]$/;
+            return regex.test(day.open) || day.open === '' && regex.test(day.close) || day.close === '';
+        });
+        return hasValidDays && hasValidTimes && openingHours.length === 7;
+        }).withMessage('Opening hours must have a valid structure and contain exactly 7 days')
+        .run(req);
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
+    const { _id, openingHours } = req.body
+
+    const newData = {
+        openingHours,
+    };
+
+    try {
+        const updatedLocation = await Location.findOneAndUpdate({ _id }, newData, { new: true })
+        res.status(201).json(updatedLocation)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+
+}
+
 export async function delete_location(req, res) {
 
     try {

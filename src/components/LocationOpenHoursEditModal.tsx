@@ -1,5 +1,5 @@
 import { ConstructionOutlined } from "@mui/icons-material";
-import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button } from "@mui/material";
+import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button, Switch, FormControlLabel, FormHelperText } from "@mui/material";
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
@@ -7,12 +7,14 @@ import { IPart } from "../Pages/Parts";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../App";
 import { IError } from "./interfaces";
-import { ILocation } from "../Pages/Locations";
+import { ILocation, OpeningHours } from "../Pages/Locations";
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { isDisabled } from "@testing-library/user-event/dist/utils";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 dayjs.extend(customParseFormat);
 
 export default function LocationOpenHoursEditModal() {
@@ -23,18 +25,108 @@ export default function LocationOpenHoursEditModal() {
 
     const [errors, setErrors] = useState<IError[]>([])
 
-    async function editLocation(locationData: ILocation) {
+
+    async function editLocationOpeningHours(locationData: ILocation) {
         try {
             const response = await axios.post(`/locations/edit_location_hours`, locationData)
             dispatch(setLocationOpenHoursEditModalOpen(false));
             return response.data;
         } catch (error: any) {
             console.log(error)
-            setErrors(error.response.data.errors)
+            setErrors(error.response?.data.errors)
         }
     }
 
-    console.log(locationData.openingHours)
+    function DayOpenCloseTimePickers({ day }: any) {
+
+        const currentDay = (locationData.openingHours.find(dayData => dayData.day === day.day ))
+
+        const [isClosed, setIsClosed] = useState(currentDay?.open === '' && currentDay.close === '');
+
+        return (
+            <Grid2 container spacing={1} flex={1} alignItems='center'>
+                <Grid2 xs={2}>
+                    <Typography >{day.day}</Typography>
+                </Grid2>
+                <Grid2 xs={10}>
+                    <Stack direction='row' spacing={2} alignItems='center'>
+                    <FormControlLabel   // this switch controls hours. On switch close -> open we set 0:00 because on empty string this switch is automatically set to isClosed state. This resets previously set time! For now it's disabled and we will have to check on submit if this day isClosed -> then we will have to set hours to empty stings
+                        control={<Switch
+                            checked={!isClosed}
+                            onChange={e => {
+                                setIsClosed(!isClosed)
+                                // dispatch(setLocationData({
+                                //     ...locationData,
+                                //     openingHours: locationData.openingHours.map((dayData) => { 
+                                //         if (dayData.day === day.day) {
+                                //             return isClosed ? { ...dayData, open: '0:00', close: '0:00' } : { ...dayData, open: '', close: '' };
+                                //         }
+                                //         return dayData;
+                                //     }),
+                                // }))
+                            }}
+                        />}
+                        label={isClosed ? 'Closed' : 'Opened'}
+                        labelPlacement="top"
+                    />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <FormControl>
+                            <TimePicker
+                                disabled={isClosed}
+                                ampm={false}
+                                label="Opening"
+                                value={dayjs(day.open, 'H:mm')}
+                                onChange={(e) => {
+                                    const newTime = dayjs(e, 'H:mm');
+                                    dispatch(setLocationData({
+                                        ...locationData,
+                                        openingHours: locationData.openingHours.map((dayData) => {
+                                            if (dayData.day === day.day) {
+                                                return { ...dayData, open: dayjs(newTime, 'H:mm').format('H:mm') };
+                                            }
+                                            return dayData;
+                                        }),
+                                    }))
+                                    setErrors(errors.filter(error => error.param !== `openingHours.${day.day}.open`))
+                                }}
+                            />
+                            <FormHelperText>{(errors.filter(error => error.param === `openingHours.${day.day}.open`)).map(msg => msg.msg).join(' • ')}</FormHelperText>
+                        </FormControl>
+                        
+                        <Typography>-</Typography>
+
+                        <FormControl>
+                            <TimePicker
+                                disabled={isClosed}
+                                ampm={false}
+                                label="Closing"
+                                value={dayjs(day.close, 'H:mm')}
+                                onChange={(e) => {
+                                    const newTime = dayjs(e, 'H:mm');
+                                    dispatch(setLocationData({
+                                        ...locationData,
+                                        openingHours: locationData.openingHours.map((dayData) => {
+                                            if (dayData.day === day.day) {
+                                                return { ...dayData, close: dayjs(newTime).format('H:mm') };
+                                            }
+                                            return dayData;
+                                        }),
+                                    }))
+                                    setErrors(errors.filter(error => error.param !== `openingHours.${day.day}.close`))
+                                }}
+                            />
+                            <FormHelperText>{(errors.filter(error => error.param === `openingHours.${day.day}.close`)).map(msg => msg.msg).join(' • ')}</FormHelperText>
+                        </FormControl>
+                        </LocalizationProvider>
+                        </Stack>
+                </Grid2>
+
+            </Grid2>
+        )
+    }
+
+
     return (
         <Modal open={locationOpenHoursEditModalOpen} onClose={() => {
             dispatch(setLocationOpenHoursEditModalOpen(false))
@@ -45,64 +137,10 @@ export default function LocationOpenHoursEditModal() {
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
                         {(locationData.openingHours).map(day => (
-                            <Stack>
-
-                                <Typography>{day.day}</Typography>
-                                <Stack direction='row'>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <TimePicker
-                                            label="Opening"
-                                            value={dayjs(day.open, 'H:mm')}
-                                        />
-                                        <TimePicker
-                                            label="Closing"
-                                            value={dayjs(day.close, 'H:mm')}
-                                        />
-                                    </LocalizationProvider>
-                                    <TextField
-                                        label='Opening'
-                                        value={day.open}
-                                        helperText={(errors.filter(error => error.param === `openingHours.${day.day}.open`)).map(msg => msg.msg).join(' • ')}
-                                        onChange={(e) => {
-                                            dispatch(setLocationData({
-                                                ...locationData,
-                                                openingHours: locationData.openingHours.map((dayData) => {
-                                                    if (dayData.day === day.day) {
-                                                        return { ...dayData, open: e.target.value };
-                                                    }
-                                                    return dayData;
-                                                }),
-                                            }))
-                                            setErrors(errors.filter(error => error.param !== `openingHours.${day.day}.open`))
-                                        }}
-                                        error={(locationData.city.length < 2) || (locationData.city.length > 50) || (errors.filter(error => error.param === 'city').length > 0)}
-                                    />
-                                    <Typography>-</Typography>
-                                    <TextField
-                                        label='Closing'
-                                        value={day.close}
-                                        helperText={(errors.filter(error => error.param === `openingHours.${day.day}.close`)).map(msg => msg.msg).join(' • ')}
-                                        onChange={(e) => {
-                                            dispatch(setLocationData({
-                                                ...locationData,
-                                                openingHours: locationData.openingHours.map((dayData) => {
-                                                    if (dayData.day === day.day) {
-                                                        return { ...dayData, close: e.target.value };
-                                                    }
-                                                    return dayData;
-                                                }),
-                                            }))
-                                            setErrors(errors.filter(error => error.param !== `openingHours.${day.day}.close`))
-                                        }}
-                                        error={(locationData.city.length < 2) || (locationData.city.length > 50) || (errors.filter(error => error.param === 'city').length > 0)}
-                                    />
-                                </Stack>
-                            </Stack>
-                        ))}
-
+                            <DayOpenCloseTimePickers day={day} />))}
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
-                        <Button onClick={() => editLocation(locationData)}>Edit part data</Button>
+                        <Button onClick={() => editLocationOpeningHours(locationData)}>Edit part data</Button>
                         <Button onClick={() => { dispatch(setLocationOpenHoursEditModalOpen(false)) }}>Cancel</Button>
                     </Stack>
                 </CardContent>
@@ -110,3 +148,4 @@ export default function LocationOpenHoursEditModal() {
         </Modal>
     )
 }
+
