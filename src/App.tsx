@@ -140,30 +140,28 @@ function App() {
 
   return (
     <div className="App" id='AppContainer'>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          {!isSplashPage && <TopBar />}
-          {!isSplashPage && <BreadcrumbsComponent />}
-          <PartEditModal />
-          <PartDeleteModal />
-          <LocationEditModal />
-          <LocationDeleteModal />
-          <LocationOpenHoursEditModal />
-          <Routes>
-            <Route path='/' element={<Splash />} />
-            <Route path='catalog'>
-              <Route index element={<Catalog />} />
-              <Route path='parts' element={<Parts />} />
-              <Route path='parts/:id' element={<Part />} />
-              <Route path='locations' element={<Locations />} />
-              <Route path='locations/:id' element={<Location />} />
-              <Route path='tags' element={<Tags />} />
-              <Route path='tags/:name' element={<Tag />} />
-              <Route path='availability' element={<Inventories />} />
-            </Route>
-          </Routes>
-        </Provider>
-      </ThemeProvider>
+      <Provider store={store}>
+        {!isSplashPage && <TopBar />}
+        {!isSplashPage && <BreadcrumbsComponent />}
+        <PartEditModal />
+        <PartDeleteModal />
+        <LocationEditModal />
+        <LocationDeleteModal />
+        <LocationOpenHoursEditModal />
+        <Routes>
+          <Route path='/' element={<Splash />} />
+          <Route path='catalog'>
+            <Route index element={<Catalog />} />
+            <Route path='parts' element={<Parts />} />
+            <Route path='parts/:id' element={<Part />} />
+            <Route path='locations' element={<Locations />} />
+            <Route path='locations/:id' element={<Location />} />
+            <Route path='tags' element={<Tags />} />
+            <Route path='tags/:name' element={<Tag />} />
+            <Route path='availability' element={<Inventories />} />
+          </Route>
+        </Routes>
+      </Provider>
     </div>
   );
 }
