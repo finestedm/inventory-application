@@ -41,34 +41,37 @@ export default function Catalog(): JSX.Element {
 
 
     return (
-        <Container maxWidth={false}>
-            <Stack spacing={3}>
-                <Box sx={{ height: '300px' }}>
-
+        <>
+            <Container maxWidth={false}>
+                <Box sx={{ height: '300px', backgroundColor: 'red' }}>
                 </Box>
-                <Box maxWidth='xl'>
-                    <Stack direction='row' justifyContent='space-between'>
-                        <Typography variant='h5' noWrap>Browser newest parts:</Typography>
-                        <Button href="catalog/parts/">See all parts</Button>
-                    </Stack>
-                    <CardList parts={parts} />
-                </Box>
-                <Box maxWidth='xl'>
-                    <Stack direction='row' justifyContent='space-between'>
-                        <Typography variant='h5'>Our shops are in these cities:</Typography>
-                        <Button href="catalog/locations/">See all shops</Button>
-                    </Stack>
-                    <CardList locations={locations} />
-                </Box>
-                <Box maxWidth='xl'>
-                    <Typography variant='h5'>Look for products categorized by tags:</Typography>
-                    <TagCloud />
-                </Box>
-            </Stack>
-            <ul>
-                {Object.keys(catalogCounts).map(key => <li key={key}>{key}: {catalogCounts[key]}</li>)}
-            </ul>
-        </Container>
+            </Container>
+            <Container maxWidth='xl'>
+                <Stack spacing={3}>
+                    <Box>
+                        <Stack direction='row' justifyContent='space-between'>
+                            <Typography variant='h5' noWrap>Browser newest parts:</Typography>
+                            <Button href="catalog/parts/">See all parts</Button>
+                        </Stack>
+                        <CardList parts={parts} />
+                    </Box>
+                    <Box>
+                        <Stack direction='row' justifyContent='space-between'>
+                            <Typography variant='h5'>Our shops are in these cities:</Typography>
+                            <Button href="catalog/locations/">See all shops</Button>
+                        </Stack>
+                        <CardList locations={locations} />
+                    </Box>
+                    <Box>
+                        <Typography variant='h5'>Look for products categorized by tags:</Typography>
+                        <TagCloud />
+                    </Box>
+                </Stack>
+                <ul>
+                    {Object.keys(catalogCounts).map(key => <li key={key}>{key}: {catalogCounts[key]}</li>)}
+                </ul>
+            </Container >
+        </>
     )
 
 }
