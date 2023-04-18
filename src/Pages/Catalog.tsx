@@ -6,6 +6,7 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { ILocation } from "./Locations";
 import TagCloud from "../components/TagCloud";
 import { Link } from "react-router-dom";
+import CampaignCarousel from "@/components/CampaignCarousel";
 
 export default function Catalog(): JSX.Element {
 
@@ -42,9 +43,8 @@ export default function Catalog(): JSX.Element {
 
     return (
         <>
-            <Container maxWidth={false}>
-                <Box sx={{ height: '300px', backgroundColor: 'red' }}>
-                </Box>
+            <Container maxWidth={false} disableGutters  >
+                <CampaignCarousel />
             </Container>
             <Container maxWidth='xl'>
                 <Stack spacing={3}>
