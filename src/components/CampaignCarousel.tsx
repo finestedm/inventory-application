@@ -1,10 +1,13 @@
-import { Button, Container, Paper } from '@mui/material'
+import { Button, Container, Paper, Stack, Typography } from '@mui/material'
 import AMDCampaign from '../images/kUXqwojSyjxLhuni9Uw2uU-970-80.png.webp'
+import Intel from '../images/intel.jpg'
+import Asus from '../images/asus.jpg'
 import Carousel from 'react-material-ui-carousel';
 
 interface Iitem {
     name: string;
     description: string;
+    image: string
 }
 
 
@@ -13,12 +16,19 @@ export default function CampaignCarousel() {
     {
         var items: Iitem[] = [
             {
-                name: "Random Name #1",
-                description: "Probably the most random thing you have ever seen!"
+                name: "New Intel Notebooks",
+                description: "Check the available configurations!",
+                image: Intel
             },
             {
-                name: "Random Name #2",
-                description: "Hello World!"
+                name: "Asus",
+                description: "Hello World!",
+                image: Asus
+            },
+            {
+                name: "New AMD graphic cards",
+                description: "Best experience possible",
+                image: AMDCampaign
             }
         ]
 
@@ -55,14 +65,12 @@ export default function CampaignCarousel() {
 
 function Item(props: { item: Iitem }) {
     return (
-        <div style={{ backgroundImage: `url(${AMDCampaign})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '100%', paddingTop: '1rem' }}>
-            <Container maxWidth='xl'>
-                <h2>{props.item.name}</h2>
-                <p>{props.item.description}</p>
-
-                <Button className="CheckButton">
-                    Check it out!
-                </Button>
+        <div style={{ backgroundImage: `url(${props.item.image})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '100%', paddingTop: '1rem', position: 'relative' }}>
+            <Container maxWidth='xl' sx={{ position: 'absolute', bottom: '10%' }}>
+                <Stack>
+                    <Typography variant='h3'>{props.item.name}</Typography>
+                    <Typography variant='h4'>{props.item.description}</Typography>
+                </Stack>
             </Container>
         </div>
     )
