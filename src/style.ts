@@ -4,7 +4,13 @@ import shadows from "@mui/material/styles/shadows";
 export let theme = createTheme({})
 
 //shadows
-const shadowStandard = `${theme.palette.grey[400]} 0px 2px 4px`
+const shadowColor = 'hsla(220, 43%, 11%, 5%)'
+const shadowColorLg = 'hsla(220, 43%, 11%, 8%)'
+
+const shadow1 = `0px 1px 2px ${shadowColor}`
+const shadow2 = `0px 2px 4px ${shadowColorLg}`
+const shadow3 = `0px 5px 10px ${shadowColorLg}`
+const shadow4 = `0px 8px 15px ${shadowColorLg}`
 
 //borders
 const borderStandard = `1px solid ${theme.palette.grey[200]}`
@@ -14,7 +20,7 @@ const borderRadiusStandard = '.75rem'
 theme = createTheme(theme, {
 
     customShadows: {
-        standard: shadowStandard
+        standard: shadow1
     },
 
     customBorder: {
@@ -24,20 +30,28 @@ theme = createTheme(theme, {
         standard: borderStandard
     },
 
+    shadows: [
+        "none",
+        shadow1,
+        shadow2,
+        shadow3,
+        shadow4,
+        ...Array(20).fill('none')
+    ],
+
     components: {
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none',
                     borderRadius: borderRadiusStandard,
-                    border: borderStandard,
+                    // border: borderStandard,
                 }
             }
         },
         MuiCardContent: {
             styleOverrides: {
                 root: {
-                    padding: 0,
+                    padding: '.5rem',
                 }
             }
         },
@@ -58,11 +72,10 @@ theme = createTheme(theme, {
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    borderBottom: '1px solid',
                     borderColor: borderStandard,
                     backgroundColor: 'white',
-                    boxShadow: shadowStandard,
-                    height: '5rem',
+                    boxShadow: 2,
+                    color: 'black',
                 }
             }
         },

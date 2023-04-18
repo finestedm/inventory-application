@@ -10,7 +10,7 @@ export default function BreadcrumbsComponent() {
 
 
     return (
-        <Box className='breadcrumbsBox' sx={{ height: '3rem', boxShadow: theme.customShadows.standard, display: "flex", alignItems: "center" }}>
+        <Box className='breadcrumbsBox' sx={{ height: '3rem', boxShadow: 3, display: "flex", alignItems: "center", position: 'relative', zIndex: 10, backgroundColor: "white" }}>
             <Container maxWidth='xl'>
                 <Breadcrumbs separator="›" aria-label='breadcrumb'>
                     {pathnames.length ?

@@ -32,8 +32,9 @@ export default function CampaignCarousel() {
                     style: {
                         position: 'relative',
                         bottom: 0,
+                        paddingBottom: '1rem',
                         transform: 'translate(0%, -50%)',
-                        zIndex: 500000
+                        zIndex: 10
                     }
                 }}
                 indicatorIconButtonProps={{
