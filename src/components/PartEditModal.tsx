@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 import { IPart } from "../Pages/Parts";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setPartData } from "../App";
+import { setPartEditModalOpen, RootState, setPartData } from "../features/modalSlide";
 import { IError } from "./interfaces";
 
 export default function PartEditModal() {

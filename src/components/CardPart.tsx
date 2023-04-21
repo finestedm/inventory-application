@@ -4,7 +4,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../App";
+import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../features/modalSlide";
 import deletePart from '../methods/deletePart';
 
 interface CardProps extends React.PropsWithChildren<{}> {
@@ -23,7 +23,7 @@ export default function CardPart({ part }: CardProps) {
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ position: 'relative'}} >
+      <Card sx={{ position: 'relative' }} >
         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 15 }} onClick={handleAnchorSetting}>
           <MoreVertIcon sx={{ color: 'black' }} />
         </Button>

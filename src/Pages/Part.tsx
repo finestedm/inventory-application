@@ -7,7 +7,7 @@ import { IInventory } from "./Inventories";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen } from "../App";
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen } from "../features/modalSlide";
 import deletePart from "../methods/deletePart";
 
 

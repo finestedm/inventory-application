@@ -5,7 +5,7 @@ import { Button, Container, Typography } from "@mui/material";
 import NewPartModal from "../components/PartEditModal";
 import CardList from "../components/CardList";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartEditModalOpen } from "../App";
+import { RootState, setPartEditModalOpen } from "../features/modalSlide";
 
 // declare types
 

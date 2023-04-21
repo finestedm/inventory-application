@@ -5,7 +5,7 @@ import { Typography, CircularProgress, Button, Container, Grid, Skeleton, Menu, 
 import { ILocation } from "./Locations";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../App";
+import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../features/modalSlide";
 import LocationMap from "../components/LocationMap";
 
 

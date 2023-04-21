@@ -2,7 +2,7 @@ import { Box, Link, Breadcrumbs, Typography, Stack, Container } from "@mui/mater
 import { useLocation, useNavigate } from "react-router-dom";
 import { theme } from '../style'
 
-export default function BreadcrumbsComponent() {
+export default function BreadcrumbsComponent(): JSX.Element {
 
     const navigate = useNavigate();
     const { pathname } = useLocation();

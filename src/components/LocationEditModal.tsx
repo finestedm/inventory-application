@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ITag } from "../Pages/Tags";
 import { IPart } from "../Pages/Parts";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../App";
+import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../features/modalSlide";
 import { IError } from "./interfaces";
 import { ILocation } from "../Pages/Locations";
 

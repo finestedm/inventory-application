@@ -3,7 +3,7 @@ import { ILocation } from '../Pages/Locations';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from '../App';
+import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen } from '../features/modalSlide';
 import LocationMap from './LocationMap';
 
 

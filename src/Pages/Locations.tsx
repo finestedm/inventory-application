@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Button, Container, Typography } from "@mui/material";
 import CardList from "../components/CardList";
 import { useDispatch } from "react-redux";
-import { setLocationEditModalOpen } from "../App";
+import { setLocationEditModalOpen } from "../features/modalSlide";
 
 export interface OpeningHours {
     day: string; // This could be restricted to a specific set of values, e.g. 'monday', 'tuesday', etc.
