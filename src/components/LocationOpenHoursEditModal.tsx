@@ -73,6 +73,7 @@ export default function LocationOpenHoursEditModal() {
                     <Stack direction='row' spacing={2} alignItems='center'>
                         <FormControlLabel   // this switch controls hours. On switch close -> open we set 0:00 because on empty string this switch is automatically set to isClosed state. This resets previously set time! For now it's disabled and we will have to check on submit if this day isClosed -> then we will have to set hours to empty stings
                             control={<Switch
+                                id={`${day}-switch`}
                                 checked={!isClosed}
                                 onChange={e => {
                                     setIsClosed(!isClosed)
