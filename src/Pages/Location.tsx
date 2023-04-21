@@ -34,11 +34,11 @@ export default function Location(): JSX.Element {
     if (location) {
         return (
             <Container maxWidth='xl'>
-                <Grid container sx={{ marginTop: 0 }} spacing={12}>
-                    <Grid xs={12} sm={6}>
+                <Grid container sx={{ marginTop: 0 }} spacing={5}>
+                    <Grid item xs={12} sm={6}>
                         <LocationMap city={location.city} street={location.street} />
                     </Grid>
-                    <Grid xs={12} md={6} position='relative'>
+                    <Grid item xs={12} md={6} position='relative'>
 
                         <Button sx={{ position: 'absolute', zIndex: 1000, right: 25 }} onClick={handleAnchorSetting}>
                             <MoreVertIcon sx={{ color: 'black' }} />

@@ -39,11 +39,11 @@ export default function Part(): JSX.Element {
     if (part && inventory) {
         return (
             <Container maxWidth='xl'>
-                <Grid container sx={{ marginTop: 0 }} spacing={12}>
-                    <Grid xs={12} sm={6}>
+                <Grid container sx={{ marginTop: 0 }} spacing={5}>
+                    <Grid item xs={12} sm={6}>
                         <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
                     </Grid>
-                    <Grid xs={12} sm={6} position='relative'>
+                    <Grid item xs={12} sm={6} position='relative'>
 
                         <Button sx={{ position: 'absolute', zIndex: 1000, right: 25 }} onClick={handleAnchorSetting}>
                             <MoreVertIcon sx={{ color: 'black' }} />
@@ -61,7 +61,7 @@ export default function Part(): JSX.Element {
                                 dispatch(setPartData(part))
                             }
                             }>Edit</MenuItem>
-                            <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part }) ) }
+                            <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }
                             }>Delete</MenuItem>
                         </Menu>
 
