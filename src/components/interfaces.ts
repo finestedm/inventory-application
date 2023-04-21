@@ -1,5 +1,5 @@
 export interface IError {
-    value: string,
+    value?: string,
     msg: string,
     param: string
 }

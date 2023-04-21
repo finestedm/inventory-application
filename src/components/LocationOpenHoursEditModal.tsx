@@ -25,6 +25,9 @@ export default function LocationOpenHoursEditModal() {
 
 
     async function editLocationOpeningHours(locationData: ILocation) {
+        if (!validateOpeningHours(locationData)) {
+            return;
+        }
         try {
             const response = await axios.post(`/locations/edit_location_hours`, locationData)
             dispatch(setLocationOpenHoursEditModalOpen(false));
@@ -35,11 +38,31 @@ export default function LocationOpenHoursEditModal() {
         }
     }
 
+    function validateOpeningHours(locationData: ILocation) {
+        const newErrors: IError[] = [];
+        locationData.openingHours.forEach((dayData) => {
+            if (dayData.open && dayData.close) {
+                const openTime = dayjs(dayData.open, 'H:mm');
+                const closeTime = dayjs(dayData.close, 'H:mm');
+                if (closeTime.isBefore(openTime)) {
+                    newErrors.push({
+                        param: `openingHours.${dayData.day}.close`,
+                        msg: 'Closing time must be later than opening time'
+                    });
+                }
+            }
+        });
+        setErrors(newErrors);
+        return newErrors.length === 0;
+    }
+
     function DayOpenCloseTimePickers({ day }: any) {
 
         const currentDay = (locationData.openingHours.find(dayData => dayData.day === day.day))
 
         const [isClosed, setIsClosed] = useState(currentDay?.open === '' && currentDay.close === '');
+
+        const closingTimeError = errors.find((error) => error.param === `openingHours.${day.day}.close`);
 
         return (
             <Grid container spacing={1} flex={1} alignItems='center'>
@@ -53,15 +76,6 @@ export default function LocationOpenHoursEditModal() {
                                 checked={!isClosed}
                                 onChange={e => {
                                     setIsClosed(!isClosed)
-                                    // dispatch(setLocationData({
-                                    //     ...locationData,
-                                    //     openingHours: locationData.openingHours.map((dayData) => { 
-                                    //         if (dayData.day === day.day) {
-                                    //             return isClosed ? { ...dayData, open: '0:00', close: '0:00' } : { ...dayData, open: '', close: '' };
-                                    //         }
-                                    //         return dayData;
-                                    //     }),
-                                    // }))
                                 }}
                             />}
                             label={isClosed ? 'Closed' : 'Opened'}
