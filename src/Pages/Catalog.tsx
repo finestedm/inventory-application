@@ -63,7 +63,10 @@ export default function Catalog(): JSX.Element {
                         <CardList locations={locations} />
                     </Box>
                     <Box>
-                        <Typography variant='h5'>Look for products categorized by tags:</Typography>
+                        <Stack direction='row' justifyContent='space-between'>
+                            <Typography variant='h5'>Look for products categorized by tags:</Typography>
+                            <Button href="catalog/tags/">Browse all tags</Button>
+                        </Stack>
                         <TagCloud />
                     </Box>
                 </Stack>
