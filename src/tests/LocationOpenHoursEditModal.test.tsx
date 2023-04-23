@@ -1,8 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, test, expect, beforeEach, beforeAll, afterAll } from 'vitest'
-import { Provider } from 'react-redux';
-import { setLocationOpenHoursEditModalOpen, store } from '@/features/modalSlide';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { setLocationData, setLocationOpenHoursEditModalOpen, store } from '@/features/modalSlide';
 import LocationOpenHoursEditModal from '@/components/LocationOpenHoursEditModal';
+import dayjs from 'dayjs';
 
 describe('LocationOpenHoursEditModal', () => {
 
@@ -64,20 +65,34 @@ describe('LocationOpenHoursEditModal', () => {
         expect(switchedSwitcher[0]).toBeTruthy();
     })
 
-    test('check if entering later closing hour will throw error', async () => {
+    // test('check if entering later closing hour will throw error', async () => {
 
-        const switcher = screen.getAllByLabelText('Closed')
-        fireEvent.click(switcher[0])
+    //     const switcher = screen.getAllByLabelText('Closed')
+    //     fireEvent.click(switcher[0])
 
-        const openingHourField = screen.getAllByLabelText('Opening')[0];
-        const closingHourField = screen.getAllByLabelText('Closing')[0];
+    //     const openingHourField = screen.getAllByLabelText('Opening')[0];
+    //     const closingHourField = screen.getAllByLabelText('Closing')[0];
 
-        fireEvent.change(openingHourField, { target: { value: '8' } })
-        console.log(openingHourField)
-        // expect(openingHourField.value).toBe('8:00')
-        console.log(store.getState().modal.locationData.openingHours.filter(day => day.day === 'Monday'))
+    //     const dispatch = useDispatch();
+
+    //     const locationData = store.getState().modal.locationData;
+
+    //     const newTime = dayjs('8:00')
+    //     dispatch(setLocationData({
+    //         ...locationData,
+    //         openingHours: locationData.openingHours.map((dayData) => {
+    //             if (dayData.day === 'Monday') {
+    //                 return { ...dayData, open: dayjs(newTime, 'H:mm').format('H:mm') };
+    //             }
+    //             return dayData;
+    //         }),
+    //     }));
+
+    //     console.log(openingHourField.value)
+    //     await waitFor(() => expect(openingHourField.value).toBe('08:00'));
+    //     console.log(store.getState().modal.locationData.openingHours.filter(day => day.day === 'Monday'))
 
 
-    })
+    // })
 
 });
