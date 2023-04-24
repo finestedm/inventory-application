@@ -13,10 +13,6 @@ export default function TagCloud(): JSX.Element {
             .then((response) => setTags(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(tags)
-    }, [tags])
-
     if (tags) {
         return (
             <Box>

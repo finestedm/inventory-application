@@ -150,7 +150,7 @@ export default function LocationOpenHoursEditModal() {
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
                         {(locationData.openingHours).map(day => (
-                            <DayOpenCloseTimePickers day={day} />))}
+                            <DayOpenCloseTimePickers key={day} day={day} />))}
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         <Button onClick={() => editLocationOpeningHours(locationData)}>Edit part data</Button>

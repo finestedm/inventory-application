@@ -1,4 +1,4 @@
-import Tags from '@/Pages/Tags'
+import TagCloud from '@/components/TagCloud'
 import { render, screen } from '@testing-library/react'
 import { describe, it, beforeEach, expect, afterEach } from 'vitest'
 import axios from 'axios';
@@ -24,7 +24,7 @@ describe('Tags', () => {
         ]);
 
         // Render the component
-        render(<Tags />);
+        render(<TagCloud />);
 
         // Wait for the tags to load
         await screen.findByText('Tag1');
