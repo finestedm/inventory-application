@@ -7,13 +7,27 @@ import { Box, Chip, CircularProgress, Stack } from "@mui/material"
 export default function TagCloud(): JSX.Element {
 
     const [tags, setTags] = useState<ITag[]>([])
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios.get('/tags')
-            .then((response) => setTags(response.data))
+            .then((response) => {
+                setTags(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
     }, [])
 
-    if (tags.length > 0) { // change this!
+    if (loading) { // change this!
+        return (
+            < CircularProgress
+                role="progressbar"
+            />
+        )
+    } else {
         return (
             <Box>
                 {tags.map(tag =>
@@ -26,12 +40,6 @@ export default function TagCloud(): JSX.Element {
                     />
                 )}
             </Box>
-        )
-    } else {
-        return (
-            < CircularProgress
-                role="progressbar"
-            />
         )
     }
 }

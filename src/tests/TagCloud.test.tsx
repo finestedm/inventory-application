@@ -15,13 +15,15 @@ describe('Tags', () => {
         axiosMock.restore();
     });
 
+    const tags = [
+        { _id: '1', name: 'Tag1' },
+        { _id: '2', name: 'Tag2' },
+        { _id: '3', name: 'Tag3' },
+    ]
+
     it('renders the list of tags', async () => {
         // Mock the axios.get() call
-        axiosMock.onGet('/tags').reply(200, [
-            { _id: '1', name: 'Tag1' },
-            { _id: '2', name: 'Tag2' },
-            { _id: '3', name: 'Tag3' },
-        ]);
+        axiosMock.onGet('/tags').reply(200, tags);
 
         // Render the component
         render(<TagCloud />);
@@ -38,42 +40,36 @@ describe('Tags', () => {
     });
 
 
-    it('shows a loading indicator while tags are being fetched', async () => {
-        // Mock the axios.get() call
-        axiosMock.onGet('/tags').reply(() => {
-            return new Promise((resolve) => setTimeout(() => resolve([200, []]), 1000));
-        });
+    it('displays a loading spinner when fetching tags', async () => {
+        // Mock the axios get() call to return an empty array
+        axiosMock.onGet('/tags').reply(200, []);
 
-        // Render the component
-        render(<TagCloud />);
+        // Render the TagCloud component
+        render(<TagCloud />)
 
-        // Verify that the loading indicator is displayed
-        expect(screen.getByRole('progressbar')).toBeTruthy();
+        // Verify that the loading spinner is displayed
+        expect(screen.getByRole('progressbar')).toBeTruthy()
 
-        // Wait for the tags to load
-        await screen.findByRole('link');
-
-        // Verify that the loading indicator is no longer displayed
-        expect(screen.queryByRole('progressbar')).toBeNull();
-    });
+        // Wait for the component to finish loading
+        await waitFor(() => {
+            expect(screen.queryByRole('progressbar')).toBeFalsy()
+        })
+    })
 
     it('displays tags when they are fetched', async () => {
-        // Mock the axios.get() call
-        const mockTags = [{ _id: 1, name: 'tag1' }, { _id: 2, name: 'tag2' }];
-        axiosMock.onGet('/tags').reply(200, mockTags);
+        // Mock the axios get() call to return some tags
+        axiosMock.onGet('/tags').reply(200, tags)
 
-        // Render the component
-        render(<TagCloud />);
+        // Render the TagCloud component
+        render(<TagCloud />)
 
-        // Wait for the tags to load
-        await screen.findByRole('link');
+        // Wait for the component to finish loading
+        await waitFor(() => {
+            expect(screen.queryByRole('progressbar')).toBeFalsy()
+        })
 
         // Verify that the tags are displayed
-        const tagLinks = screen.getAllByRole('link');
-        expect(tagLinks).toHaveLength(2);
-        // expect(tagLinks[0]).toHaveAttribute('href', '/catalog/tags/tag1');
-        // expect(tagLinks[0]).toHaveTextContent('tag1');
-        // expect(tagLinks[1]).toHaveAttribute('href', '/catalog/tags/tag2');
-        // expect(tagLinks[1]).toHaveTextContent('tag2');
-    });
+        expect(screen.getByText('Tag1')).toBeTruthy()
+        expect(screen.getByText('Tag2')).toBeTruthy()
+    })
 });
