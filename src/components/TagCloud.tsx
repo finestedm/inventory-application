@@ -13,7 +13,7 @@ export default function TagCloud(): JSX.Element {
             .then((response) => setTags(response.data))
     }, [])
 
-    if (tags) {
+    if (tags.length > 0) { // change this!
         return (
             <Box>
                 {tags.map(tag =>
@@ -26,11 +26,12 @@ export default function TagCloud(): JSX.Element {
                     />
                 )}
             </Box>
-            
         )
     } else {
         return (
-            < CircularProgress />
+            < CircularProgress
+                role="progressbar"
+            />
         )
     }
 }
