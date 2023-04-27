@@ -1,8 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { ITag } from './Tags'
+import { ITag, IPart } from "@/components/interfaces";
 import { useParams } from "react-router-dom";
-import { IPart } from "./Parts";
+
 import CardList from "../components/CardList";
 import { Container, Typography } from "@mui/material";
 
@@ -10,7 +10,7 @@ export default function Tag(): JSX.Element {
 
     const params = useParams();
 
-    // set initial states of catalogCounts with declared types of data
+    // set initial states tag and parts which use this tag
     const [tag, setTag] = useState<ITag>()
     const [partsTagged, setPartsTagged] = useState<IPart[]>()
 

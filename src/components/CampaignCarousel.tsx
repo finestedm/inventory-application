@@ -3,18 +3,12 @@ import AMDCampaign from '../images/kUXqwojSyjxLhuni9Uw2uU-970-80.png.webp'
 import Intel from '../images/intel.jpg'
 import Asus from '../images/asus.jpg'
 import Carousel from 'react-material-ui-carousel';
-
-interface Iitem {
-    name: string;
-    description: string;
-    image: string
-}
-
+import { ICampaignItem } from './interfaces';
 
 export default function CampaignCarousel() {
 
     {
-        var items: Iitem[] = [
+        var items: ICampaignItem[] = [
             {
                 name: "New Intel Notebooks",
                 description: "Check the available configurations!",
@@ -63,7 +57,7 @@ export default function CampaignCarousel() {
 }
 
 
-function Item(props: { item: Iitem }) {
+function Item(props: { item: ICampaignItem }) {
     return (
         <div style={{ backgroundImage: `url(${props.item.image})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '100%', paddingTop: '1rem', position: 'relative' }}>
             <Container maxWidth='xl' sx={{ position: 'absolute', bottom: '10%' }}>

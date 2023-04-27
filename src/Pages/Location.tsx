@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Typography, CircularProgress, Button, Container, Grid, Skeleton, Menu, MenuItem, Stack, Divider, useTheme } from "@mui/material";
-import { ILocation } from "./Locations";
+import { ILocation } from "@/components/interfaces";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
 import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../features/modalSlide";

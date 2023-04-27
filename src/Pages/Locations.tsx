@@ -4,24 +4,7 @@ import { Button, Container, Typography } from "@mui/material";
 import CardList from "../components/CardList";
 import { useDispatch } from "react-redux";
 import { setLocationEditModalOpen } from "../features/modalSlide";
-
-export interface OpeningHours {
-    day: string; // This could be restricted to a specific set of values, e.g. 'monday', 'tuesday', etc.
-    open: string;
-    close: string;
-}
-
-export interface ILocation {
-    _id: string;
-    zip: string;
-    street: string;
-    city: string;
-    country: string;
-    openingHours: OpeningHours[];
-    phoneNumber: string;
-    email: string
-}
-
+import { ILocation } from "@/components/interfaces";
 
 export default function Parts(): JSX.Element {
 

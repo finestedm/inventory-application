@@ -1,6 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { ILocation } from "../Pages/Locations";
-import { IPart } from "../Pages/Parts";
+import { ILocation, IPart } from "./interfaces";
 import CardPart from "./CardPart";
 import CardLocation from "./CardLocation";
 

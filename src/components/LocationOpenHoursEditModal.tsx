@@ -2,12 +2,9 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Grid, Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button, Switch, FormControlLabel, FormHelperText } from "@mui/material";
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { ITag } from "../Pages/Tags";
-import { IPart } from "../Pages/Parts";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../features/modalSlide";
-import { IError } from "./interfaces";
-import { ILocation, OpeningHours } from "../Pages/Locations";
+import { IError, ITag, IPart, ILocation, OpeningHours } from "./interfaces";
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -58,7 +55,7 @@ export default function LocationOpenHoursEditModal() {
 
     function DayOpenCloseTimePickers({ day }: any) {
 
-        const currentDay = (locationData.openingHours.find(dayData => dayData.day === day.day))
+        const currentDay = (locationData.openingHours.find((dayData: OpeningHours) => dayData.day === day.day))
 
         const [isClosed, setIsClosed] = useState(currentDay?.open === '' && currentDay.close === '');
 
@@ -94,7 +91,7 @@ export default function LocationOpenHoursEditModal() {
                                         const newTime = dayjs(e, 'H:mm');
                                         dispatch(setLocationData({
                                             ...locationData,
-                                            openingHours: locationData.openingHours.map((dayData) => {
+                                            openingHours: locationData.openingHours.map((dayData: OpeningHours) => {
                                                 if (dayData.day === day.day) {
                                                     return { ...dayData, open: dayjs(newTime, 'H:mm').format('H:mm') };
                                                 }
@@ -119,7 +116,7 @@ export default function LocationOpenHoursEditModal() {
                                         const newTime = dayjs(e, 'H:mm');
                                         dispatch(setLocationData({
                                             ...locationData,
-                                            openingHours: locationData.openingHours.map((dayData) => {
+                                            openingHours: locationData.openingHours.map((dayData: OpeningHours) => {
                                                 if (dayData.day === day.day) {
                                                     return { ...dayData, close: dayjs(newTime).format('H:mm') };
                                                 }
@@ -149,7 +146,7 @@ export default function LocationOpenHoursEditModal() {
                 <CardHeader title='Edit opening hours' sx={{ px: 0 }} />
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
-                        {(locationData.openingHours).map(day => (
+                        {(locationData.openingHours).map((day : OpeningHours["day"]) => (
                             <DayOpenCloseTimePickers key={day} day={day} />))}
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">

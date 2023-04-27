@@ -1,9 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import CardList from "../components/CardList";
-import { IPart } from "./Parts";
+import { IPart, ILocation } from "@/components/interfaces";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { ILocation } from "./Locations";
 import TagCloud from "../components/TagCloud";
 import { Link } from "react-router-dom";
 import CampaignCarousel from "@/components/CampaignCarousel";

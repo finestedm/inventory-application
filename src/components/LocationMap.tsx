@@ -2,15 +2,7 @@ import { Skeleton } from "@mui/material";
 import React, { Component, useEffect, useState } from 'react';
 import { GoogleMap, LoadScript, useLoadScript } from '@react-google-maps/api';
 import axios from "axios";
-
-
-
-interface ILocationMapProps {
-    city: string;
-    street: string
-    options?: object
-}
-
+import { ILocationMapProps } from "./interfaces";
 
 export default function LocationMap({ city, street, options }: ILocationMapProps) {
 

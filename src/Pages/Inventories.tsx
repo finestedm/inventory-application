@@ -1,14 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { IPart } from "./Parts";
-import { ILocation } from "./Locations";
-
-export interface IInventory {
-    _id?: string;
-    part?: IPart;
-    location?: ILocation;
-    available?: number
-}
+import { IInventory } from "@/components/interfaces"
 
 export default function Inventories(): JSX.Element {
 

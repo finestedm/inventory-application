@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { ITag } from "../Pages/Tags"
+import { ITag } from "./interfaces"
 import { Box, Chip, CircularProgress, Stack } from "@mui/material"
 
 
