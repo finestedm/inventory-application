@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, setPartDeleteModalOpen } from "../features/modalSlide";
+import { RootState, setPartDeleteModalOpen } from "../../features/modalSlide";
 import { Button, Card, CardActionArea, CardContent, CardHeader, Modal, Stack } from "@mui/material";
 import { useNavigate, useLocation } from 'react-router-dom';
-import deletePart from "../methods/deletePart";
+import deletePart from "../../methods/deletePart";
 
 
 export default function PartDeleteModal(): JSX.Element {

@@ -2,9 +2,17 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button } from "@mui/material";
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD:src/components/PartEditModal.tsx
 import { ITag, IPart, IError } from "./interfaces";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setPartData } from "../features/modalSlide";
+=======
+import { ITag } from "../../Pages/Tags";
+import { IPart } from "../../Pages/Parts";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartEditModalOpen, RootState, setPartData } from "../../features/modalSlide";
+import { IError } from "../interfaces";
+>>>>>>> 6e77683 (modal complete):src/components/Modals/PartEditModal.tsx
 
 export default function PartEditModal() {
 

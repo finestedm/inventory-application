@@ -2,9 +2,18 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Grid, Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button, Switch, FormControlLabel, FormHelperText } from "@mui/material";
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD:src/components/LocationOpenHoursEditModal.tsx
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../features/modalSlide";
 import { IError, ITag, IPart, ILocation, OpeningHours } from "./interfaces";
+=======
+import { ITag } from "../../Pages/Tags";
+import { IPart } from "../../Pages/Parts";
+import { useSelector, useDispatch } from "react-redux";
+import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../../features/modalSlide";
+import { IError } from "../interfaces";
+import { ILocation, OpeningHours } from "../../Pages/Locations";
+>>>>>>> 6e77683 (modal complete):src/components/Modals/LocationOpenHoursEditModal.tsx
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

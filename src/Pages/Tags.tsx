@@ -1,15 +1,18 @@
 import TagCloud from "@/components/TagCloud";
-import { Button, Container, Menu } from "@mui/material";
+import { setTagEditModalOpen } from "@/features/modalSlide";
+import { Button, Container, Menu, Typography } from "@mui/material";
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux";
 
 export default function Tags(): JSX.Element {
 
-    const [newTagMenuOpen, setNewTagMenuOpen] = useState(false)
+    const dispatch = useDispatch();
 
     return (
         <Container maxWidth='xl'>
-            <h2>List of tags</h2>
+            <Typography variant="h4">List of Tags</Typography>
+            <Button onClick={() => dispatch(setTagEditModalOpen(true))}> Add new tag </Button>
             <TagCloud />
         </Container>
     )

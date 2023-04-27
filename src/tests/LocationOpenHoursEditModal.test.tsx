@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, test, expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { setLocationData, setLocationOpenHoursEditModalOpen, store } from '@/features/modalSlide';
-import LocationOpenHoursEditModal from '@/components/LocationOpenHoursEditModal';
+import LocationOpenHoursEditModal from '@/components/Modals/LocationOpenHoursEditModal';
 import dayjs from 'dayjs';
 
 describe('LocationOpenHoursEditModal', () => {

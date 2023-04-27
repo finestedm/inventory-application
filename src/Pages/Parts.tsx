@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Button, Container, Typography } from "@mui/material";
-import NewPartModal from "../components/PartEditModal";
+import NewPartModal from "../components/Modals/PartEditModal";
 import CardList from "../components/CardList";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, setPartEditModalOpen } from "../features/modalSlide";

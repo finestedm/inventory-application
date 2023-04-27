@@ -13,19 +13,16 @@ import Tag from './Pages/Tag';
 import TopBar from './components/TopBar';
 import BreadcrumbsComponent from './components/Breadcrumbs';
 import { Provider } from "react-redux";
-import PartEditModal from './components/PartEditModal';
-import PartDeleteModal from './components/PartDeleteModal';
-import {store} from './features/modalSlide'
-import LocationEditModal from './components/LocationEditModal';
-import LocationDeleteModal from './components/LocationDeleteModal';
-import LocationOpenHoursEditModal from './components/LocationOpenHoursEditModal';
+import PartEditModal from './components/Modals/PartEditModal';
+import PartDeleteModal from './components/Modals/PartDeleteModal';
+import { store } from './features/modalSlide'
+import LocationEditModal from './components/Modals/LocationEditModal';
+import LocationDeleteModal from './components/Modals/LocationDeleteModal';
+import LocationOpenHoursEditModal from './components/Modals/LocationOpenHoursEditModal';
+import TagEditModal from './components/Modals/TagEditModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
-
-// Part Modal for new parts and editing existing - boilerplate
-
-// Part Modal for new parts and editing existing - boilerplate
 
 function App() {
   const location = useLocation();
@@ -41,6 +38,7 @@ function App() {
         <LocationEditModal />
         <LocationDeleteModal />
         <LocationOpenHoursEditModal />
+        <TagEditModal />
         <Routes>
           <Route path='/' element={<Splash />} />
           <Route path='catalog'>

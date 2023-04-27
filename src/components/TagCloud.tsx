@@ -23,7 +23,7 @@ export default function TagCloud(): JSX.Element {
 
     if (loading) { // change this!
         return (
-            < CircularProgress
+            <CircularProgress
                 role="progressbar"
             />
         )

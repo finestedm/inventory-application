@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, setLocationDeleteModalOpen } from "../features/modalSlide";
+import { RootState, setLocationDeleteModalOpen } from "../../features/modalSlide";
 import { Button, Card, CardActionArea, CardContent, CardHeader, Modal, Stack } from "@mui/material";
 import { useNavigate, useLocation } from 'react-router-dom';
-import deleteLocation from "../methods/deleteLocation";
+import deleteLocation from "../../methods/deleteLocation";
 
 
 export default function LocationDeleteModal(): JSX.Element {
