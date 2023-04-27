@@ -1,8 +1,9 @@
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Catalog from './Pages/Catalog'
-import Parts, { IPart } from './Pages/Parts';
-import Locations, { ILocation, OpeningHours } from './Pages/Locations'
+import Parts from './Pages/Parts';
+import Locations from './Pages/Locations'
+import { IPart, ILocation, OpeningHours } from './components/interfaces';
 import Inventories from './Pages/Inventories'
 import Tags from './Pages/Tags';
 import Splash from './Pages/Splash';

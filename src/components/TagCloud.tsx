@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { ITag } from "./interfaces"
-import { Box, Chip, CircularProgress, Stack } from "@mui/material"
+import { Box, Chip, CircularProgress, Grid, Stack } from "@mui/material"
 
 
 export default function TagCloud(): JSX.Element {
@@ -29,17 +29,19 @@ export default function TagCloud(): JSX.Element {
         )
     } else {
         return (
-            <Box>
+            <Grid container spacing={2}>
                 {tags.map(tag =>
-                    <Chip
-                        key={tag._id}
-                        href={`/catalog/tags/${tag.name}`}
-                        label={tag.name}
-                        component="a"
-                        clickable
-                    />
+                    <Grid item>
+                        <Chip
+                            key={tag._id}
+                            href={`/catalog/tags/${tag.name}`}
+                            label={tag.name}
+                            component="a"
+                            clickable
+                        />
+                    </Grid>
                 )}
-            </Box>
+            </Grid>
         )
     }
 }

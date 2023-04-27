@@ -2,18 +2,9 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Modal, Box, Typography, Card, CardContent, CardHeader, TextField, FormControl, InputAdornment, Autocomplete, Stack, Paper, Button } from "@mui/material";
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD:src/components/LocationEditModal.tsx
-import { ITag, IPart, ILocation, IError } from "./interfaces";
-import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../features/modalSlide";
-=======
-import { ITag } from "../../Pages/Tags";
-import { IPart } from "../../Pages/Parts";
+import { ITag, IPart, ILocation, IError } from "../interfaces";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../../features/modalSlide";
-import { IError } from "../interfaces";
-import { ILocation } from "../../Pages/Locations";
->>>>>>> 6e77683 (modal complete):src/components/Modals/LocationEditModal.tsx
 
 export default function LocationEditModal() {
 
