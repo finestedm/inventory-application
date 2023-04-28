@@ -21,6 +21,7 @@ import LocationEditModal from './components/Modals/LocationEditModal';
 import LocationDeleteModal from './components/Modals/LocationDeleteModal';
 import LocationOpenHoursEditModal from './components/Modals/LocationOpenHoursEditModal';
 import TagEditModal from './components/Modals/TagEditModal';
+import Footer from './components/Footer';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -53,6 +54,7 @@ function App() {
             <Route path='availability' element={<Inventories />} />
           </Route>
         </Routes>
+        {!isSplashPage && <Footer />}
       </Provider>
     </div>
   );
