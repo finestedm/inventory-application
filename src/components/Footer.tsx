@@ -1,10 +1,11 @@
-import { Box, Stack, Typography, Container } from "@mui/material";
+import { Box, Stack, Typography, Container, useTheme } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 
 export default function Footer(): JSX.Element {
+    const theme = useTheme();
     return (
-        <Box component='footer'>
+        <Box component='footer' sx={{ backgroundColor: `${blueGrey[900]}`, color: 'white', pb: 2, pt: 4, mt: 'auto' }}>
             <Container maxWidth="xl">
-
                 <Stack className="footer--stack-top" direction='row' flex={1} justifyContent='space-between'>
                     <img alt="Logo"></img>
                     <Stack className="footer--stack-nav" direction='row'>
@@ -25,7 +26,7 @@ export default function Footer(): JSX.Element {
                     </Stack>
                 </Stack>
                 <Stack direction='row' flex={1}>
-                    <p style={{marginRight:'auto'}}>all right reserved blablabla</p>
+                    <p style={{ marginRight: 'auto' }}>all right reserved blablabla</p>
                     <a>Instagram Link</a>
                     <a>Facebook link</a>
                 </Stack >
