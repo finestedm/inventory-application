@@ -1,6 +1,4 @@
-import { ILocation, OpeningHours } from "@/Pages/Locations";
-import { IPart } from "@/Pages/Parts";
-import { ITag } from "@/Pages/Tags";
+import { ILocation, OpeningHours, IPart, ITag } from "@/components/interfaces";
 import { PayloadAction, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
 
 interface IModalState {
@@ -13,6 +11,7 @@ interface IModalState {
   locationOpenHoursEditModalOpen: boolean;
   tagEditModalOpen: boolean;
   tagData: ITag;
+  tagDeleteModalOpen: boolean
 }
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -49,7 +48,8 @@ const initialState: IModalState = {
   tagData: {
     _id: '',
     name: ''
-  }
+  },
+  tagDeleteModalOpen: false,
 };
 
 
@@ -106,6 +106,10 @@ const modalSlice = createSlice({
     setTagData(state, action: PayloadAction<ITag>) {
       state.tagData = action.payload;
     },
+    setTagDeleteModalOpen: (state, action: PayloadAction<{ tagDeleteModalOpen: boolean, tagData?: ITag }>) => {
+      state.tagDeleteModalOpen = action.payload.tagDeleteModalOpen;
+      state.tagData = action.payload.tagData ? action.payload.tagData : state.tagData = initialState.tagData;
+    },
   },
 });
 
@@ -117,5 +121,5 @@ export const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>

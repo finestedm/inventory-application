@@ -31,9 +31,10 @@ export default function TagCloud(): JSX.Element {
         return (
             <Grid container spacing={2}>
                 {tags.map(tag =>
-                    <Grid item>
+                    <Grid item
+                        key={tag._id}
+                    >
                         <Chip
-                            key={tag._id}
                             href={`/catalog/tags/${tag.name}`}
                             label={tag.name}
                             component="a"

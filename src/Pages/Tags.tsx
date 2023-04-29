@@ -10,7 +10,7 @@ export default function Tags(): JSX.Element {
     const dispatch = useDispatch();
 
     return (
-        <Container maxWidth='xl'>
+        <Container maxWidth='xl' sx={{ py: 5 }}>
             <Typography variant="h4">List of Tags</Typography>
             <Button onClick={() => dispatch(setTagEditModalOpen(true))}> Add new tag </Button>
             <TagCloud />
