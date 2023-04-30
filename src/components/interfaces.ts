@@ -10,7 +10,8 @@ export interface IPart {
     manufacturer: string;
     price: number;
     tags: ITag[];
-    createdAt?: Date
+    createdAt?: Date;
+    photo?: string
 }
 
 export interface ITag {

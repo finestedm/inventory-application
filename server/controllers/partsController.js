@@ -2,6 +2,7 @@
 import Part from '../models/part.js'
 import { body, validationResult, check } from 'express-validator';
 import validator from 'validator';
+import multer from 'multer'
 
 export async function part_list(req, res) {
 
@@ -174,11 +175,25 @@ export async function edit_part(req, res) {
         tags
     };
 
-    console.log(newData)
-
     try {
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
-        res.status(201).json(updatedPart);
+
+        // Handle photo upload
+        upload.single('photo')(req, res, async (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send({ error: 'Server error' });
+            }
+
+            if (req.file) {
+                // Update the part with the photo
+                updatedPart.photo = req.file.buffer;
+
+                await updatedPart.save();
+            }
+
+            res.status(201).json(updatedPart);
+        });
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
