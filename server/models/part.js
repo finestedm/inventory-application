@@ -8,7 +8,7 @@ const PartSchema = new Schema({
     manufacturer: { type: String, required: true, minLength: 2, maxLength: 50 },
     price: { type: Number, required: true, min: 1, max: 999999 },
     createdAt: { type: Date, default: Date.now },
-    photo: { type: Buffer }
+    photo: { type: Schema.Types.ObjectId, ref: 'Photo' }
 })
 
 //Virtual for part's URL
