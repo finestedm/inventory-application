@@ -2,9 +2,8 @@ import { Box, Stack, Typography, Container } from "@mui/material";
 
 export default function Footer(): JSX.Element {
     return (
-        <Box component='footer'>
+        <Box component='footer' sx={{ mt: 5, py: 3, backgroundColor: '#1d1d1d' }}>
             <Container maxWidth="xl">
-
                 <Stack className="footer--stack-top" direction='row' flex={1} justifyContent='space-between'>
                     <img alt="Logo"></img>
                     <Stack className="footer--stack-nav" direction='row'>
@@ -25,7 +24,7 @@ export default function Footer(): JSX.Element {
                     </Stack>
                 </Stack>
                 <Stack direction='row' flex={1}>
-                    <p style={{marginRight:'auto'}}>all right reserved blablabla</p>
+                    <p style={{ marginRight: 'auto' }}>all right reserved blablabla</p>
                     <a>Instagram Link</a>
                     <a>Facebook link</a>
                 </Stack >
