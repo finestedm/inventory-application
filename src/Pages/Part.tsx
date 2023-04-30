@@ -1,9 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { IPart } from "./Parts"
+import { IPart, IInventory } from "@/components/interfaces"
 import { useParams } from "react-router-dom"
 import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem } from "@mui/material";
-import { IInventory } from "./Inventories";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";

@@ -60,12 +60,12 @@ export default function CampaignCarousel() {
 function Item(props: { item: ICampaignItem }) {
     return (
         <div style={{ backgroundImage: `url(${props.item.image})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '100%', paddingTop: '1rem', position: 'relative' }}>
-            <Container maxWidth='xl' sx={{ position: 'absolute', bottom: '10%' }}>
+            {/* <Container maxWidth='xl' sx={{ position: 'absolute', bottom: '10%' }}>
                 <Stack>
                     <Typography variant='h3'>{props.item.name}</Typography>
                     <Typography variant='h4'>{props.item.description}</Typography>
                 </Stack>
-            </Container>
+            </Container> */}
         </div>
     )
 }

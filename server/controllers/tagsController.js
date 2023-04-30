@@ -38,3 +38,18 @@ export async function create_new_tag(req, res) {
         res.status(404).json({ message: error.message })
     }
 }
+
+export async function delete_tag(req, res) {
+    try {
+        const partsWithTag = await Part.find({ tags: req.params.id })
+        if (partsWithTag.length > 0) {
+            const partIds = partsWithTag.map(part => part._id)
+            res.status(400).json({ message: `Cannot delete tag. It is being used by the following parts: ${partIds.join(", ")}` })
+        } else {
+            const deletedTag = await Tag.findByIdAndDelete(req.params.id)
+            res.status(200).json(deletedTag)
+        }
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
