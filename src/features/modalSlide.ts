@@ -11,7 +11,9 @@ interface IModalState {
   locationOpenHoursEditModalOpen: boolean;
   tagEditModalOpen: boolean;
   tagData: ITag;
-  tagDeleteModalOpen: boolean
+  tagDeleteModalOpen: boolean;
+  photoData: string | null;
+  photoUploadModalOpen: boolean
 }
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -50,6 +52,8 @@ const initialState: IModalState = {
     name: ''
   },
   tagDeleteModalOpen: false,
+  photoData: '',
+  photoUploadModalOpen: false
 };
 
 
@@ -110,6 +114,15 @@ const modalSlice = createSlice({
       state.tagDeleteModalOpen = action.payload.tagDeleteModalOpen;
       state.tagData = action.payload.tagData ? action.payload.tagData : state.tagData = initialState.tagData;
     },
+    setPhotoData(state, action: PayloadAction<string>) {
+      state.photoData = action.payload;
+    },
+    setPhotoUploadModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.photoUploadModalOpen = action.payload;
+      if (!action.payload) {
+        state.photoData = initialState.photoData;
+      }
+    },
   },
 });
 
@@ -121,5 +134,5 @@ export const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen, setPhotoData, setPhotoUploadModalOpen } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>

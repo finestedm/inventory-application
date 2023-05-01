@@ -6,9 +6,7 @@ import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, C
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen } from "../features/modalSlide";
-import deletePart from "../methods/deletePart";
-
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
 
 export default function Part(): JSX.Element {
 
@@ -33,14 +31,38 @@ export default function Part(): JSX.Element {
     const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
+    const photoUploadMenuOpen = Boolean(anchorEl2);
+    const handleAnchorSetting2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl2(event.currentTarget);
+    };
+
     const dispatch = useDispatch();
 
     if (part && inventory) {
         return (
             <Container maxWidth='xl'>
                 <Grid container sx={{ marginTop: 0 }} spacing={5}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={6} sx={{ position: 'relative' }}>
                         <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
+                        <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 50 }} onClick={handleAnchorSetting2}>
+                            <MoreVertIcon sx={{ color: 'black' }} />
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl2}
+                            open={photoUploadMenuOpen}
+                            onClose={() => setAnchorEl2(null)}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={() => {
+                                dispatch(setPhotoUploadModalOpen(true))
+                                // dispatch(setPartData(part))
+                            }
+                            }>Change photo</MenuItem>
+                        </Menu>
                     </Grid>
                     <Grid item xs={12} sm={6} position='relative'>
 

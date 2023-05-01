@@ -3,6 +3,7 @@ import Part from '../models/part.js'
 import { body, validationResult, check } from 'express-validator';
 import validator from 'validator';
 import multer from 'multer'
+import { uploadPhoto } from './photosController.js';
 
 export async function part_list(req, res) {
 
@@ -116,7 +117,7 @@ export async function create_new_part(req, res) {
 
 export async function edit_part(req, res) {
 
-    const { _id, name, price, manufacturer, tags } = req.body;
+    const { _id, name, price, manufacturer, tags, photo } = req.body;
 
     // name sanitization
     await check('name')
@@ -168,11 +169,16 @@ export async function edit_part(req, res) {
         return res.status(422).json({ errors: errors.array() })
     }
 
+    const newPhotoId = uploadPhoto(photo)
+
+    
+
     const newData = {
         name: sanitizedName,
         price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
-        tags
+        tags,
+        photo: newPhotoId
     };
 
     try {

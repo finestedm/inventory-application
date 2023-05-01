@@ -23,6 +23,7 @@ import LocationOpenHoursEditModal from './components/Modals/LocationOpenHoursEdi
 import TagEditModal from './components/Modals/TagEditModal';
 import Footer from './components/Footer';
 import TagDeleteModal from './components/Modals/TagDeleteModal';
+import PhotoUploadModal from './components/Modals/PhotoUploadModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -43,6 +44,7 @@ function App() {
         <LocationOpenHoursEditModal />
         <TagEditModal />
         <TagDeleteModal />
+        <PhotoUploadModal />
         <Routes>
           <Route path='/' element={<Splash />} />
           <Route path='catalog'>
