@@ -11,7 +11,7 @@ export interface IPart {
     price: number;
     tags: ITag[];
     createdAt?: Date;
-    photo?: string
+    photo?: File
 }
 
 export interface ITag {

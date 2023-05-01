@@ -12,7 +12,7 @@ interface IModalState {
   tagEditModalOpen: boolean;
   tagData: ITag;
   tagDeleteModalOpen: boolean;
-  photoData: string | null;
+  photoData: File | null;
   photoUploadModalOpen: boolean
 }
 
@@ -52,7 +52,7 @@ const initialState: IModalState = {
     name: ''
   },
   tagDeleteModalOpen: false,
-  photoData: '',
+  photoData: null,
   photoUploadModalOpen: false
 };
 
@@ -114,13 +114,14 @@ const modalSlice = createSlice({
       state.tagDeleteModalOpen = action.payload.tagDeleteModalOpen;
       state.tagData = action.payload.tagData ? action.payload.tagData : state.tagData = initialState.tagData;
     },
-    setPhotoData(state, action: PayloadAction<string>) {
-      state.photoData = action.payload;
+    setPhotoData(state, action: PayloadAction<File>) {
+      state.partData.photo = action.payload;
+      state.photoData = action.payload
     },
     setPhotoUploadModalOpen: (state, action: PayloadAction<boolean>) => {
       state.photoUploadModalOpen = action.payload;
       if (!action.payload) {
-        state.photoData = initialState.photoData;
+        state.partData = initialState.partData;
       }
     },
   },

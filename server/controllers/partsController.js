@@ -117,7 +117,7 @@ export async function create_new_part(req, res) {
 
 export async function edit_part(req, res) {
 
-    const { _id, name, price, manufacturer, tags, photo } = req.body;
+    const { _id, name, price, manufacturer, tags } = req.body;
 
     // name sanitization
     await check('name')
@@ -169,10 +169,6 @@ export async function edit_part(req, res) {
         return res.status(422).json({ errors: errors.array() })
     }
 
-    const newPhotoId = uploadPhoto(photo)
-
-    
-
     const newData = {
         name: sanitizedName,
         price: parseFloat(price).toFixed(2),
@@ -183,23 +179,7 @@ export async function edit_part(req, res) {
 
     try {
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
-
-        // Handle photo upload
-        upload.single('photo')(req, res, async (err) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send({ error: 'Server error' });
-            }
-
-            if (req.file) {
-                // Update the part with the photo
-                updatedPart.photo = req.file.buffer;
-
-                await updatedPart.save();
-            }
-
-            res.status(201).json(updatedPart);
-        });
+        res.status(201).json(updatedPart);
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
@@ -213,4 +193,8 @@ export async function delete_part(req, res) {
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
+}
+
+export async function change_part_photo(req, res) {
+    
 }
