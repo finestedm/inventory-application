@@ -1,6 +1,6 @@
 import { RootState, setPartData, setPhotoData, setPhotoUploadModalOpen } from "@/features/modalSlide"
 import { Button, Card, CardContent, CardHeader, FormControl, Input, Modal, Stack } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IError, IPart } from "../interfaces";
 import axios from "axios";
@@ -12,15 +12,22 @@ export default function PhotoUploadModal() {
     const photoData = useSelector((state: RootState) => state.modal.photoData);
     const dispatch = useDispatch();
 
-    async function editPart(partData: IPart) {
+    async function editPartPhoto() {
         try {
-            const response = await axios.post(`/parts/edit_part`, partData)
-            dispatch(setPhotoUploadModalOpen(false));
+            const formData = new FormData();
+            photoData && formData.append('partPhoto', photoData)
+            partData._id && formData.append('partId', partData._id)
+            const response = await axios.post(`/parts/upload_part_photo`, formData)
+            // dispatch(setPartEditModalOpen(false));
             return response.data;
         } catch (error: any) {
-            setErrors(error.response.data.errors)
+            console.log(error)
         }
     }
+
+    useEffect(() => {
+        console.log(photoData);
+    }, [photoData]);
 
     const [errors, setErrors] = useState<IError[]>([])
 
@@ -39,14 +46,14 @@ export default function PhotoUploadModal() {
                             accept={".jpg"}
                             multiple={false}
                             onInputCapture={e => {
-                                setPhotoData(e.target.files[0])
-                                console.log(photoData)
+                                const file = e.target.files[0];
+                                dispatch(setPhotoData(file))
                             }}
                         />
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         <Button
-                        // onClick={() => editPart(partData)}
+                            onClick={() => editPartPhoto()}
                         >Change part's photo
                         </Button>
                         <Button onClick={() => { dispatch(setPhotoUploadModalOpen(false)) }

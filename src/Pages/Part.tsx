@@ -59,7 +59,7 @@ export default function Part(): JSX.Element {
                         >
                             <MenuItem onClick={() => {
                                 dispatch(setPhotoUploadModalOpen(true))
-                                // dispatch(setPartData(part))
+                                dispatch(setPartData(part))
                             }
                             }>Change photo</MenuItem>
                         </Menu>

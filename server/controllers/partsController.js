@@ -4,6 +4,8 @@ import { body, validationResult, check } from 'express-validator';
 import validator from 'validator';
 import multer from 'multer'
 import { uploadPhoto } from './photosController.js';
+import Photo from '../models/photo.js';
+
 
 export async function part_list(req, res) {
 
@@ -174,8 +176,8 @@ export async function edit_part(req, res) {
         price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
         tags,
-        photo: newPhotoId
     };
+
 
     try {
         const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
@@ -195,6 +197,11 @@ export async function delete_part(req, res) {
     }
 }
 
-export async function change_part_photo(req, res) {
-    
+export async function upload_part_photo(req, res) {
+    try {
+        const photo = uploadPhoto(req, res)
+        console.log(photo)
+    } catch (error) {
+        console.log(error)
+    }
 }
