@@ -5,7 +5,7 @@ import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../features/modalSlide";
-import deletePart from '../methods/deletePart';
+import { imagefrombuffer } from 'imagefrombuffer'
 
 interface CardProps extends React.PropsWithChildren<{}> {
   part: IPart;
@@ -45,7 +45,25 @@ export default function CardPart({ part }: CardProps) {
 
         <CardActionArea href={`/catalog/parts/${part._id}`}>
           <CardMedia>
-            <Skeleton variant='rectangular' height={250} width='100%' />
+
+            {part.photo ?
+
+              <Box
+                sx={{ width: '100%', height: 275, }}
+              >
+                <img
+                  style={{ objectFit: 'cover', height: '100%', width: '100%', }}
+                  src={imagefrombuffer({
+                    type: part.photo.contentType, // example image/jpeg 
+                    data: part.photo.data.data, // array buffer data 
+                  })}
+                />
+              </Box>
+              :
+
+              <Skeleton variant='rectangular' height={275} width='100%' />
+            }
+
           </CardMedia>
           <CardContent>
             <Box p={2}>

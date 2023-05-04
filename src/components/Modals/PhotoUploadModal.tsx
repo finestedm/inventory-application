@@ -39,7 +39,7 @@ export default function PhotoUploadModal() {
                         <input
                             type="file"
                             name="parts-photo"
-                            accept={".jpg"}
+                            accept=".jpg,.jpeg,.png,.webp"
                             multiple={false}
                             onInputCapture={e => {
                                 const file = e.target.files[0];

@@ -17,7 +17,8 @@ export async function part_list(req, res) {
             .find()
             .sort({ created_at: -1 })
             .limit(limit ? parseInt(limit) : undefined)
-            .populate("tags");
+            .populate("tags")
+            .populate("photo");
         res.status(200).json(part_list)
     } catch (error) {
         res.status(404).json({ message: error.message })

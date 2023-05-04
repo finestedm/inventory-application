@@ -34,7 +34,10 @@ export default function Catalog(): JSX.Element {
     // get data from server: number of elements in each category
     useEffect(() => {
         axios.get(`/parts?limit=4`)
-            .then((response) => setParts(response.data))
+            .then((response) => {
+                setParts(response.data)
+                console.log(response.data)
+            })
         axios.get('/locations')
             .then((response) => setLocations(response.data))
     }, [])
