@@ -18,16 +18,12 @@ export default function PhotoUploadModal() {
             photoData && formData.append('partPhoto', photoData)
             partData._id && formData.append('partId', partData._id)
             const response = await axios.post(`/parts/upload_part_photo`, formData)
-            // dispatch(setPartEditModalOpen(false));
+            dispatch(setPhotoUploadModalOpen(false));
             return response.data;
         } catch (error: any) {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-        console.log(photoData);
-    }, [photoData]);
 
     const [errors, setErrors] = useState<IError[]>([])
 

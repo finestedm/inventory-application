@@ -27,7 +27,8 @@ export async function part_list(req, res) {
 export async function part_details(req, res) {
     try {
         const part = await Part.findOne({ _id: req.params.id })
-            .populate("tags");
+            .populate("tags")
+            .populate("photo");
         res.status(200).json(part)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -198,9 +199,14 @@ export async function delete_part(req, res) {
 }
 
 export async function upload_part_photo(req, res) {
+    const _id = req.body.partId
     try {
-        const photo = uploadPhoto(req, res)
-        console.log(photo)
+        const photoId = await uploadPhoto(req, res)
+        const newData = {
+            photo: photoId,
+        };
+        const updatedPart = await Part.findOneAndUpdate({ _id }, newData, { new: true })
+        res.status(200).json(updatedPart)
     } catch (error) {
         console.log(error)
     }

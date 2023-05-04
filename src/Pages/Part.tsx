@@ -14,6 +14,7 @@ export default function Part(): JSX.Element {
 
     // set initial states of catalogCounts with declared types of data
     const [part, setPart] = useState<IPart>()
+    const [partImage, setPartImage] = useState('')
     const [inventory, setInventory] = useState<IInventory[]>()
 
     // get data from server: number of elements in each category
@@ -40,11 +41,29 @@ export default function Part(): JSX.Element {
 
     const dispatch = useDispatch();
 
+    ///
+
+    useEffect(() => {
+
+        (part && part.photo) && setPartImage(part.photo.data);
+
+    }, [part]);
+
+
+    useEffect(() => {
+
+        console.log(partImage);
+
+    }, [partImage]);
+    ///
+
+
     if (part && inventory) {
         return (
             <Container maxWidth='xl'>
                 <Grid container sx={{ marginTop: 0 }} spacing={5}>
                     <Grid item xs={12} sm={6} sx={{ position: 'relative' }}>
+                        <img src={`data:image/png;base64,${partImage}`} />
                         <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', aspectRatio: '1/1', maxHeight: '70vh', borderRadius: '.25rem' }} />
                         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 50 }} onClick={handleAnchorSetting2}>
                             <MoreVertIcon sx={{ color: 'black' }} />
