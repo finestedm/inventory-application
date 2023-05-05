@@ -7,6 +7,7 @@ import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
 import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
+// @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 
 export default function Part(): JSX.Element {
@@ -45,7 +46,7 @@ export default function Part(): JSX.Element {
         return (
             <Container maxWidth='xl'>
                 <Grid container sx={{ marginTop: 0 }} spacing={5}>
-                    <Grid item xs={12} sm={6} sx={{ position: 'relative', aspectRatio: '1/1', maxHeight: '70vh', }}>
+                    <Grid item xs={12} sm={6} sx={{ position: 'relative', aspectRatio: '1/1', maxHeight: '70vh' }}>
 
                         {part.photo ?
 
@@ -53,7 +54,7 @@ export default function Part(): JSX.Element {
                                 sx={{ width: '100%', height: '100%', borderRadius: '.25rem' }}
                             >
                                 <img
-                                    style={{ objectFit: 'cover', height: '100%', width: '100%', }}
+                                    style={{ objectFit: 'cover', height: '100%', width: '100%', borderRadius: '.5rem' }}
                                     src={imagefrombuffer({
                                         type: part.photo.contentType, // example image/jpeg 
                                         data: part.photo.data.data, // array buffer data 
@@ -62,7 +63,7 @@ export default function Part(): JSX.Element {
                             </Box>
                             :
 
-                            <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', borderRadius: '.25rem' }} />
+                            <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', borderRadius: '.5rem' }} />
                         }
                         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 50 }} onClick={handleAnchorSetting2}>
                             <MoreVertIcon sx={{ color: 'black' }} />
@@ -84,7 +85,7 @@ export default function Part(): JSX.Element {
                     </Grid>
                     <Grid item xs={12} sm={6} position='relative'>
 
-                        <Button sx={{ position: 'absolute', zIndex: 1000, right: 25 }} onClick={handleAnchorSetting}>
+                        <Button sx={{ position: 'absolute', zIndex: 1000, right: 0 }} onClick={handleAnchorSetting}>
                             <MoreVertIcon sx={{ color: 'black' }} />
                         </Button>
                         <Menu

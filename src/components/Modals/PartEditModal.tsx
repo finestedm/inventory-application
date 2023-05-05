@@ -16,6 +16,7 @@ export default function PartEditModal() {
     const [tags, setTags] = useState<ITag[]>([])
     const [errors, setErrors] = useState<IError[]>([])
 
+    const [newTagInput, setNewTagInput] = useState("");
 
     useEffect(() => {
         axios.get('/parts/manufacturers')
@@ -45,6 +46,10 @@ export default function PartEditModal() {
             setErrors(error.response.data.errors)
         }
     }
+
+    useEffect(() => {
+        console.log(partData.tags)
+    }, [partData.tags])
 
     return (
         <Modal open={partEditModalOpen} onClose={() => {
@@ -86,24 +91,48 @@ export default function PartEditModal() {
 
                         />
                         <Autocomplete
+                            clearOnBlur={true}
                             options={tags}
                             value={partData.tags}
-                            getOptionLabel={(tag: ITag) => tag.name}
+                            getOptionLabel={(option: string | ITag) => {
+                                if (typeof option === 'string') {
+                                    return option;
+                                } else {
+                                    return option.name;
+                                }
+                            }}
                             isOptionEqualToValue={(option, value) => option.name === value.name}
                             renderInput={(params) => (
                                 <TextField {...params}
                                     label="Tags"
+                                    value={newTagInput}
+                                    onChange={e => {
+                                        if (e.nativeEvent.data === ' ') {
+                                            if (!partData.tags.map(tag => tag.name).includes(newTagInput)) {
+                                                dispatch(setPartData({
+                                                    ...partData,
+                                                    tags: [...partData.tags, { name: newTagInput }],
+                                                }));
+                                            } else {
+                                                e.target.blur();
+                                                e.target.focus();
+                                            }
+                                        } else {
+                                            setNewTagInput(e.target.value)
+                                        }
+                                    }}
                                     variant="outlined"
                                     helperText={(errors.filter(error => error.param === 'tag')).map(msg => msg.msg).join(' • ')}
                                 />
                             )}
-                            // freeSolo  // this needs to be disabled for now as I do not allow creating new tags here.
+                            freeSolo  // this needs to be disabled for now as I do not allow creating new tags here.
                             multiple
                             onChange={(e, v) => {
                                 const newTags = v.map(tag => typeof tag === 'string' ? tags.find(t => t.name === tag) as ITag : tag);
                                 dispatch(setPartData({ ...partData, tags: newTags }));
                                 setErrors(errors.filter(error => error.param !== 'tags'))
                             }}
+
                         />
                         <Autocomplete
                             options={manufacturers}

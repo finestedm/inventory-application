@@ -15,7 +15,7 @@ export interface IPart {
 }
 
 export interface ITag {
-    _id: string;
+    _id?: string;
     name: string;
 }
 

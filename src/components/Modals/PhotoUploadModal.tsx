@@ -42,6 +42,7 @@ export default function PhotoUploadModal() {
                             accept=".jpg,.jpeg,.png,.webp"
                             multiple={false}
                             onInputCapture={e => {
+                                 // @ts-ignore
                                 const file = e.target.files[0];
                                 dispatch(setPhotoData(file))
                             }}

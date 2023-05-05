@@ -1,11 +1,12 @@
 import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, Link, CardActionArea, Stack, Menu, MenuItem, CardMedia } from '@mui/material'
-import { IPart } from '../Pages/Parts';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../features/modalSlide";
+// @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
+import { IPart } from './interfaces';
 
 interface CardProps extends React.PropsWithChildren<{}> {
   part: IPart;
@@ -44,12 +45,12 @@ export default function CardPart({ part }: CardProps) {
         </Menu>
 
         <CardActionArea href={`/catalog/parts/${part._id}`}>
-          <CardMedia>
+          <CardMedia sx={{ width: '100%', height: 275, }}>
 
             {part.photo ?
 
               <Box
-                sx={{ width: '100%', height: 275, }}
+                sx={{ width: '100%', height: '100%', }}
               >
                 <img
                   style={{ objectFit: 'cover', height: '100%', width: '100%', }}
@@ -61,7 +62,7 @@ export default function CardPart({ part }: CardProps) {
               </Box>
               :
 
-              <Skeleton variant='rectangular' height={275} width='100%' />
+              <Skeleton variant='rectangular' height='100%' width='100%' />
             }
 
           </CardMedia>

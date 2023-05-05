@@ -5,6 +5,7 @@ import validator from 'validator';
 import multer from 'multer'
 import { uploadPhoto } from './photosController.js';
 import Photo from '../models/photo.js';
+import Tag from '../models/tag.js';
 
 
 export async function part_list(req, res) {
@@ -96,6 +97,16 @@ export async function create_new_part(req, res) {
 
     const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
 
+    const newTagIds = [];
+    for (const tag of tags) {
+        if (tag._id) {
+            newTagIds.push(tag._id);
+        } else {
+            const newTag = await Tag.create({ name: tag.name });
+            newTagIds.push(newTag._id);
+        }
+    }
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -108,7 +119,7 @@ export async function create_new_part(req, res) {
         name: sanitizedName,
         price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
-        tags
+        tags: newTagIds
     });
 
     try {
@@ -167,6 +178,16 @@ export async function edit_part(req, res) {
 
     const sanitizedManufacturer = validator.trim(validator.escape(manufacturer))
 
+    const newTagIds = [];
+    for (const tag of tags) {
+        if (tag._id) {
+            newTagIds.push(tag._id);
+        } else {
+            const newTag = await Tag.create({ name: tag.name });
+            newTagIds.push(newTag._id);
+        }
+    }
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -177,7 +198,7 @@ export async function edit_part(req, res) {
         name: sanitizedName,
         price: parseFloat(price).toFixed(2),
         manufacturer: sanitizedManufacturer,
-        tags,
+        tags: newTagIds,
     };
 
 
