@@ -17,7 +17,6 @@ export default function Tag(): JSX.Element {
     // set initial states tag and parts which use this tag
     const [tag, setTag] = useState<ITag>()
     const [partsTagged, setPartsTagged] = useState<IPart[]>()
-
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const editMenuOpen = Boolean(anchorEl);
     const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,6 +29,7 @@ export default function Tag(): JSX.Element {
             .then((response) => {
                 setTag(response.data.tag);
                 setPartsTagged(response.data.partsTagged);
+                console.log(response.data.partsTagged)
             })
     }, [])
 

@@ -51,6 +51,7 @@ export default function PartEditModal() {
 
     function handleNewTagInput(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
         const value = e.target.value;
+        // @ts-ignore
         if (e.nativeEvent.data === ' ') {
             if (!partData.tags.map(tag => tag.name.toLowerCase()).includes(newTagInput.toLowerCase())) {
                 dispatch(setPartData({
@@ -118,6 +119,7 @@ export default function PartEditModal() {
                                     return option.name;
                                 }
                             }}
+                            // @ts-ignore
                             isOptionEqualToValue={(option, value) => option.name === value.name}
                             renderInput={(params) => (
                                 <TextField {...params}
@@ -164,7 +166,6 @@ export default function PartEditModal() {
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         {(partData._id) ?
-                            // this button should fire edit method instead of creation of new part
                             <Button onClick={() => editPart(partData)}>Edit part data</Button>
                             :
                             <Button onClick={() => createNewPart(partData)}>Add new part</Button>

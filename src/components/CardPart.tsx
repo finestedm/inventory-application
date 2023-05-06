@@ -21,10 +21,9 @@ export default function CardPart({ part }: CardProps) {
     setAnchorEl(event.currentTarget);
   };
   const dispatch = useDispatch();
-
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ position: 'relative' }} >
+      <Card sx={{ position: 'relative', height: '100%' }} >
         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 15 }} onClick={handleAnchorSetting}>
           <MoreVertIcon sx={{ color: 'black' }} />
         </Button>
@@ -44,7 +43,7 @@ export default function CardPart({ part }: CardProps) {
           }>Delete</MenuItem>
         </Menu>
 
-        <CardActionArea href={`/catalog/parts/${part._id}`}>
+        <CardActionArea href={`/catalog/parts/${part._id}`} sx={{ height: '100%' }}>
           <CardMedia sx={{ width: '100%', height: 275, }}>
 
             {part.photo ?
@@ -61,7 +60,6 @@ export default function CardPart({ part }: CardProps) {
                 />
               </Box>
               :
-
               <Skeleton variant='rectangular' height='100%' width='100%' />
             }
 

@@ -16,7 +16,7 @@ export async function tag_list(req, res) {
 export async function tag_details(req, res) {
     try {
         const tag = await Tag.findOne({ name: req.params.name });
-        const partsTagged = await Part.find({ tags: tag._id })
+        const partsTagged = await Part.find({ tags: tag._id }).populate('photo')
         res.status(200).json({ tag, partsTagged })
     } catch (error) {
         res.status(404).json({ message: error.message })
