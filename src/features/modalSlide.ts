@@ -1,10 +1,12 @@
-import { ILocation, OpeningHours, IPart, ITag } from "@/components/interfaces";
+import { ILocation, OpeningHours, IPart, ITag, IInventory } from "@/components/interfaces";
 import { PayloadAction, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
 
 interface IModalState {
   partEditModalOpen: boolean;
   partDeleteModalOpen: boolean;
   partData: IPart;
+  inventoryEditModalOpen: boolean;
+  inventoryData: IInventory[];
   locationEditModalOpen: boolean;
   locationData: ILocation;
   locationDeleteModalOpen: boolean;
@@ -34,6 +36,8 @@ const initialState: IModalState = {
     tags: [],
     photo: undefined
   },
+  inventoryEditModalOpen: false,
+  inventoryData: [{}],
   locationEditModalOpen: false,
   locationData: {
     _id: '',
@@ -73,11 +77,22 @@ const modalSlice = createSlice({
       state.partDeleteModalOpen = action.payload.partDeleteModalOpen;
       state.partData = action.payload.partData ? action.payload.partData : state.partData = initialState.partData
     },
+
     setPartData(state, action: PayloadAction<IPart>) {
       state.partData = action.payload;
     },
     resetPartDataDeep(state) {
       state.partData = initialState.partData;
+    },
+    setInventoryEditModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.inventoryEditModalOpen = action.payload;
+      if (!action.payload) {
+        // Dispatch resetPartDataDeep when partEditModalOpen is set to false
+        state.inventoryData = initialState.inventoryData;
+      }
+    },
+    setInventoryData(state, action: PayloadAction<IInventory[]>) {
+      state.inventoryData = action.payload;
     },
     setLocationEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.locationEditModalOpen = action.payload;
@@ -135,5 +150,5 @@ export const store = configureStore({
   reducer: rootReducer,
 });
 
-export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen, setPhotoData, setPhotoUploadModalOpen } = modalSlice.actions;
+export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setInventoryEditModalOpen, setInventoryData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen, setPhotoData, setPhotoUploadModalOpen } = modalSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
