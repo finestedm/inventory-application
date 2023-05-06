@@ -1,6 +1,5 @@
 // IMPORT MODELS
 import Inventory from '../models/inventory.js';
-import async from 'async'
 
 export async function inventory_list(req, res) {
     try {

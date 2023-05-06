@@ -43,6 +43,7 @@ export default function Part(): JSX.Element {
     const dispatch = useDispatch();
 
     if (part && inventory) {
+        console.log(part)
         return (
             <Container maxWidth='xl'>
                 <Grid container sx={{ marginTop: 0 }} spacing={5}>
