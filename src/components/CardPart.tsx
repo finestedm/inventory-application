@@ -3,7 +3,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen } from "../features/modalSlide";
+import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 import { IPart } from './interfaces';
@@ -39,6 +39,11 @@ export default function CardPart({ part }: CardProps) {
             dispatch(setPartEditModalOpen(true))
             dispatch(setPartData(part))
           }}>Edit</MenuItem>
+          <MenuItem onClick={() => {
+            dispatch(setPhotoUploadModalOpen(true))
+            dispatch(setPartData(part))
+          }
+          }>Change photo</MenuItem>
           <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }
           }>Delete</MenuItem>
         </Menu>
