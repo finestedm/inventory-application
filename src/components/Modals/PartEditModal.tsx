@@ -47,9 +47,26 @@ export default function PartEditModal() {
         }
     }
 
-    useEffect(() => {
-        console.log(partData.tags)
-    }, [partData.tags])
+    const ALPHA_NUMERIC_DASH_REGEX = /^[a-zA-Z0-9-_\s]+$/;
+
+    function handleNewTagInput(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+        const value = e.target.value;
+        if (e.nativeEvent.data === ' ') {
+            if (!partData.tags.map(tag => tag.name.toLowerCase()).includes(newTagInput.toLowerCase())) {
+                dispatch(setPartData({
+                    ...partData,
+                    tags: [...partData.tags, { name: newTagInput }],
+                }));
+            } else {
+                e.target.blur();
+                e.target.focus();
+            }
+        } else if (value !== "" && !ALPHA_NUMERIC_DASH_REGEX.test(value)) {
+            return
+        } else {
+            setNewTagInput(value)
+        }
+    }
 
     return (
         <Modal open={partEditModalOpen} onClose={() => {
@@ -59,7 +76,7 @@ export default function PartEditModal() {
             <Card sx={{ position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)", px: 2 }}>
                 <CardHeader title='Add new part' sx={{ px: 0 }} />
                 <CardContent component={Stack} spacing={3}>
-                    <FormControl component={Stack} spacing={2}>
+                    <FormControl component={Stack} spacing={2} >
                         <TextField
                             label='New part name'
                             value={partData.name}
@@ -106,21 +123,14 @@ export default function PartEditModal() {
                                 <TextField {...params}
                                     label="Tags"
                                     value={newTagInput}
-                                    onChange={e => {
-                                        if (e.nativeEvent.data === ' ') {
-                                            if (!partData.tags.map(tag => tag.name).includes(newTagInput)) {
-                                                dispatch(setPartData({
-                                                    ...partData,
-                                                    tags: [...partData.tags, { name: newTagInput }],
-                                                }));
-                                            } else {
-                                                e.target.blur();
-                                                e.target.focus();
-                                            }
-                                        } else {
-                                            setNewTagInput(e.target.value)
+                                    onKeyDown={e => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault()
+                                            newTagInput !== '' && handleNewTagInput(e)
+                                            e.stopPropagation();
                                         }
                                     }}
+                                    onChange={e => handleNewTagInput(e)}
                                     variant="outlined"
                                     helperText={(errors.filter(error => error.param === 'tag')).map(msg => msg.msg).join(' • ')}
                                 />
