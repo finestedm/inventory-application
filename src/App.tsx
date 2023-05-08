@@ -24,6 +24,7 @@ import TagEditModal from './components/Modals/TagEditModal';
 import Footer from './components/Footer';
 import TagDeleteModal from './components/Modals/TagDeleteModal';
 import PhotoUploadModal from './components/Modals/PhotoUploadModal';
+import InventoryEditModal from './components/Modals/InventoryEditModal';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -39,6 +40,7 @@ function App() {
         {!isSplashPage && <BreadcrumbsComponent />}
         <PartEditModal />
         <PartDeleteModal />
+        <InventoryEditModal />
         <LocationEditModal />
         <LocationDeleteModal />
         <LocationOpenHoursEditModal />

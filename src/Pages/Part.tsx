@@ -14,7 +14,6 @@ export default function Part(): JSX.Element {
 
     const params = useParams();
 
-    // set initial states of catalogCounts with declared types of data
     const [part, setPart] = useState<IPart>()
     const [inventory, setInventory] = useState<IInventory[]>()
 
@@ -34,7 +33,6 @@ export default function Part(): JSX.Element {
     const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
 
     // photoUploadMenu
     const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
@@ -152,6 +150,7 @@ export default function Part(): JSX.Element {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
+                                        console.log(inventory)
                                         dispatch(setInventoryEditModalOpen(true))
                                         dispatch(setInventoryData(inventory))
                                     }
