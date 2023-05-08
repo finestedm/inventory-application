@@ -6,7 +6,7 @@ import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, C
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
-import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen } from "../features/modalSlide";
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 
@@ -28,24 +28,34 @@ export default function Part(): JSX.Element {
 
     const theme = useTheme()
 
+    // PartEditMenu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const editMenuOpen = Boolean(anchorEl);
     const handleAnchorSetting = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
+
+    // photoUploadMenu
     const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
     const photoUploadMenuOpen = Boolean(anchorEl2);
     const handleAnchorSetting2 = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl2(event.currentTarget);
     };
 
+    // InventoryEditMenu
+    const [anchorEl3, setAnchorEl3] = useState<null | HTMLElement>(null);
+    const inventoryMenuOpen = Boolean(anchorEl3);
+    const handleAnchorSetting3 = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl3(event.currentTarget);
+    };
+
     const dispatch = useDispatch();
 
     if (part && inventory) {
         return (
-            <Container maxWidth='xl'>
-                <Grid container sx={{ marginTop: 0 }} spacing={5}>
+            <Container maxWidth='xl' sx={{ my: 5 }}>
+                <Grid container spacing={5}>
                     <Grid item xs={12} sm={6} sx={{ position: 'relative', aspectRatio: '1/1', maxHeight: '70vh' }}>
 
                         {part.photo ?
@@ -128,8 +138,25 @@ export default function Part(): JSX.Element {
                                 )}
                             </Box>
                             <Divider />
-                            <Box>
-                                <Typography> Availability: </Typography >
+                            <Box sx={{ position: 'relative' }}>
+                                <Typography> Availability: </Typography>
+                                <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 0 }} onClick={handleAnchorSetting3}>
+                                    <MoreVertIcon sx={{ color: 'black' }} />
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl3}
+                                    open={inventoryMenuOpen}
+                                    onClose={() => setAnchorEl3(null)}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={() => {
+                                        dispatch(setInventoryEditModalOpen(true))
+                                        dispatch(setInventoryData(inventory))
+                                    }
+                                    }>Edit availability</MenuItem>
+                                </Menu>
                                 <List>
                                     {inventory.map(inventory => {
                                         return inventory.location
