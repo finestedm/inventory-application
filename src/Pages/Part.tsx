@@ -159,14 +159,8 @@ export default function Part(): JSX.Element {
                                 <List>
                                     {inventory.map(inventory => {
                                         return inventory.location
-                                            ?
-                                            <ListItem key={inventory._id}>
-                                                <ListItemText>
-                                                    {inventory.location.city}: {inventory.available}
-                                                </ListItemText>
-                                            </ListItem>
-                                            :
-                                            ''
+                                            &&
+                                            <InventoryCounter inventory={inventory} />
                                     })}
                                 </List>
                             </Box>
@@ -184,5 +178,14 @@ export default function Part(): JSX.Element {
             </Box>
         )
     }
+}
 
+function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
+    return (
+        <ListItem key={inventory._id}>
+            <ListItemText>
+                {inventory.location?.city}: {inventory.available}
+            </ListItemText>
+        </ListItem>
+    )
 }
