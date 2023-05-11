@@ -35,6 +35,13 @@ export default function PhotoUploadModal() {
             <Card sx={{ position: 'absolute', top: '50%', left: '50%', transform: "translate(-50%, -50%)", px: 2 }}>
                 <CardHeader title='Upload new photo' sx={{ px: 0 }} />
                 <CardContent component={Stack} spacing={3}>
+                    {photoData &&
+                        <img
+                            src={URL.createObjectURL(photoData)}
+                            alt="Uploaded Image"
+                            style={{ width: 'max(25vw, 500px)', borderRadius: '1rem' }}
+                        />
+                    }
                     <FormControl component={Stack} spacing={2}>
                         <input
                             type="file"
@@ -42,7 +49,7 @@ export default function PhotoUploadModal() {
                             accept=".jpg,.jpeg,.png,.webp"
                             multiple={false}
                             onInputCapture={e => {
-                                 // @ts-ignore
+                                // @ts-ignore
                                 const file = e.target.files[0];
                                 dispatch(setPhotoData(file))
                             }}
