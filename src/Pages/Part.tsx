@@ -2,13 +2,14 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IPart, IInventory } from "@/components/interfaces"
 import { useParams } from "react-router-dom"
-import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem } from "@mui/material";
+import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem, LinearProgress } from "@mui/material";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
 import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen } from "../features/modalSlide";
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
+import { StoreRounded, WarehouseRounded } from "@mui/icons-material";
 
 export default function Part(): JSX.Element {
 
@@ -182,10 +183,26 @@ export default function Part(): JSX.Element {
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
     return (
-        <ListItem key={inventory._id}>
-            <ListItemText>
-                {inventory.location?.city}: {inventory.available}
-            </ListItemText>
-        </ListItem>
+        // <ListItem key={inventory._id}>
+        //     <ListItemText>
+        //         {inventory.location?.city}: {inventory.available}
+        //     </ListItemText>
+        // </ListItem>
+
+        <Stack direction='row' spacing={3} flex={1} alignItems='center'>
+            {inventory.location?.city === 'Magazyn Centralny' ? <WarehouseRounded /> : <StoreRounded />}
+            <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
+            <LinearProgress
+                sx={{ width: '100%', height: 6, borderRadius: '1rem' }}
+                variant="determinate"
+                color={
+                    inventory.available <= 5 ? 'error' :
+                        inventory.available <= 15 ? 'warning' :
+                            inventory.available <= 25 ? 'info' :
+                                'success'
+                }
+                value={inventory.available > 100 ? 100 : inventory.available} />
+        </Stack>
+
     )
 }
