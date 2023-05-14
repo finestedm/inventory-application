@@ -151,18 +151,18 @@ export default function Part(): JSX.Element {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
-                                        console.log(inventory)
-                                        dispatch(setInventoryEditModalOpen(true))
+                                        dispatch(setPartData(part))
                                         dispatch(setInventoryData(inventory))
+                                        dispatch(setInventoryEditModalOpen(true))
                                     }
                                     }>Edit availability</MenuItem>
                                 </Menu>
                                 <List>
-                                    {inventory.map(inventory => {
-                                        return inventory.location
-                                            &&
-                                            <InventoryCounter inventory={inventory} />
-                                    })}
+                                    {(inventory.length > 0) ?
+                                        (inventory.map(inventory => <InventoryCounter inventory={inventory} />))
+                                        :
+                                        <Typography variant="h5">Product unavailable</Typography>
+                                    }
                                 </List>
                             </Box>
                             <Divider />
@@ -183,13 +183,7 @@ export default function Part(): JSX.Element {
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
     return (
-        // <ListItem key={inventory._id}>
-        //     <ListItemText>
-        //         {inventory.location?.city}: {inventory.available}
-        //     </ListItemText>
-        // </ListItem>
-
-        <Stack direction='row' spacing={3} flex={1} alignItems='center'>
+        <Stack direction='row' spacing={2} flex={1} alignItems='center'>
             {inventory.location?.city === 'Magazyn Centralny' ? <WarehouseRounded /> : <StoreRounded />}
             <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
             <LinearProgress
