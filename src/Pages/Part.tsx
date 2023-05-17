@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IPart, IInventory } from "@/components/interfaces"
 import { useParams } from "react-router-dom"
-import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem, LinearProgress } from "@mui/material";
+import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem, LinearProgress, Tooltip } from "@mui/material";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
@@ -191,17 +191,19 @@ function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element
                 <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
             </Grid>
 
-            <Grid item xs={8} sx={{ml: 'auto'}}>
-                <LinearProgress
-                    sx={{ height: 6, borderRadius: '1rem' }}
-                    variant="determinate"
-                    color={
-                        inventory.available <= 5 ? 'error' :
-                            inventory.available <= 15 ? 'warning' :
-                                inventory.available <= 25 ? 'info' :
-                                    'success'
-                    }
-                    value={inventory.available > 100 ? 100 : inventory.available} />
+            <Grid item xs={8} sx={{ ml: 'auto' }}>
+                <Tooltip title={`available: ${inventory.available}`} disableInteractive placement="left">
+                    <LinearProgress
+                        sx={{ height: 6, borderRadius: '1rem', opacity: `${inventory.available === 0 ? '35%' : '100%'}` }}
+                        variant="determinate"
+                        color={
+                            inventory.available <= 5 ? 'error' :
+                                inventory.available <= 15 ? 'warning' :
+                                    inventory.available <= 25 ? 'info' :
+                                        'success'
+                        }
+                        value={inventory.available > 100 ? 100 : inventory.available} />
+                </Tooltip>
             </Grid>
         </Grid>
 
