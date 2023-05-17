@@ -13,8 +13,6 @@ export default function InventoryEditModal() {
     const partData = useSelector((state: RootState) => state.modal.partData)
     const dispatch = useDispatch();
 
-    const [data, setData] = useState(inventoryData);
-
     const [errors, setErrors] = useState<IError[]>([])
 
     const [locations, setLocations] = useState<ILocation[]>([])

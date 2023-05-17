@@ -183,20 +183,27 @@ export default function Part(): JSX.Element {
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
     return (
-        <Stack direction='row' spacing={2} flex={1} alignItems='center'>
-            {inventory.location?.city === 'Magazyn Centralny' ? <WarehouseRounded /> : <StoreRounded />}
-            <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
-            <LinearProgress
-                sx={{ width: '100%', height: 6, borderRadius: '1rem' }}
-                variant="determinate"
-                color={
-                    inventory.available <= 5 ? 'error' :
-                        inventory.available <= 15 ? 'warning' :
-                            inventory.available <= 25 ? 'info' :
-                                'success'
-                }
-                value={inventory.available > 100 ? 100 : inventory.available} />
-        </Stack>
+        <Grid container direction='row' spacing={2} flex={1} alignItems='center' justifyContent='space-between'>
+            <Grid item>
+                {inventory.location?.city === 'Magazyn Centralny' ? <WarehouseRounded /> : <StoreRounded />}
+            </Grid>
+            <Grid item>
+                <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
+            </Grid>
+
+            <Grid item xs={8} sx={{ml: 'auto'}}>
+                <LinearProgress
+                    sx={{ height: 6, borderRadius: '1rem' }}
+                    variant="determinate"
+                    color={
+                        inventory.available <= 5 ? 'error' :
+                            inventory.available <= 15 ? 'warning' :
+                                inventory.available <= 25 ? 'info' :
+                                    'success'
+                    }
+                    value={inventory.available > 100 ? 100 : inventory.available} />
+            </Grid>
+        </Grid>
 
     )
 }
