@@ -15,7 +15,7 @@ export default function Part(): JSX.Element {
 
     const params = useParams();
 
-    const [inventory, setInventory] = useState<IInventory[]>()
+    const [tempInventory, setTempInventory] = useState<ILocation[]>([])
     const [locations, setLocations] = useState<ILocation[]>([])
     const inventoryData = useSelector((state: RootState) => state.modal.inventoryData);
     const partData = useSelector((state: RootState) => state.modal.partData)
@@ -25,19 +25,17 @@ export default function Part(): JSX.Element {
         axios.get(`/parts/${params.id}`)
             .then((response) => dispatch(setPartData(response.data)))
         axios.get(`/availability/${params.id}`)
-            .then((response) => dispatch(setInventoryData(response.data)))
+            .then((response) => setTempInventory(response.data))
         axios.get('/locations')
             .then((response) => setLocations(response.data))
     }, [])
 
-    
-
     useEffect(() => {
         const updatedInventoryData = locations.map((location) => {
             return getInventoryForLocation(location);
-          });
-          dispatch(setInventoryData(updatedInventoryData));
-    }, [])
+        });
+        dispatch(setInventoryData(updatedInventoryData))
+    }, [tempInventory])
 
     const theme = useTheme()
 
@@ -65,8 +63,8 @@ export default function Part(): JSX.Element {
     const dispatch = useDispatch();
 
     function getInventoryForLocation(location: ILocation) {
-        const existingInventory = inventoryData.find(inv => inv.location?._id === location._id);
-        inventoryData.forEach(ine => console.log(ine))
+        console.log(inventoryData)
+        const existingInventory = tempInventory.find(inv => inv.location._id === location._id);
         if (existingInventory) {
             return existingInventory;
         } else {
@@ -207,7 +205,6 @@ export default function Part(): JSX.Element {
 }
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
-    console.log(inventory)
     return (
         <Grid container direction='row' spacing={2} flex={1} alignItems='center' justifyContent='space-between'>
             <Grid item>

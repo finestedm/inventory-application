@@ -22,10 +22,13 @@ export default function InventoryEditModal() {
             .then((response) => setLocations(response.data))
     }, [])
 
+    useEffect(() => {
+        console.log(inventoryData)
+    }, [inventoryData])
+
     async function editInventories() {
         try {
             for (let i = 0; i < inventoryData.length; i++) {
-                console.log(inventoryData)
                 const inventory = inventoryData[i];
                 const response = await axios.post("/availability/edit_inventory", inventory);
                 console.log(response.data);
@@ -36,22 +39,6 @@ export default function InventoryEditModal() {
             setErrors(error.response?.data.errors);
         }
     }
-    // useEffect(() => {
-    //     console.log(inventoryData)
-    // }, [inventoryData])
-
-    function getInventoryForLocation(location: ILocation) {
-        const existingInventory = inventoryData.find(inv => inv.location?._id === location._id);
-        if (existingInventory) {
-            return existingInventory;
-        } else {
-            return {
-                location: location,
-                available: 0,
-                part: partData
-            };
-        }
-    };
 
     return (
         <Modal open={inventoryEditModalOpen} onClose={() => {
