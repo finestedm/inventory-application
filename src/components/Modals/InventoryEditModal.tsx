@@ -22,21 +22,10 @@ export default function InventoryEditModal() {
             .then((response) => setLocations(response.data))
     }, [])
 
-    function getInventoryForLocation(location: ILocation) {
-        const existingInventory = inventoryData.find(inv => inv.location?._id === location._id);
-        if (existingInventory) {
-            return existingInventory;
-        } else {
-            return {
-                location: location,
-                available: 0
-            };
-        }
-    };
-
     async function editInventories() {
         try {
             for (let i = 0; i < inventoryData.length; i++) {
+                console.log(inventoryData)
                 const inventory = inventoryData[i];
                 const response = await axios.post("/availability/edit_inventory", inventory);
                 console.log(response.data);
@@ -47,9 +36,22 @@ export default function InventoryEditModal() {
             setErrors(error.response?.data.errors);
         }
     }
-    useEffect(() => {
-        console.log(inventoryData)
-    }, [inventoryData])
+    // useEffect(() => {
+    //     console.log(inventoryData)
+    // }, [inventoryData])
+
+    function getInventoryForLocation(location: ILocation) {
+        const existingInventory = inventoryData.find(inv => inv.location?._id === location._id);
+        if (existingInventory) {
+            return existingInventory;
+        } else {
+            return {
+                location: location,
+                available: 0,
+                part: partData
+            };
+        }
+    };
 
     return (
         <Modal open={inventoryEditModalOpen} onClose={() => {
@@ -60,29 +62,27 @@ export default function InventoryEditModal() {
                 <CardHeader title='Edit stock in each location' sx={{ px: 0 }} />
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
-                        {locations.map(location => {
-                            const inventory = getInventoryForLocation(location);
+                        {inventoryData.map(inventory => {
                             return (
                                 <TextField
-                                    key={location._id}
+                                    key={inventory.location?._id}
                                     value={inventory.available}
                                     type='number'
-                                    id={`${location.city}-input`}
-                                    label={location.city}
+                                    id={`${inventory.location?.city}-input`}
+                                    label={inventory.location?.city}
                                     onChange={e => {
                                         const updatedInventoryData = inventoryData.map(inv => {
-                                            if (inv.location?._id === location._id) {
+                                            if (inv.location?._id === inventory.location?._id) {
                                                 return {
                                                     ...inv,
                                                     available: parseInt(e.target.value),
-                                                    part: partData
                                                 };
                                             }
                                             return inv;
                                         });
-                                        if (!updatedInventoryData.some(inv => inv.location?._id === location._id)) {
+                                        if (!updatedInventoryData.some(inv => inv.location?._id === inventory.location?._id)) {
                                             updatedInventoryData.push({
-                                                location: location,
+                                                location: inventory.location,
                                                 available: parseInt(e.target.value),
                                                 part: partData
                                             });
@@ -91,7 +91,8 @@ export default function InventoryEditModal() {
                                     }}
                                 />
                             );
-                        })}
+                        })
+                        }
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         <Button onClick={() => editInventories()}>Edit part data</Button>

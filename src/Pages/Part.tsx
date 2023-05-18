@@ -1,12 +1,12 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { IPart, IInventory } from "@/components/interfaces"
+import { IPart, IInventory, ILocation } from "@/components/interfaces"
 import { useParams } from "react-router-dom"
 import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, Chip, useTheme, List, ListItem, ListItemText, ListItemButton, Stack, Divider, Menu, MenuItem, LinearProgress, Tooltip } from "@mui/material";
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useDispatch } from "react-redux";
-import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen } from "../features/modalSlide";
+import { useDispatch, useSelector } from "react-redux";
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen, RootState } from "../features/modalSlide";
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 import { StoreRounded, WarehouseRounded } from "@mui/icons-material";
@@ -15,15 +15,28 @@ export default function Part(): JSX.Element {
 
     const params = useParams();
 
-    const [part, setPart] = useState<IPart>()
     const [inventory, setInventory] = useState<IInventory[]>()
+    const [locations, setLocations] = useState<ILocation[]>([])
+    const inventoryData = useSelector((state: RootState) => state.modal.inventoryData);
+    const partData = useSelector((state: RootState) => state.modal.partData)
 
     // get data from server: number of elements in each category
     useEffect(() => {
         axios.get(`/parts/${params.id}`)
-            .then((response) => setPart(response.data))
+            .then((response) => dispatch(setPartData(response.data)))
         axios.get(`/availability/${params.id}`)
-            .then((response) => setInventory(response.data))
+            .then((response) => dispatch(setInventoryData(response.data)))
+        axios.get('/locations')
+            .then((response) => setLocations(response.data))
+    }, [])
+
+    
+
+    useEffect(() => {
+        const updatedInventoryData = locations.map((location) => {
+            return getInventoryForLocation(location);
+          });
+          dispatch(setInventoryData(updatedInventoryData));
     }, [])
 
     const theme = useTheme()
@@ -51,13 +64,27 @@ export default function Part(): JSX.Element {
 
     const dispatch = useDispatch();
 
-    if (part && inventory) {
+    function getInventoryForLocation(location: ILocation) {
+        const existingInventory = inventoryData.find(inv => inv.location?._id === location._id);
+        inventoryData.forEach(ine => console.log(ine))
+        if (existingInventory) {
+            return existingInventory;
+        } else {
+            return {
+                location: location,
+                available: 0,
+                part: partData
+            };
+        }
+    };
+
+    if (partData && inventoryData) {
         return (
             <Container maxWidth='xl' sx={{ my: 5 }}>
                 <Grid container spacing={5}>
                     <Grid item xs={12} sm={6} sx={{ position: 'relative', aspectRatio: '1/1', maxHeight: '70vh' }}>
 
-                        {part.photo ?
+                        {partData.photo ?
 
                             <Box
                                 sx={{ width: '100%', height: '100%', borderRadius: '.25rem' }}
@@ -65,8 +92,8 @@ export default function Part(): JSX.Element {
                                 <img
                                     style={{ objectFit: 'cover', height: '100%', width: '100%', borderRadius: '.5rem' }}
                                     src={imagefrombuffer({
-                                        type: part.photo.contentType, // example image/jpeg 
-                                        data: part.photo.data.data, // array buffer data 
+                                        type: partData.photo.contentType, // example image/jpeg 
+                                        data: partData.photo.data.data, // array buffer data 
                                     })}
                                 />
                             </Box>
@@ -87,7 +114,6 @@ export default function Part(): JSX.Element {
                         >
                             <MenuItem onClick={() => {
                                 dispatch(setPhotoUploadModalOpen(true))
-                                dispatch(setPartData(part))
                             }
                             }>Change photo</MenuItem>
                         </Menu>
@@ -107,26 +133,25 @@ export default function Part(): JSX.Element {
                         >
                             <MenuItem onClick={() => {
                                 dispatch(setPartEditModalOpen(true))
-                                dispatch(setPartData(part))
                             }
                             }>Edit</MenuItem>
-                            <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true, partData: part })) }
+                            <MenuItem onClick={() => { dispatch(setPartDeleteModalOpen({ partDeleteModalOpen: true })) }
                             }>Delete</MenuItem>
                         </Menu>
 
                         <Stack spacing={2}>
-                            <Typography mb={2} variant='h4' sx={{ fontWeight: 500 }}> {part.name}</Typography >
+                            <Typography mb={2} variant='h4' sx={{ fontWeight: 500 }}> {partData.name}</Typography >
                             <Divider />
-                            <Typography color={theme.palette.grey[500]}> {part.manufacturer}</Typography >
+                            <Typography color={theme.palette.grey[500]}> {partData.manufacturer}</Typography >
                             <Divider />
                             <div style={{ display: 'flex' }}>
-                                <Typography noWrap variant="h4"> {part.price.toFixed(2)} </Typography >
+                                <Typography noWrap variant="h4"> {partData.price.toFixed(2)} </Typography >
                                 <Typography noWrap variant="h6" color={theme.palette.grey[500]}>PLN</Typography>
                             </div>
                             <Divider />
                             <Box>
                                 <Typography gutterBottom> Categories: </Typography >
-                                {part.tags.map(tag =>
+                                {partData.tags.map(tag =>
                                     <Chip
                                         key={tag._id}
                                         href={`/catalog/tags/${tag.name}`}
@@ -151,15 +176,15 @@ export default function Part(): JSX.Element {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
-                                        dispatch(setPartData(part))
-                                        dispatch(setInventoryData(inventory))
                                         dispatch(setInventoryEditModalOpen(true))
                                     }
                                     }>Edit availability</MenuItem>
                                 </Menu>
                                 <List>
-                                    {(inventory.length > 0) ?
-                                        (inventory.map(inventory => <InventoryCounter inventory={inventory} />))
+                                    {(locations.length > 0) ?
+                                        (locations.map(location =>
+                                            <InventoryCounter key={location._id} inventory={getInventoryForLocation(location)} />
+                                        ))
                                         :
                                         <Typography variant="h5">Product unavailable</Typography>
                                     }
@@ -182,6 +207,7 @@ export default function Part(): JSX.Element {
 }
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
+    console.log(inventory)
     return (
         <Grid container direction='row' spacing={2} flex={1} alignItems='center' justifyContent='space-between'>
             <Grid item>

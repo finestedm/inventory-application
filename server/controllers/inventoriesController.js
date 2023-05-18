@@ -30,7 +30,7 @@ export async function part_availability_locations(req, res) {
 }
 
 export async function edit_inventory(req, res) {
-    console.log(req.body);
+    console.log('wowowowow');
 
     const inventory = req.body;
     const query = { part: inventory.part._id, location: inventory.location._id };
@@ -41,7 +41,6 @@ export async function edit_inventory(req, res) {
     try {
         const result = await Inventory.findOneAndUpdate(query, update, options);
 
-        console.log(`Inventory ${result} updated`);
         res.status(200).send('Inventory updated successfully.');
     } catch (error) {
         console.error(`Error updating inventory: ${error}`);

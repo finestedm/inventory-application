@@ -86,10 +86,6 @@ const modalSlice = createSlice({
     },
     setInventoryEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.inventoryEditModalOpen = action.payload;
-      if (!action.payload) {
-        // Dispatch resetPartDataDeep when partEditModalOpen is set to false
-        state.inventoryData = initialState.inventoryData;
-      }
     },
     setInventoryData(state, action: PayloadAction<IInventory[]>) {
       state.inventoryData = action.payload;
