@@ -30,7 +30,10 @@ export default function InventoryEditModal() {
         try {
             for (let i = 0; i < inventoryData.length; i++) {
                 const inventory = inventoryData[i];
-                const response = await axios.post("/availability/edit_inventory", inventory);
+                const modifiedInventory = {
+                    ...inventory, part: { _id: inventory.part?._id }
+                }
+                const response = await axios.post("/availability/edit_inventory", modifiedInventory);
                 console.log(response.data);
             }
             dispatch(setInventoryEditModalOpen(false));
@@ -67,7 +70,7 @@ export default function InventoryEditModal() {
                                             }
                                             return inv;
                                         });
-                                        if (!updatedInventoryData.some(inv => inv.location?._id === inventory.location?._id)) {
+                                        if (!updatedInventoryData.some(inv => inv.location?._id === inventory.location._id)) {
                                             updatedInventoryData.push({
                                                 location: inventory.location,
                                                 available: parseInt(e.target.value),

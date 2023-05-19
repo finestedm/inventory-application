@@ -40,7 +40,7 @@ export interface IInventory {
     _id?: string;
     part?: IPart;
     location?: ILocation;
-    available?: number
+    available: number
 }
 
 export interface ICampaignItem {

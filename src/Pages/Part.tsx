@@ -178,9 +178,9 @@ export default function Part(): JSX.Element {
                                     }>Edit availability</MenuItem>
                                 </Menu>
                                 <List>
-                                    {(locations.length > 0) ?
-                                        (locations.map(location =>
-                                            <InventoryCounter key={location._id} inventory={getInventoryForLocation(location)} />
+                                    {(inventoryData) ?
+                                        (inventoryData.map(inv =>
+                                            <InventoryCounter key={inv.location?._id} inventory={inv} />
                                         ))
                                         :
                                         <Typography variant="h5">Product unavailable</Typography>
