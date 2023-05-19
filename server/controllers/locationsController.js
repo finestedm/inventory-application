@@ -2,7 +2,10 @@
 import Location from '../models/location.js'
 import { body, validationResult, check } from 'express-validator';
 import validator from 'validator';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 
+dayjs.extend(customParseFormat);
 
 export async function location_list(req, res) {
     try {
@@ -16,6 +19,15 @@ export async function location_list(req, res) {
 export async function location_details(req, res) {
     try {
         const location = await Location.findOne({ _id: req.params.id });
+        location.openingHours.forEach(day => {
+            if (day.open && day.close) {
+                const timeObject = dayjs().set('hour', dayjs(day.open, 'H:mm').hour()).set('minute', dayjs(day.open, 'H:mm').minute());
+                console.log(timeObject)
+                // day.open = dayjs(day.open, 'HH:mm').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (zz)');
+                // day.close = dayjs(day.close, 'HH:mm').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (zz)');
+            }
+        });
+        // console.log(location)
         res.status(200).json(location)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -280,7 +292,7 @@ export async function edit_location_hours(req, res) {
                 const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9]$/;
                 return regex.test(day.open) || day.open === '' && regex.test(day.close) || day.close === '';
             });
-        return hasValidDays && hasValidTimes && openingHours.length === 7;
+            return hasValidDays && hasValidTimes && openingHours.length === 7;
         }).withMessage('Opening hours must have a valid structure and contain exactly 7 days')
         .run(req);
 

@@ -30,8 +30,6 @@ export async function part_availability_locations(req, res) {
 }
 
 export async function edit_inventory(req, res) {
-    console.log('wowowowow');
-
     const inventory = req.body;
     const query = { part: inventory.part._id, location: inventory.location._id };
     const update = { available: inventory.available };
