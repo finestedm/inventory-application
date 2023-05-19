@@ -15,7 +15,7 @@ export default function Part(): JSX.Element {
 
     const params = useParams();
 
-    const [tempInventory, setTempInventory] = useState<ILocation[]>([])
+    const [tempInventory, setTempInventory] = useState<IInventory[]>([])
     const [locations, setLocations] = useState<ILocation[]>([])
     const inventoryData = useSelector((state: RootState) => state.modal.inventoryData);
     const partData = useSelector((state: RootState) => state.modal.partData)
@@ -35,7 +35,7 @@ export default function Part(): JSX.Element {
             return getInventoryForLocation(location);
         });
         dispatch(setInventoryData(updatedInventoryData))
-    }, [tempInventory])
+    }, [tempInventory, locations])
 
     const theme = useTheme()
 
@@ -63,8 +63,7 @@ export default function Part(): JSX.Element {
     const dispatch = useDispatch();
 
     function getInventoryForLocation(location: ILocation) {
-        console.log(inventoryData)
-        const existingInventory = tempInventory.find(inv => inv.location._id === location._id);
+        const existingInventory = tempInventory.find(inv => inv.location?._id === location._id);
         if (existingInventory) {
             return existingInventory;
         } else {
