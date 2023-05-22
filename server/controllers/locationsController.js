@@ -22,14 +22,16 @@ export async function location_details(req, res) {
         Object.entries(location.openingHours).forEach(([day, openingHours]) => {
             if (openingHours.open) {
                 const timeObject = dayjs().set('hour', dayjs(openingHours.open, 'H:mm').hour()).set('minute', dayjs(openingHours.open, 'H:mm').minute());
-                if (openingHours.close) {
-                    const timeObject2 = dayjs().set('hour', dayjs(openingHours.close, 'H:mm').hour()).set('minute', dayjs(openingHours.close, 'H:mm').minute());
-                }
                 openingHours.open = dayjs(timeObject).format('HH:mm');
-                openingHours.close = dayjs(timeObject2).format('HH:mm');
             }
-        });
-        // console.log(location)
+            if (openingHours.close) {
+                const timeObject = dayjs().set('hour', dayjs(openingHours.close, 'H:mm').hour()).set('minute', dayjs(openingHours.close, 'H:mm').minute());
+                openingHours.close = dayjs(timeObject).format('HH:mm');
+            }
+            delete openingHours._id; // Exclude the _id field
+        }
+        )
+        console.log(location)
         res.status(200).json(location)
     } catch (error) {
         res.status(404).json({ message: error.message })

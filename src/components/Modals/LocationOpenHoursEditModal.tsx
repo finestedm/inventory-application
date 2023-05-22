@@ -19,7 +19,6 @@ export default function LocationOpenHoursEditModal() {
     const dispatch = useDispatch();
 
     const [errors, setErrors] = useState<IError[]>([])
-    const [openingHoursLocal, setOpeningHoursLocal] = useState<OpeningHours[]>([])
 
 
     async function editLocationOpeningHours(locationData: ILocation) {
@@ -54,13 +53,18 @@ export default function LocationOpenHoursEditModal() {
         return newErrors.length === 0;
     }
 
+    // useEffect(() => {
+    //     console.log(locationData.openingHours)
+    //     setOpeningHoursLocal(locationData.openingHours)
+    // }, [locationData])
+
     useEffect(() => {
         console.log(locationData.openingHours)
-        setOpeningHoursLocal(locationData.openingHours)
-    }, [locationData])
+    }, [locationData.openingHours])
 
+    function DayOpenCloseTimePickers({ day, openingHours }: any) {
 
-    function DayOpenCloseTimePickers({ day }: any) {
+        console.log(day, openingHours)
 
         const currentDay = (locationData.openingHours.find((dayData: OpeningHours) => dayData.day === day.day))
 
@@ -149,8 +153,9 @@ export default function LocationOpenHoursEditModal() {
                 <CardHeader title='Edit opening hours' sx={{ px: 0 }} />
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
-                        {(locationData.openingHours).map((day: OpeningHours["day"]) => (
-                            <DayOpenCloseTimePickers key={day.day} day={day} />))}
+                        {(Object.entries(locationData.openingHours)).map(([day, openingHours]) =>
+                            <DayOpenCloseTimePickers key={day} day={day} openingHours={openingHours} />
+                        )}
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
                         <Button onClick={() => editLocationOpeningHours(locationData)}>Edit part data</Button>
