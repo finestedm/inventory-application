@@ -19,10 +19,11 @@ export interface ITag {
     name: string;
 }
 
-export interface OpeningHours {
-    day: string; // This could be restricted to a specific set of values, e.g. 'monday', 'tuesday', etc.
-    open: string;
-    close: string;
+interface OpeningHours {
+    [day: string]: {
+        open: string;
+        close: string;
+    };
 }
 
 export interface ILocation {

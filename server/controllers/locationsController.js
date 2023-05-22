@@ -19,12 +19,14 @@ export async function location_list(req, res) {
 export async function location_details(req, res) {
     try {
         const location = await Location.findOne({ _id: req.params.id });
-        location.openingHours.forEach(day => {
-            if (day.open && day.close) {
-                const timeObject = dayjs().set('hour', dayjs(day.open, 'H:mm').hour()).set('minute', dayjs(day.open, 'H:mm').minute());
-                console.log(timeObject)
-                // day.open = dayjs(day.open, 'HH:mm').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (zz)');
-                // day.close = dayjs(day.close, 'HH:mm').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (zz)');
+        Object.entries(location.openingHours).forEach(([day, openingHours]) => {
+            if (openingHours.open) {
+                const timeObject = dayjs().set('hour', dayjs(openingHours.open, 'H:mm').hour()).set('minute', dayjs(openingHours.open, 'H:mm').minute());
+                if (openingHours.close) {
+                    const timeObject2 = dayjs().set('hour', dayjs(openingHours.close, 'H:mm').hour()).set('minute', dayjs(openingHours.close, 'H:mm').minute());
+                }
+                openingHours.open = dayjs(timeObject).format('HH:mm');
+                openingHours.close = dayjs(timeObject2).format('HH:mm');
             }
         });
         // console.log(location)
@@ -287,12 +289,8 @@ export async function edit_location_hours(req, res) {
         .isArray().withMessage('Opening hours must be an array')
         .custom((openingHours) => {
             const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            const hasValidDays = openingHours.every((day) => daysOfWeek.includes(day.day.charAt(0).toUpperCase() + day.day.slice(1)));
-            const hasValidTimes = openingHours.every((day) => {
-                const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9]$/;
-                return regex.test(day.open) || day.open === '' && regex.test(day.close) || day.close === '';
-            });
-            return hasValidDays && hasValidTimes && openingHours.length === 7;
+            const hasValidDays = openingHours.every((day) => daysOfWeek.includes(day.charAt(0).toUpperCase() + day.slice(1)));
+            return hasValidDays && openingHours.length === 7;
         }).withMessage('Opening hours must have a valid structure and contain exactly 7 days')
         .run(req);
 
@@ -314,7 +312,6 @@ export async function edit_location_hours(req, res) {
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
-
 }
 
 export async function delete_location(req, res) {

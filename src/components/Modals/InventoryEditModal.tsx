@@ -70,7 +70,7 @@ export default function InventoryEditModal() {
                                             }
                                             return inv;
                                         });
-                                        if (!updatedInventoryData.some(inv => inv.location?._id === inventory.location._id)) {
+                                        if (!updatedInventoryData.some(inv => inv.location?._id === inventory.location?._id)) {
                                             updatedInventoryData.push({
                                                 location: inventory.location,
                                                 available: parseInt(e.target.value),

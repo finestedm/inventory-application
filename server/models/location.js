@@ -17,20 +17,45 @@ const LocationSchema = new Schema({
     city: { type: String, required: true, minLength: 2, maxLength: 30 },
     country: { type: String, required: true, minLength: 2, maxLength: 30 },
     openingHours: {
-        type: [{
-            day: String,
-            open: String,
-            close: String
-        }],
-        default: [
-            { day: 'Monday', open: '', close: '' },
-            { day: 'Tuesday', open: '', close: '' },
-            { day: 'Wednesday', open: '', close: '' },
-            { day: 'Thursday', open: '', close: '' },
-            { day: 'Friday', open: '', close: '' },
-            { day: 'Saturday', open: '', close: '' },
-            { day: 'Sunday', open: '', close: '' }
-        ]
+        type: {
+            Monday: {
+                open: String,
+                close: String
+            },
+            Tuesday: {
+                open: String,
+                close: String
+            },
+            Wednesday: {
+                open: String,
+                close: String
+            },
+            Thursday: {
+                open: String,
+                close: String
+            },
+            Friday: {
+                open: String,
+                close: String
+            },
+            Saturday: {
+                open: String,
+                close: String
+            },
+            Sunday: {
+                open: String,
+                close: String
+            }
+        },
+        default: {
+            Monday: { open: null, close: null },
+            Tuesday: { open: null, close: null },
+            Wednesday: { open: null, close: null },
+            Thursday: { open: null, close: null },
+            Friday: { open: null, close: null },
+            Saturday: { open: null, close: null },
+            Sunday: { open: null, close: null }
+        }
     },
     phoneNumber: { type: String, maxLength: 30 },
     email: {
@@ -45,7 +70,7 @@ const LocationSchema = new Schema({
             message: props => `${props.value} is not a valid email address!`
         }
     }
-})
+});
 
 //Virtual for part's URL
 LocationSchema.virtual('url').get(function () {

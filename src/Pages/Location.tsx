@@ -31,6 +31,10 @@ export default function Location(): JSX.Element {
     };
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        console.log(location?.openingHours)
+    }, [location?.openingHours])
+
     if (location) {
         return (
             <Container maxWidth='xl'>
@@ -74,9 +78,10 @@ export default function Location(): JSX.Element {
 
                             <Divider />
 
-                            {(location.openingHours).map(day =>
-                                <Typography key={day.day} variant="h5" >
-                                    {day.open === '' && day.close === '' ? `${day.day}: Closed` : `${day.day}: ${day.open} - ${day.close} `}
+
+                            {(Object.entries(location.openingHours)).map(([day, openingHours]) =>
+                                <Typography variant="h5">
+                                    {!openingHours.open && !openingHours.close ? `${day}: Closed` : `${day}: ${openingHours.open} - ${openingHours.close} `}
                                 </Typography>
                             )}
                         </Stack>
