@@ -16,9 +16,8 @@ export default function LocationOpenHoursEditModal() {
 
     const locationOpenHoursEditModalOpen = useSelector((state: RootState) => state.modal.locationOpenHoursEditModalOpen);
     const locationData = useSelector((state: RootState) => state.modal.locationData);
-    const dispatch = useDispatch();
-
     const [errors, setErrors] = useState<IError[]>([])
+    const dispatch = useDispatch();
 
     async function editLocationOpeningHours(locationData: ILocation) {
         if (!validateOpeningHours(locationData)) {
@@ -74,7 +73,7 @@ export default function LocationOpenHoursEditModal() {
                 <CardContent component={Stack} spacing={3}>
                     <FormControl component={Stack} spacing={2}>
                         {(Object.entries(locationData.openingHours)).map(([day, openingHours]) =>
-                            <DayOpenCloseTimePickers key={day} day={day} openingHours={openingHours} />
+                            <DayOpenCloseTimePickers key={day} day={day} errors={errors} setErrors={setErrors} />
                         )}
                     </FormControl>
                     <Stack spacing={2} direction='row' justifyContent="space-between">
@@ -87,11 +86,13 @@ export default function LocationOpenHoursEditModal() {
     )
 }
 
-function DayOpenCloseTimePickers({ day }: any) {
+function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
 
     const [isClosed, setIsClosed] = useState(!day.open && !day.closed)
     const locationData = useSelector((state: RootState) => state.modal.locationData);
     const dispatch = useDispatch();
+
+    console.log(errors)
 
     return (
         <Grid container alignItems='center'>
@@ -114,7 +115,7 @@ function DayOpenCloseTimePickers({ day }: any) {
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <FormControl>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='start'>
                                 <TimePicker
                                     value={dayjs(locationData.openingHours[day].open).format('HH:mm')}
                                     ampm={false}
@@ -139,6 +140,15 @@ function DayOpenCloseTimePickers({ day }: any) {
                                         dispatch(setLocationData({ ...locationData, openingHours: newOpeningHours }))
                                         // setErrors(errors.filter((error) => error.param !== `openingHours.${day}.open`));
                                     }}
+                                    slotProps={{
+                                        textField: {
+                                          error: errors.filter(error => error.param.includes(`openingHours${day}.close`)),
+                                          helperText: (errors
+                                              .filter(error => error.param === `openingHours.${day}.close`)
+                                              .map(error => error.msg)
+                                              .join(', ')),
+                                        },
+                                      }}
                                 />
                             </Stack>
                         </FormControl>
