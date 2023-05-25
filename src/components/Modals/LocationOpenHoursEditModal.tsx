@@ -142,7 +142,7 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
                                     }}
                                     slotProps={{
                                         textField: {
-                                          error: errors.filter(error => error.param.includes(`openingHours${day}.close`)),
+                                          error: errors.filter(error => error.param === `openingHours.${day}.close`).length > 0,
                                           helperText: (errors
                                               .filter(error => error.param === `openingHours.${day}.close`)
                                               .map(error => error.msg)
