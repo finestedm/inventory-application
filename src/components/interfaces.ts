@@ -19,7 +19,7 @@ export interface ITag {
     name: string;
 }
 
-interface OpeningHours {
+interface IOpeningHours {
     [day: string]: {
         open: string;
         close: string;
@@ -32,7 +32,7 @@ export interface ILocation {
     street: string;
     city: string;
     country: string;
-    openingHours: OpeningHours[];
+    openingHours: IOpeningHours[];
     phoneNumber: string;
     email: string
 }
