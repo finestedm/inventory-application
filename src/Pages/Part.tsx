@@ -10,6 +10,7 @@ import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUplo
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 import { StoreRounded, WarehouseRounded } from "@mui/icons-material";
+import { v4 as uuid } from 'uuid';
 
 export default function Part(): JSX.Element {
 
@@ -180,7 +181,7 @@ export default function Part(): JSX.Element {
                                 <List>
                                     {(inventoryData) ?
                                         (inventoryData.map(inv =>
-                                            <InventoryCounter key={inv.location?._id} inventory={inv} />
+                                            <InventoryCounter key={uuid()} inventory={inv} />
                                         ))
                                         :
                                         <Typography variant="h5">Product unavailable</Typography>

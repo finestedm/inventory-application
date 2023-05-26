@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ITag, IPart, ILocation, IError, IInventory } from "../interfaces";
 import { useSelector, useDispatch } from "react-redux";
 import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setInventoryEditModalOpen, setInventoryData } from "../../features/modalSlide";
+import { v4 as uuid } from 'uuid';
 
 export default function InventoryEditModal() {
 
@@ -55,7 +56,7 @@ export default function InventoryEditModal() {
                         {inventoryData.map(inventory => {
                             return (
                                 <TextField
-                                    key={inventory.location?._id}
+                                    key={uuid()}
                                     value={inventory.available}
                                     type='number'
                                     id={`${inventory.location?.city}-input`}
