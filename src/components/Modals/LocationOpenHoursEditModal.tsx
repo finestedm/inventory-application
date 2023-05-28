@@ -39,7 +39,6 @@ export default function LocationOpenHoursEditModal() {
             if (dayData.open && dayData.close) {
                 const openTime = dayjs(dayData.open);
                 const closeTime = dayjs(dayData.close);
-                console.log('openTime:', openTime, 'closeTime:', closeTime)
                 if (closeTime.isBefore(openTime)) {
                     newErrors.push({
                         param: `openingHours.${day}.close`,
@@ -50,11 +49,11 @@ export default function LocationOpenHoursEditModal() {
         });
 
         setErrors(newErrors);
-        console.log(newErrors)
         return newErrors.length === 0;
     }
 
     useEffect(() => {
+        console.log(locationData.openingHours)
         validateOpeningHours()
     }, [locationData.openingHours])
 
@@ -88,11 +87,10 @@ export default function LocationOpenHoursEditModal() {
 
 function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
 
-    const [isClosed, setIsClosed] = useState(!day.open && !day.closed)
     const locationData = useSelector((state: RootState) => state.modal.locationData);
+    const [isClosed, setIsClosed] = useState(!locationData.openingHours[day].open && !locationData.openingHours[day].closed)
     const dispatch = useDispatch();
-
-    console.log(errors)
+    
 
     return (
         <Grid container alignItems='center'>
@@ -107,6 +105,10 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
                             checked={!isClosed}
                             onChange={e => {
                                 setIsClosed(!isClosed)
+                                //on close set open and close hours for that day to null
+                                const newOpeningHoursForDay = { ...locationData.openingHours[day], open: null, close: null }
+                                const newOpeningHours = { ...locationData.openingHours, [day]: newOpeningHoursForDay }
+                                dispatch(setLocationData({ ...locationData, openingHours: newOpeningHours }))
                             }}
                         />}
                         label={isClosed ? 'Closed' : 'Opened'}
@@ -117,7 +119,7 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
                         <FormControl>
                             <Stack direction='row' spacing={2} alignItems='start'>
                                 <TimePicker
-                                    value={dayjs(locationData.openingHours[day].open).format('HH:mm')}
+                                    value={dayjs(locationData.openingHours[day].open)}
                                     ampm={false}
                                     disabled={isClosed}
                                     label="Opening"
@@ -130,7 +132,7 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
                                 />
                                 <Typography variant="body1">-</Typography>
                                 <TimePicker
-                                    value={dayjs(locationData.openingHours[day].close).format('HH:mm')}
+                                    value={dayjs(locationData.openingHours[day].close)}
                                     ampm={false}
                                     disabled={isClosed}
                                     label="Closing"
@@ -141,14 +143,14 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
                                         // setErrors(errors.filter((error) => error.param !== `openingHours.${day}.open`));
                                     }}
                                     slotProps={{
-                                        textField: {
-                                          error: errors.filter(error => error.param === `openingHours.${day}.close`).length > 0,
-                                          helperText: (errors
-                                              .filter(error => error.param === `openingHours.${day}.close`)
-                                              .map(error => error.msg)
-                                              .join(', ')),
-                                        },
-                                      }}
+                                        // textField: {
+                                        //   error: errors.filter(error => error.param === `openingHours.${day}.close`).length > 0,
+                                        //   helperText: (errors
+                                        //       .filter(error => error.param === `openingHours.${day}.close`)
+                                        //       .map(error => error.msg)
+                                        //       .join(', ')),
+                                        // },
+                                    }}
                                 />
                             </Stack>
                         </FormControl>
@@ -160,4 +162,4 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
     )
 }
 
- 
+

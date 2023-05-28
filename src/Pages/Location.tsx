@@ -7,6 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from "react-redux";
 import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../features/modalSlide";
 import LocationMap from "../components/LocationMap";
+import dayjs from "dayjs";
 
 
 export default function Location(): JSX.Element {
@@ -30,10 +31,6 @@ export default function Location(): JSX.Element {
         setAnchorEl(event.currentTarget);
     };
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        console.log(location?.openingHours)
-    }, [location?.openingHours])
 
     if (location) {
         return (
@@ -81,7 +78,7 @@ export default function Location(): JSX.Element {
 
                             {(Object.entries(location.openingHours)).map(([day, openingHours]) =>
                                 <Typography variant="h5">
-                                    {!openingHours.open && !openingHours.close ? `${day}: Closed` : `${day}: ${openingHours.open} - ${openingHours.close} `}
+                                    {!openingHours.open && !openingHours.close ? `${day}: Closed` : `${day}: ${dayjs(openingHours.open).format('HH:mm')} - ${dayjs(openingHours.close).format('HH:mm')} `}
                                 </Typography>
                             )}
                         </Stack>

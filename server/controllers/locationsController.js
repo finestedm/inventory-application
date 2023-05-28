@@ -287,34 +287,33 @@ export async function edit_location(req, res) {
 }
 
 export async function edit_location_hours(req, res) {
-    await body('openingHours')
-        .isArray().withMessage('Opening hours must be an array')
-        .custom((openingHours) => {
-            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            const hasValidDays = openingHours.every((day) => daysOfWeek.includes(day.charAt(0).toUpperCase() + day.slice(1)));
-            return hasValidDays && openingHours.length === 7;
-        }).withMessage('Opening hours must have a valid structure and contain exactly 7 days')
-        .run(req);
+    const { _id, openingHours } = req.body;
 
-    const errors = validationResult(req)
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
+    const isValidData = daysOfWeek.every(day => {
+        const openingHour = openingHours[day];
+
+        // Check if the opening hour is a valid date string
+        const isOpeningValid = openingHour.open && !isNaN(Date.parse(openingHour.open));
+        // Check if the closing hour is a valid date string
+        const isClosingValid = openingHour.close && !isNaN(Date.parse(openingHour.close));
+
+        return isOpeningValid && isClosingValid;
+    });
+
+    if (!isValidData) {
+        return res.status(422).json({ error: 'Opening hours data is not valid' });
     }
-
-    const { _id, openingHours } = req.body
-
-    const newData = {
-        openingHours,
-    };
 
     try {
-        const updatedLocation = await Location.findOneAndUpdate({ _id }, newData, { new: true })
-        res.status(201).json(updatedLocation)
+        const updatedLocation = await Location.findOneAndUpdate({ _id }, { openingHours }, { new: true });
+        res.status(201).json(updatedLocation);
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        res.status(404).json({ message: error.message });
     }
 }
+
 
 export async function delete_location(req, res) {
 

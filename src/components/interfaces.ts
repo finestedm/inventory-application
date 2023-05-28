@@ -21,8 +21,8 @@ export interface ITag {
 
 interface IOpeningHours {
     [day: string]: {
-        open: string;
-        close: string;
+        open: Date;
+        close: Date;
     };
 }
 
