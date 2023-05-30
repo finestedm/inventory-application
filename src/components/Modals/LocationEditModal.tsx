@@ -75,7 +75,7 @@ export default function LocationEditModal() {
                             label='Street name and building number'
                             value={locationData.street}
                             helperText={(errors.filter(error => error.param === 'street')).map(msg => msg.msg).join(' • ')}
-                            error={!/^[a-zA-Z\s]+\d+\/?\d*$/.test(locationData.street) || (errors.filter(error => error.param === 'street').length > 0)}
+                            error={!/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s]+\d+[A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ]?$/.test(locationData.street) || (errors.filter(error => error.param === 'street').length > 0)}
                             onChange={(e) => {
                                 dispatch(setLocationData({ ...locationData, street: e.target.value }))
                                 setErrors(errors.filter(error => error.param !== 'street'))
