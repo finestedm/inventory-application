@@ -53,7 +53,6 @@ export default function LocationOpenHoursEditModal() {
     }
 
     useEffect(() => {
-        console.log(locationData.openingHours)
         validateOpeningHours()
     }, [locationData.openingHours])
 

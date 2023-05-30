@@ -214,7 +214,7 @@ function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element
                 <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
             </Grid>
 
-            <Grid item xs={8} sx={{ ml: 'auto' }}>
+            <Grid item xs={7} sx={{ ml: 'auto' }}>
                 <Tooltip title={`available: ${inventory.available}`} disableInteractive placement="left">
                     <LinearProgress
                         sx={{ height: 6, borderRadius: '1rem', opacity: `${inventory.available === 0 ? '35%' : '100%'}` }}
