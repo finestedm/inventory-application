@@ -23,10 +23,6 @@ export default function InventoryEditModal() {
             .then((response) => setLocations(response.data))
     }, [])
 
-    useEffect(() => {
-        console.log(inventoryData)
-    }, [inventoryData])
-
     async function editInventories() {
         try {
             for (let i = 0; i < inventoryData.length; i++) {
@@ -35,7 +31,6 @@ export default function InventoryEditModal() {
                     ...inventory, part: { _id: inventory.part?._id }
                 }
                 const response = await axios.post("/availability/edit_inventory", modifiedInventory);
-                console.log(response.data);
             }
             dispatch(setInventoryEditModalOpen(false));
         } catch (error: any) {

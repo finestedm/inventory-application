@@ -28,10 +28,10 @@ export default function CampaignCarousel() {
 
         return (
             <Carousel
-                height='25rem'
+                height='60vh'
                 animation='slide'
                 duration={750}
-                sx={{ position: 'relative' }}
+                sx={{ position: 'relative'}}
                 indicatorContainerProps={{
                     style: {
                         position: 'relative',

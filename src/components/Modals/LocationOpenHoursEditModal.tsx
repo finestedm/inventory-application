@@ -20,7 +20,7 @@ export default function LocationOpenHoursEditModal() {
     const dispatch = useDispatch();
 
     async function editLocationOpeningHours(locationData: ILocation) {
-        if (!validateOpeningHours(locationData)) {
+        if (!validateOpeningHours()) {
             return;
         }
         try {
@@ -55,11 +55,6 @@ export default function LocationOpenHoursEditModal() {
     useEffect(() => {
         validateOpeningHours()
     }, [locationData.openingHours])
-
-    // useEffect(() => {
-    //     console.log(locationData.openingHours)
-    //     setOpeningHoursLocal(locationData.openingHours)
-    // }, [locationData])
 
     return (
         <Modal open={locationOpenHoursEditModalOpen} onClose={() => {
