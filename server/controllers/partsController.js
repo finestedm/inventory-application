@@ -9,22 +9,29 @@ import Tag from '../models/tag.js';
 
 
 export async function part_list(req, res) {
+    const limit = parseInt(req.query.limit) || 1; // Number of items per page
+    const page = parseInt(req.query.page) || 1; // Current page
 
-    // number of returned elements can now be controlled via limit query param
-    const limit = req.query.limit
 
     try {
-        const part_list = await Part
-            .find()
-            .sort({ created_at: -1 })
-            .limit(limit ? parseInt(limit) : undefined)
+        const totalCount = await Part.countDocuments(); // Total count of parts
+
+        const skip = (page - 1) * limit; // Calculate the number of items to skip
+
+        console.log(`page: ${page}, limit: ${limit}, skip:${skip}, totalCount:${totalCount}`)
+
+        const partList = await Part.find()
+            // .sort({ created_at: -1 }) // for some reason sorting fucks the process and it always return the same first item
+            .skip(skip)
+            .limit(limit)
             .populate("tags")
             .populate("photo");
-        res.status(200).json(part_list)
+        res.status(200).json({ partsData: partList, totalCount });
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        res.status(404).json({ message: error.message });
     }
 }
+
 
 export async function part_details(req, res) {
     try {

@@ -35,8 +35,8 @@ export default function Catalog(): JSX.Element {
     useEffect(() => {
         axios.get(`/parts?limit=4`)
             .then((response) => {
-                setParts(response.data)
-                console.log(response.data)
+                setParts(response.data.partsData)
+                console.log(response.data.partsData)
             })
         axios.get('/locations')
             .then((response) => setLocations(response.data))
