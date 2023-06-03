@@ -9,7 +9,8 @@ export default function PhotoUploadModal() {
 
     const photoUploadModalOpen = useSelector((state: RootState) => state.modal.photoUploadModalOpen);
     const partData = useSelector((state: RootState) => state.modal.partData);
-    const photoData = useSelector((state: RootState) => state.modal.photoData);
+    // const photoData = useSelector((state: RootState) => state.modal.photoData);
+    const [photoData, setPhotoData] = useState<File | null>(null)
     const dispatch = useDispatch();
 
     async function editPartPhoto() {
@@ -17,6 +18,7 @@ export default function PhotoUploadModal() {
             const formData = new FormData();
             photoData && formData.append('partPhoto', photoData)
             partData._id && formData.append('partId', partData._id)
+            console.log('here I am')
             const response = await axios.post(`/parts/upload_part_photo`, formData)
             dispatch(setPhotoUploadModalOpen(false));
             return response.data;
@@ -51,7 +53,7 @@ export default function PhotoUploadModal() {
                             onInputCapture={e => {
                                 // @ts-ignore
                                 const file = e.target.files[0];
-                                dispatch(setPhotoData(file))
+                                setPhotoData(file)
                             }}
                         />
                     </FormControl>

@@ -11,6 +11,7 @@ import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUplo
 import { imagefrombuffer } from 'imagefrombuffer'
 import { StoreRounded, WarehouseRounded } from "@mui/icons-material";
 import { v4 as uuid } from 'uuid';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 export default function Part(): JSX.Element {
 
@@ -20,6 +21,7 @@ export default function Part(): JSX.Element {
     const [locations, setLocations] = useState<ILocation[]>([])
     const inventoryData = useSelector((state: RootState) => state.modal.inventoryData);
     const partData = useSelector((state: RootState) => state.modal.partData)
+    const [photoUrl, setPhotoUrl] = useState<string>()
 
     // get data from server: number of elements in each category
     useEffect(() => {
@@ -76,27 +78,32 @@ export default function Part(): JSX.Element {
         }
     };
 
+    useEffect(() => {
+        if (partData.photo) {
+            const blob = new Blob([Uint8Array.from(partData.photo.data.data)], { type: partData.photo.contentType });
+            const imageUrl = URL.createObjectURL(blob);
+            setPhotoUrl(imageUrl)
+        }
+    }, [partData.photo])
+
+    // const imageUrl = `data:${partData.photo.contentType};base64,${Buffer.from(partData.photo.data).toString('base64')}`;
+
     if (partData && inventoryData) {
         return (
             <Container maxWidth='xl' sx={{ my: 5 }}>
                 <Grid container spacing={5}>
                     <Grid item xs={12} sm={6} sx={{ position: 'relative', aspectRatio: '1/1', maxHeight: '70vh' }}>
 
-                        {partData.photo ?
-
+                        {photoUrl ?
                             <Box
                                 sx={{ width: '100%', height: '100%', borderRadius: '.25rem' }}
                             >
                                 <img
                                     style={{ objectFit: 'cover', height: '100%', width: '100%', borderRadius: '.5rem' }}
-                                    src={imagefrombuffer({
-                                        type: partData.photo.contentType, // example image/jpeg 
-                                        data: partData.photo.data.data, // array buffer data 
-                                    })}
+                                    src={photoUrl}
                                 />
                             </Box>
                             :
-
                             <Skeleton variant="rectangular" sx={{ width: '100%', height: '100%', borderRadius: '.5rem' }} />
                         }
                         <Button sx={{ position: 'absolute', zIndex: 1000, right: 0, top: 50 }} onClick={handleAnchorSetting2}>
@@ -206,29 +213,53 @@ export default function Part(): JSX.Element {
 
 function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
     return (
-        <Grid container direction='row' spacing={2} flex={1} alignItems='center' justifyContent='space-between'>
-            <Grid item>
-                {inventory.location?.city === 'Magazyn Centralny' ? <WarehouseRounded /> : <StoreRounded />}
-            </Grid>
-            <Grid item>
-                <Typography variant="body1" color="initial">{inventory.location?.city}</Typography>
-            </Grid>
-
-            <Grid item xs={8} sx={{ ml: 'auto' }}>
-                <Tooltip title={inventory.available > 0 ? `available: ${inventory.available}` : 'Waiting for delivery'} disableInteractive placement="left">
-                    <LinearProgress
-                        sx={{ height: 6, borderRadius: '1rem', opacity: `${inventory.available === 0 ? '35%' : '100%'}` }}
-                        variant="determinate"
-                        color={
-                            inventory.available <= 5 ? 'error' :
-                                inventory.available <= 15 ? 'warning' :
-                                    inventory.available <= 25 ? 'info' :
-                                        'success'
-                        }
-                        value={inventory.available > 100 ? 100 : inventory.available} />
-                </Tooltip>
-            </Grid>
-        </Grid>
-
-    )
+        <TableContainer>
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            {inventory.location?.city === 'Magazyn Centralny' ? (
+                                <WarehouseRounded />
+                            ) : (
+                                <StoreRounded />
+                            )}
+                            <Typography variant="body1" color="initial" sx={{ ml: 1 }}>
+                                {inventory.location?.city}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Tooltip
+                                title={
+                                    inventory.available > 0
+                                        ? `Available: ${inventory.available}`
+                                        : 'Waiting for delivery'
+                                }
+                                disableInteractive
+                                placement="left"
+                            >
+                                <LinearProgress
+                                    sx={{
+                                        height: 6,
+                                        borderRadius: '1rem',
+                                        opacity: `${inventory.available === 0 ? '35%' : '100%'}`,
+                                    }}
+                                    variant="determinate"
+                                    color={
+                                        inventory.available <= 5
+                                            ? 'error'
+                                            : inventory.available <= 15
+                                                ? 'warning'
+                                                : inventory.available <= 25
+                                                    ? 'info'
+                                                    : 'success'
+                                    }
+                                    value={inventory.available > 100 ? 100 : inventory.available}
+                                />
+                            </Tooltip>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
 }
