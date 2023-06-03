@@ -223,11 +223,13 @@ function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element
                             ) : (
                                 <StoreRounded />
                             )}
-                            <Typography variant="body1" color="initial" sx={{ ml: 1 }}>
+                        </TableCell>
+                        <TableCell align="right">
+                            <Typography variant="body1" color="initial">
                                 {inventory.location?.city}
                             </Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{ width: '50%' }}>
                             <Tooltip
                                 title={
                                     inventory.available > 0
