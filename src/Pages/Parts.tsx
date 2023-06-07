@@ -57,7 +57,7 @@ export default function Parts(): JSX.Element {
     return (
         <Container maxWidth='xl'>
             <Typography variant="h4">List of products sold in our stores</Typography>
-            <Stack>
+            <Stack direction='row' flex={1} justifyContent='space-between'>
                 <Button onClick={() => dispatch(setPartEditModalOpen(true))}> Add new part </Button>
                 <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
             </Stack>
@@ -82,14 +82,15 @@ export default function Parts(): JSX.Element {
 
 function PerPageDropdown({ perPage, setPerPage }) {
     return (
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" size="small" sx={{minWidth: '16ch'}}>
             <InputLabel>Items per page</InputLabel>
             <Select
                 value={perPage}
                 onChange={e => {
                     setPerPage(e.target.value)
                 }}
-                label="Items per page">
+                label="Items per page"
+            >
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={16}>16</MenuItem>
                 <MenuItem value={32}>32</MenuItem>

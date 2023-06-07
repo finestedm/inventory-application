@@ -18,8 +18,6 @@ export async function part_list(req, res) {
 
         const skip = (page - 1) * limit; // Calculate the number of items to skip
 
-        console.log(`page: ${page}, limit: ${limit}, skip:${skip}, totalCount:${totalCount}`)
-
         const partList = await Part.find()
             // .sort({ created_at: -1 }) // for some reason sorting fucks the process and it always return the same first item
             .skip(skip)
