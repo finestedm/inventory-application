@@ -5,7 +5,6 @@ import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, setPartData, setPartDeleteModalOpen, setPartEditModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
 // @ts-ignore
-import { imagefrombuffer } from 'imagefrombuffer'
 import { IPart } from './interfaces';
 
 interface CardProps extends React.PropsWithChildren<{}> {
@@ -21,6 +20,10 @@ export default function CardPart({ part }: CardProps) {
     setAnchorEl(event.currentTarget);
   };
   const dispatch = useDispatch();
+
+  const blob = new Blob([Uint8Array.from(part.photo.data.data)], { type: part.photo.contentType });
+  const imageUrl = URL.createObjectURL(blob);
+
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card sx={{ position: 'relative', height: '100%' }} >
@@ -58,10 +61,7 @@ export default function CardPart({ part }: CardProps) {
               >
                 <img
                   style={{ objectFit: 'cover', height: '100%', width: '100%', }}
-                  src={imagefrombuffer({
-                    type: part.photo.contentType, // example image/jpeg 
-                    data: part.photo.data.data, // array buffer data 
-                  })}
+                  src={imageUrl}
                 />
               </Box>
               :
