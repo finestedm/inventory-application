@@ -42,16 +42,13 @@ export default function Parts(): JSX.Element {
 
     useEffect(() => {
         //this part changes value of page in URL
-        const handleLocationChange = () => {
-            const queryParams = new URLSearchParams(window.location.search);
-            queryParams.set('limit', perPage.toString());
-            window.history.replaceState(
-                null,
-                '',
-                `${window.location.pathname}?${queryParams.toString()}`
-            );
-        };
-        handleLocationChange();
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('limit', perPage.toString());
+        window.history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}?${queryParams.toString()}`
+        );
         // this one fetches parts on both below parameters change
         fetchParts();
     }, [currentPage, perPage]);
@@ -71,8 +68,11 @@ export default function Parts(): JSX.Element {
                 page={currentPage}
                 shape="rounded"
                 onChange={(event, page) => {
-                    const queryParams = qs.stringify({ page, limit: perPage });
-                    navigate(`/catalog/parts?${queryParams}`);
+                    let queryParams = '';
+                    if (page > 1) {
+                        queryParams = qs.stringify({ page, limit: perPage });
+                    }
+                    navigate(`/catalog/parts${queryParams ? `?${queryParams}` : ''}`);
                     setCurrentPage(page);
                 }}
             />
@@ -81,11 +81,15 @@ export default function Parts(): JSX.Element {
 }
 
 function PerPageDropdown({ perPage, setPerPage }) {
-
     return (
         <FormControl variant="outlined">
             <InputLabel>Items per page</InputLabel>
-            <Select value={perPage} onChange={e => setPerPage(e.target.value)} label="Items per page">
+            <Select
+                value={perPage}
+                onChange={e => {
+                    setPerPage(e.target.value)
+                }}
+                label="Items per page">
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={16}>16</MenuItem>
                 <MenuItem value={32}>32</MenuItem>
