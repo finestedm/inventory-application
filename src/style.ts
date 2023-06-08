@@ -69,13 +69,6 @@ theme = createTheme(theme, {
                 }
             }
         },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: borderRadiusStandard,
-                }
-            }
-        },
         MuiDivider: {
             styleOverrides: {
                 root: {

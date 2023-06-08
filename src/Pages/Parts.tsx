@@ -55,34 +55,36 @@ export default function Parts(): JSX.Element {
 
 
     return (
-        <Container maxWidth='xl'>
-            <Typography variant="h4">List of products sold in our stores</Typography>
-            <Stack direction='row' flex={1} justifyContent='space-between'>
-                <Button onClick={() => dispatch(setPartEditModalOpen(true))}> Add new part </Button>
-                <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
+        <Container maxWidth='xl' sx={{ py: '2rem' }}>
+            <Stack spacing={2}>
+                <Typography variant="h4">List of products sold in our stores</Typography>
+                <Stack direction='row' flex={1} justifyContent='space-between'>
+                    <Button variant="outlined" onClick={() => dispatch(setPartEditModalOpen(true))}> Add new part </Button>
+                    <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
+                </Stack>
+                <CardList parts={parts} />
+                <Pagination
+                    sx={{ width: '100%' }}
+                    count={totalPages}
+                    page={currentPage}
+                    shape="rounded"
+                    onChange={(event, page) => {
+                        let queryParams = '';
+                        if (page > 1) {
+                            queryParams = qs.stringify({ page, limit: perPage });
+                        }
+                        navigate(`/catalog/parts${queryParams ? `?${queryParams}` : ''}`);
+                        setCurrentPage(page);
+                    }}
+                />
             </Stack>
-            <CardList parts={parts} />
-            <Pagination
-                sx={{ width: '100%' }}
-                count={totalPages}
-                page={currentPage}
-                shape="rounded"
-                onChange={(event, page) => {
-                    let queryParams = '';
-                    if (page > 1) {
-                        queryParams = qs.stringify({ page, limit: perPage });
-                    }
-                    navigate(`/catalog/parts${queryParams ? `?${queryParams}` : ''}`);
-                    setCurrentPage(page);
-                }}
-            />
         </Container>
     )
 }
 
 function PerPageDropdown({ perPage, setPerPage }) {
     return (
-        <FormControl variant="outlined" size="small" sx={{minWidth: '16ch'}}>
+        <FormControl variant="outlined" size="small" sx={{ minWidth: '16ch' }}>
             <InputLabel>Items per page</InputLabel>
             <Select
                 value={perPage}
