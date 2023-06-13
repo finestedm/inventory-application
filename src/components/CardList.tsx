@@ -7,8 +7,8 @@ import CardPlaceholder from "./CardPartPlaceholder";
 interface CardListProps extends React.PropsWithChildren<{}> {
     parts?: IPart[];
     locations?: ILocation[];
-    perPage: number;
-    placeholder: boolean;
+    perPage?: number;
+    placeholder?: boolean;
     // add more props here
 }
 
