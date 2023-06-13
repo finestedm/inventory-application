@@ -21,10 +21,6 @@ export default function Parts(): JSX.Element {
     const [perPage, setPerPage] = useState<number>(4);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    useEffect(() => {
-        console.log(isLoading)
-    }, [isLoading])
-
     const fetchParts = () => {
         setIsLoading(true); // Set isLoading to true when fetching data
         // read values from url
@@ -72,10 +68,7 @@ export default function Parts(): JSX.Element {
                     <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
                 </Stack>
 
-                {isLoading ?
-                    <CircularProgress /> :
-                    <CardList parts={parts} />
-                }
+                <CardList parts={parts} perPage={perPage} placeholder={isLoading} />
 
                 <Pagination
                     sx={{ width: '100%' }}
