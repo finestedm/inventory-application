@@ -18,6 +18,8 @@ export default function PartEditModal() {
 
     const [newTagInput, setNewTagInput] = useState("");
 
+    
+
     useEffect(() => {
         axios.get('/parts/manufacturers')
             .then((response) => setManufacturers(response.data));

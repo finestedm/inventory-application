@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Button, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Button, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import NewPartModal from "../components/Modals/PartEditModal";
 import CardList from "../components/CardList";
@@ -19,8 +19,14 @@ export default function Parts(): JSX.Element {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [perPage, setPerPage] = useState<number>(4);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        console.log(isLoading)
+    }, [isLoading])
 
     const fetchParts = () => {
+        setIsLoading(true); // Set isLoading to true when fetching data
         // read values from url
         const queryParams = qs.stringify({
             page: currentPage,
@@ -37,6 +43,9 @@ export default function Parts(): JSX.Element {
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false); // Set isLoading to false when data fetching is complete
             });
     };
 
@@ -62,7 +71,12 @@ export default function Parts(): JSX.Element {
                     <Button variant="outlined" onClick={() => dispatch(setPartEditModalOpen(true))}> Add new part </Button>
                     <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
                 </Stack>
-                <CardList parts={parts} />
+
+                {isLoading ?
+                    <CircularProgress /> :
+                    <CardList parts={parts} />
+                }
+
                 <Pagination
                     sx={{ width: '100%' }}
                     count={totalPages}

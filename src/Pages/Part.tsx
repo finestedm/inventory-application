@@ -145,8 +145,8 @@ export default function Part(): JSX.Element {
                         </Menu>
 
                         <Stack spacing={2}>
-                            <Typography mb={2} variant='h4' sx={{ fontWeight: 500 }}> {partData.name}</Typography >
-                            <Divider />
+                            <Typography mb={2} variant='h4' sx={{ fontWeight: 500, mb: 0 }}> {partData.name}</Typography >
+                            {/* <Divider /> */}
                             <Typography color={theme.palette.grey[500]}> {partData.manufacturer}</Typography >
                             <Divider />
                             <div style={{ display: 'flex' }}>
@@ -187,9 +187,9 @@ export default function Part(): JSX.Element {
                                 </Menu>
                                 <List>
                                     {(inventoryData) ?
-                                        (inventoryData.map(inv =>
-                                            <InventoryCounter key={uuid()} inventory={inv} />
-                                        ))
+                                        (
+                                            <InventoryCounter key={uuid()} inventoryData={inventoryData} />
+                                        )
                                         :
                                         <Typography variant="h5">Product unavailable</Typography>
                                     }
@@ -211,55 +211,58 @@ export default function Part(): JSX.Element {
     }
 }
 
-function InventoryCounter({ inventory }: { inventory: IInventory }): JSX.Element {
+function InventoryCounter({ inventoryData }: { inventoryData: IInventory[] }): JSX.Element {
     return (
         <TableContainer>
             <Table>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>
-                            {inventory.location?.city === 'Magazyn Centralny' ? (
-                                <WarehouseRounded />
-                            ) : (
-                                <StoreRounded />
-                            )}
-                        </TableCell>
-                        <TableCell align="right">
-                            <Typography variant="body1" color="initial">
-                                {inventory.location?.city}
-                            </Typography>
-                        </TableCell>
-                        <TableCell sx={{ width: '50%' }}>
-                            <Tooltip
-                                title={
-                                    inventory.available > 0
-                                        ? `Available: ${inventory.available}`
-                                        : 'Waiting for delivery'
-                                }
-                                disableInteractive
-                                placement="left"
-                            >
-                                <LinearProgress
-                                    sx={{
-                                        height: 6,
-                                        borderRadius: '1rem',
-                                        opacity: `${inventory.available === 0 ? '35%' : '100%'}`,
-                                    }}
-                                    variant="determinate"
-                                    color={
-                                        inventory.available <= 5
-                                            ? 'error'
-                                            : inventory.available <= 15
-                                                ? 'warning'
-                                                : inventory.available <= 25
-                                                    ? 'info'
-                                                    : 'success'
+                    {inventoryData.map((inventory) => (
+                        <TableRow key={inventory._id}>
+                            <TableCell>
+                                {inventory.location?.city === 'Magazyn Centralny' ? (
+                                    <WarehouseRounded />
+                                ) : (
+                                    <StoreRounded />
+                                )}
+                            </TableCell>
+                            <TableCell align="right">
+                                <Typography variant="body1" color="initial">
+                                    {inventory.location?.city}
+                                </Typography>
+                            </TableCell>
+                            <TableCell sx={{ width: '50%' }}>
+                                <Tooltip
+                                    title={
+                                        inventory.available > 0
+                                            ? `Available: ${inventory.available}`
+                                            : 'Waiting for delivery'
                                     }
-                                    value={inventory.available > 100 ? 100 : inventory.available}
-                                />
-                            </Tooltip>
-                        </TableCell>
-                    </TableRow>
+                                    disableInteractive
+                                    placement="left"
+                                >
+                                    <LinearProgress
+                                        sx={{
+                                            height: 6,
+                                            borderRadius: '1rem',
+                                            opacity: `${inventory.available === 0 ? '35%' : '100%'}`,
+                                        }}
+                                        variant="determinate"
+                                        color={
+                                            inventory.available <= 5
+                                                ? 'error'
+                                                : inventory.available <= 15
+                                                    ? 'warning'
+                                                    : inventory.available <= 25
+                                                        ? 'info'
+                                                        : 'success'
+                                        }
+                                        value={inventory.available > 100 ? 100 : inventory.available}
+                                    />
+                                </Tooltip>
+                            </TableCell>
+                        </TableRow>
+                    ))
+                    }
                 </TableBody>
             </Table>
         </TableContainer>
