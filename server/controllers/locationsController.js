@@ -31,7 +31,6 @@ export async function location_details(req, res) {
             delete openingHours._id; // Exclude the _id field
         }
         )
-        console.log(location)
         res.status(200).json(location)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -288,16 +287,16 @@ export async function edit_location(req, res) {
 
 export async function edit_location_hours(req, res) {
     const { _id, openingHours } = req.body;
-
+    console.log(openingHours);
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const isValidData = daysOfWeek.every(day => {
         const openingHour = openingHours[day];
 
         // Check if the opening hour is a valid date string
-        const isOpeningValid = openingHour.open && !isNaN(Date.parse(openingHour.open));
+        const isOpeningValid = openingHour.open === null || (!isNaN(Date.parse(openingHour.open)));
         // Check if the closing hour is a valid date string
-        const isClosingValid = openingHour.close && !isNaN(Date.parse(openingHour.close));
+        const isClosingValid = openingHour.close === null || (!isNaN(Date.parse(openingHour.close)));
 
         return isOpeningValid && isClosingValid;
     });
@@ -313,6 +312,7 @@ export async function edit_location_hours(req, res) {
         res.status(404).json({ message: error.message });
     }
 }
+
 
 
 export async function delete_location(req, res) {
