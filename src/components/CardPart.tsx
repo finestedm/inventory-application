@@ -21,9 +21,12 @@ export default function CardPart({ part }: CardProps) {
   };
   const dispatch = useDispatch();
 
-  const blob = new Blob([Uint8Array.from(part.photo.data.data)], { type: part.photo.contentType });
-  const imageUrl = URL.createObjectURL(blob);
-
+  let imageUrl = ''
+  if (part.photo) {
+    const blob = new Blob([Uint8Array.from(part.photo.data.data)], { type: part.photo.contentType });
+    imageUrl = URL.createObjectURL(blob);
+  }
+    
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card sx={{ position: 'relative', height: '100%' }} >

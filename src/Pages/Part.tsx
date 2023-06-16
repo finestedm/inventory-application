@@ -185,15 +185,13 @@ export default function Part(): JSX.Element {
                                     }
                                     }>Edit availability</MenuItem>
                                 </Menu>
-                                <List>
-                                    {(inventoryData) ?
-                                        (
-                                            <InventoryCounter key={uuid()} inventoryData={inventoryData} />
-                                        )
-                                        :
-                                        <Typography variant="h5">Product unavailable</Typography>
-                                    }
-                                </List>
+                                {(inventoryData) ?
+                                    (
+                                        <InventoryCounter key={uuid()} inventoryData={inventoryData} />
+                                    )
+                                    :
+                                    <Typography variant="h5">Product unavailable</Typography>
+                                }
                             </Box>
                             <Divider />
                             <BuyButton />

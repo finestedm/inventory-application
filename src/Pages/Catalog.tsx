@@ -29,24 +29,32 @@ export default function Catalog(): JSX.Element {
     // set initial states of catalogCounts with declared types of data
     const [parts, setParts] = useState<IPart[]>([])
     const [locations, setLocations] = useState<ILocation[]>([])
-
+    const [isLoadingParts, setIsLoadingParts] = useState<boolean>(false)
+    const [isLoadingLocations, setIsLoadingLocations] = useState<boolean>(false)
 
     // get data from server: number of elements in each category
     useEffect(() => {
+        setIsLoadingParts(true);
+        setIsLoadingLocations(true)
         axios.get(`/parts?limit=4`)
             .then((response) => {
                 setParts(response.data.partsData)
-                console.log(response.data.partsData)
             })
+            .finally(() => {
+                setIsLoadingParts(false); // Set isLoading to false when data fetching is complete
+            });
         axios.get('/locations')
             .then((response) => setLocations(response.data))
+            .finally(() => {
+                setIsLoadingLocations(false); // Set isLoading to false when data fetching is complete
+            });
     }, [])
 
 
     return (
         <>
             <Container maxWidth={false} disableGutters  >
-                <CampaignCarousel />
+                {/* <CampaignCarousel /> */}
             </Container>
             <Container maxWidth='xl'>
                 <Stack spacing={3}>
@@ -55,14 +63,14 @@ export default function Catalog(): JSX.Element {
                             <Typography variant='h5' noWrap>Browser newest parts:</Typography>
                             <Button href="catalog/parts/">See all parts</Button>
                         </Stack>
-                        <CardList parts={parts} />
+                        <CardList parts={parts} placeholder={isLoadingParts} perPage={4}/>
                     </Box>
                     <Box>
                         <Stack direction='row' justifyContent='space-between'>
                             <Typography variant='h5'>Our shops are in these cities:</Typography>
                             <Button href="catalog/locations/">See all shops</Button>
                         </Stack>
-                        <CardList locations={locations} />
+                        <CardList locations={locations} placeholder={isLoadingLocations} perPage={4} />
                     </Box>
                     <Box>
                         <Stack direction='row' justifyContent='space-between'>
