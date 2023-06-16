@@ -18,7 +18,6 @@ export default function PhotoUploadModal() {
             const formData = new FormData();
             photoData && formData.append('partPhoto', photoData)
             partData._id && formData.append('partId', partData._id)
-            console.log('here I am')
             const response = await axios.post(`/parts/upload_part_photo`, formData)
             dispatch(setPhotoUploadModalOpen(false));
             return response.data;
