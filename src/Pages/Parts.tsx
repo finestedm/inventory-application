@@ -16,20 +16,31 @@ export default function Parts(): JSX.Element {
     const navigate = useNavigate();
 
     const [parts, setParts] = useState<IPart[]>([]);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(
+        Number(new URLSearchParams(window.location.search).get('page')) || 1
+    );
     const [totalPages, setTotalPages] = useState<number>(0);
     const [perPage, setPerPage] = useState<number>(4);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    //retreive data from url
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const page = Number(queryParams.get('page')) || 1;
+        const limit = Number(queryParams.get('limit')) || 4;
+
+        setCurrentPage(page);
+        setPerPage(limit);
+    }, []);
+
+
     const fetchParts = () => {
-        setIsLoading(true); // Set isLoading to true when fetching data
-        // read values from url
+        setIsLoading(true);
         const queryParams = qs.stringify({
             page: currentPage,
             limit: perPage,
         });
 
-        //fetch data
         axios
             .get(`/parts?${queryParams}`)
             .then((response) => {
@@ -41,7 +52,7 @@ export default function Parts(): JSX.Element {
                 console.log(error);
             })
             .finally(() => {
-                setIsLoading(false); // Set isLoading to false when data fetching is complete
+                setIsLoading(false);
             });
     };
 
