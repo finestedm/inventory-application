@@ -1,8 +1,7 @@
 import { Box, Grid, Pagination, Paper, Stack } from "@mui/material";
 import { ILocation, IPart } from "./interfaces";
-import CardPart from "./CardPart";
-import CardLocation from "./CardLocation";
 import CardPlaceholder from "./CardPartPlaceholder";
+import CardComponent from "./CardComponent";
 
 interface CardListProps extends React.PropsWithChildren<{}> {
     parts?: IPart[];
@@ -32,8 +31,8 @@ export default function CardList(props: CardListProps) {
         return (
             <Box>
                 <Grid container spacing={4} flex={1} justifyContent='center'>
-                    <Grid container item direction='row' spacing={2}>{parts?.map(part => <CardPart key={part._id} part={part} />)}</Grid>
-                    <Grid container item direction='row' spacing={2}>{locations?.map(location => <CardLocation key={location._id} location={location} />)}</Grid>
+                    <Grid container item direction='row' spacing={2}>{parts?.map(part => <CardComponent key={part._id} part={part} />)}</Grid>
+                    <Grid container item direction='row' spacing={2}>{locations?.map(location => <CardComponent key={location._id} location={location} />)}</Grid>
                 </Grid>
             </Box>
         )
