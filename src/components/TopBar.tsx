@@ -1,7 +1,10 @@
-import { AppBar, Button, Container, FormControl, Stack, SvgIcon, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, FormControl, InputAdornment, Stack, SvgIcon, TextField, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import logo from '../images/logo.svg'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, clearSearchPhrase, setSearchPhrase } from '@/features/modalSlide';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export default function TopBar() {
     const [isAtTop, setIsAtTop] = useState(true);
@@ -16,6 +19,13 @@ export default function TopBar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const dispatch = useDispatch();
+    const searchData = useSelector((state: RootState) => state.search.searchPhrase);
+
+    useEffect(() => {
+        console.log(searchData)
+
+    }, [searchData])
 
     return (
         <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3rem', transition: 'all .25s ease' }}>
@@ -27,9 +37,23 @@ export default function TopBar() {
                         </Typography>
                         <FormControl component={Stack}>
                             <TextField
-                                sx={{minWidth: '3ch'}}
                                 size='small'
                                 placeholder='Search'
+                                value={searchData}
+                                onChange={e => dispatch(setSearchPhrase(e.target.value))}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            {(searchData) ? 
+                                                <ClearIcon
+                                                    onClick={() => dispatch(clearSearchPhrase())}
+                                                />
+                                                :
+                                                <SearchIcon />
+                                            }
+                                        </InputAdornment>
+                                    ),
+                                  }}
                             />
                         </FormControl>
                         <Stack alignItems="center">

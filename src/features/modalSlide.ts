@@ -25,7 +25,7 @@ const initialOpeningHours: OpeningHours[] = daysOfWeek.map(day => ({
   close: '',
 }));
 
-const initialState: IModalState = {
+const initialModalState: IModalState = {
   partEditModalOpen: false,
   partDeleteModalOpen: false,
   partData: {
@@ -61,28 +61,27 @@ const initialState: IModalState = {
   photoUploadModalOpen: false
 };
 
-
 const modalSlice = createSlice({
   name: "modal",
-  initialState,
+  initialState: initialModalState,
   reducers: {
     setPartEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.partEditModalOpen = action.payload;
       if (!action.payload) {
         // Dispatch resetPartDataDeep when partEditModalOpen is set to false
-        state.partData = initialState.partData;
+        state.partData = initialModalState.partData;
       }
     },
     setPartDeleteModalOpen: (state, action: PayloadAction<{ partDeleteModalOpen: boolean, partData?: IPart }>) => {
       state.partDeleteModalOpen = action.payload.partDeleteModalOpen;
-      state.partData = action.payload.partData ? action.payload.partData : state.partData = initialState.partData
+      state.partData = action.payload.partData ? action.payload.partData : state.partData = initialModalState.partData
     },
 
     setPartData(state, action: PayloadAction<IPart>) {
       state.partData = action.payload;
     },
     resetPartDataDeep(state) {
-      state.partData = initialState.partData;
+      state.partData = initialModalState.partData;
     },
     setInventoryEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.inventoryEditModalOpen = action.payload;
@@ -93,14 +92,14 @@ const modalSlice = createSlice({
     setLocationEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.locationEditModalOpen = action.payload;
       if (!action.payload) {
-        state.locationData = initialState.locationData;
+        state.locationData = initialModalState.locationData;
       }
     },
     setLocationData(state, action: PayloadAction<ILocation>) {
       state.locationData = action.payload;
     },
     resetLocationDataDeep(state) {
-      state.locationData = initialState.locationData;
+      state.locationData = initialModalState.locationData;
     },
     setLocationDeleteModalOpen: (state, action: PayloadAction<{ locationDeleteModalOpen: boolean, locationData?: ILocation }>) => {
       state.locationDeleteModalOpen = action.payload.locationDeleteModalOpen;
@@ -109,14 +108,14 @@ const modalSlice = createSlice({
     setLocationOpenHoursEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.locationOpenHoursEditModalOpen = action.payload;
       if (!action.payload) {
-        state.locationData = initialState.locationData;
+        state.locationData = initialModalState.locationData;
       }
     },
     setTagEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.tagEditModalOpen = action.payload;
       if (!action.payload) {
         // Dispatch resetPartDataDeep when partEditModalOpen is set to false
-        state.tagData = initialState.tagData;
+        state.tagData = initialModalState.tagData;
       }
     },
     setTagData(state, action: PayloadAction<ITag>) {
@@ -124,7 +123,7 @@ const modalSlice = createSlice({
     },
     setTagDeleteModalOpen: (state, action: PayloadAction<{ tagDeleteModalOpen: boolean, tagData?: ITag }>) => {
       state.tagDeleteModalOpen = action.payload.tagDeleteModalOpen;
-      state.tagData = action.payload.tagData ? action.payload.tagData : state.tagData = initialState.tagData;
+      state.tagData = action.payload.tagData ? action.payload.tagData : state.tagData = initialModalState.tagData;
     },
     setPhotoData(state, action: PayloadAction<File>) {
       state.photoData = action.payload;
@@ -132,14 +131,33 @@ const modalSlice = createSlice({
     setPhotoUploadModalOpen: (state, action: PayloadAction<boolean>) => {
       state.photoUploadModalOpen = action.payload;
       if (!action.payload) {
-        state.photoData = initialState.photoData;
+        state.photoData = initialModalState.photoData;
       }
+    },
+  },
+});
+
+const initialSearchState = {
+  searchPhrase: "",
+};
+
+
+const searchSlice = createSlice({
+  name: "search",
+  initialState: initialSearchState,
+  reducers: {
+    setSearchPhrase: (state, action) => {
+      state.searchPhrase = action.payload;
+    },
+    clearSearchPhrase: (state) => {
+      state.searchPhrase = "";
     },
   },
 });
 
 const rootReducer = combineReducers({
   modal: modalSlice.reducer,
+  search: searchSlice.reducer
 });
 
 export const store = configureStore({
@@ -147,4 +165,5 @@ export const store = configureStore({
 });
 
 export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setInventoryEditModalOpen, setInventoryData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen, setPhotoData, setPhotoUploadModalOpen } = modalSlice.actions;
+export const { setSearchPhrase, clearSearchPhrase } = searchSlice.actions;
 export type RootState = ReturnType<typeof store.getState>
