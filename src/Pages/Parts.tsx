@@ -23,7 +23,7 @@ export default function Parts(): JSX.Element {
     const [perPage, setPerPage] = useState<number>(4);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    //retreive data from url
+    //retrieve data from url
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const page = Number(queryParams.get('page')) || 1;
@@ -100,14 +100,14 @@ export default function Parts(): JSX.Element {
     )
 }
 
-function PerPageDropdown({ perPage, setPerPage }) {
+function PerPageDropdown({ perPage, setPerPage }: { perPage: number, setPerPage: React.Dispatch<React.SetStateAction<number>> }) {
     return (
         <FormControl variant="outlined" size="small" sx={{ minWidth: '16ch' }}>
             <InputLabel>Items per page</InputLabel>
             <Select
                 value={perPage}
                 onChange={e => {
-                    setPerPage(e.target.value)
+                    setPerPage(Number(e.target.value))
                 }}
                 label="Items per page"
             >
