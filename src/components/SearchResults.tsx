@@ -95,7 +95,7 @@ export default function SearchResults(): JSX.Element {
                     onChange={(event, page) => {
                         let queryParams = '';
                         if (page > 1) {
-                            queryParams = qs.stringify({ page, limit: perPage, query: searchQuery });
+                            queryParams = qs.stringify({ page, ...(perPage !== 4 && { limit: perPage }), ...(searchQuery && { query: searchQuery }) });
                         }
                         navigate(`/catalog/search${queryParams ? `?${queryParams}` : ''}`);
                         setCurrentPage(page);
