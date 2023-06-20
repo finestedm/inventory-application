@@ -54,7 +54,7 @@ export default function Catalog(): JSX.Element {
     return (
         <>
             <Container maxWidth={false} disableGutters  >
-                {/* <CampaignCarousel /> */}
+                <CampaignCarousel />
             </Container>
             <Container maxWidth='xl'>
                 <Stack spacing={3}>
@@ -63,7 +63,7 @@ export default function Catalog(): JSX.Element {
                             <Typography variant='h5' noWrap>Browser newest parts:</Typography>
                             <Button href="catalog/parts/">See all parts</Button>
                         </Stack>
-                        <CardList parts={parts} placeholder={isLoadingParts} perPage={4}/>
+                        <CardList parts={parts} placeholder={isLoadingParts} perPage={4} />
                     </Box>
                     <Box>
                         <Stack direction='row' justifyContent='space-between'>

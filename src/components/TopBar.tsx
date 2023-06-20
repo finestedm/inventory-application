@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, clearSearchPhrase, setSearchPhrase } from '@/features/modalSlide';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useNavigate } from 'react-router-dom';
 
 export default function TopBar() {
     const [isAtTop, setIsAtTop] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,8 +33,8 @@ export default function TopBar() {
         <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3rem', transition: 'all .25s ease' }}>
             <Container maxWidth="xl" sx={{ flexGrow: 1, display: "flex" }}>
                 <Toolbar variant="dense" disableGutters sx={{ width: '100%' }}>
-                    <Stack direction='row' sx={{ flexGrow: 1, display: "flex", alignItems: "center" }} spacing={4}>
-                        <Typography variant="h5" component="a" href="/" color="text.primary" sx={{ flexGrow: 1, fontWeight: 700, me: 'auto' }}>
+                    <Stack direction='row' sx={{ display: "flex", alignItems: "center", width: '100%' }} spacing={4}>
+                        <Typography variant="h5" component="a" href="/" color="text.primary" sx={{ fontWeight: 700 }} style={{ marginRight: 'auto' }}>
                             Untitled
                         </Typography>
                         <FormControl component={Stack}>
@@ -41,10 +43,15 @@ export default function TopBar() {
                                 placeholder='Search'
                                 value={searchData}
                                 onChange={e => dispatch(setSearchPhrase(e.target.value))}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter') {
+                                        navigate(`/catalog/search?query=${encodeURIComponent(searchData)}`);
+                                    }
+                                }}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            {(searchData) ? 
+                                            {(searchData) ?
                                                 <ClearIcon
                                                     onClick={() => dispatch(clearSearchPhrase())}
                                                 />
@@ -53,7 +60,7 @@ export default function TopBar() {
                                             }
                                         </InputAdornment>
                                     ),
-                                  }}
+                                }}
                             />
                         </FormControl>
                         <Stack alignItems="center">

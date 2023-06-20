@@ -24,6 +24,7 @@ import Footer from './components/Footer';
 import TagDeleteModal from './components/Modals/TagDeleteModal';
 import PhotoUploadModal from './components/Modals/PhotoUploadModal';
 import InventoryEditModal from './components/Modals/InventoryEditModal';
+import SearchResults from './components/SearchResults';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -57,6 +58,8 @@ function App() {
             <Route path='tags' element={<Tags />} />
             <Route path='tags/:name' element={<Tag />} />
             <Route path='availability' element={<Inventories />} />
+            <Route path='search' element={<SearchResults />} />
+
           </Route>
         </Routes>
         {!isSplashPage && <Footer />}

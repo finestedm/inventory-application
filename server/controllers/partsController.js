@@ -11,20 +11,34 @@ import Tag from '../models/tag.js';
 export async function part_list(req, res) {
     const limit = parseInt(req.query.limit) || 1; // Number of items per page
     const page = parseInt(req.query.page) || 1; // Current page
-
+    const query = req.query.query || '';
 
     try {
-        const totalCount = await Part.countDocuments(); // Total count of parts
+        let totalCount;
+        let partList;
 
-        const skip = (page - 1) * limit; // Calculate the number of items to skip
-
-        const partList = await Part.find()
-            // .sort({ created_at: -1 }) // for some reason sorting fucks the process and it always return the same first item
-            .skip(skip)
-            .limit(limit)
-            .populate("tags")
-            .populate("photo");
-        res.status(200).json({ partsData: partList, totalCount });
+        if (query) {
+            // If a search query is provided, search the 'name' values
+            totalCount = await Part.countDocuments({ name: { $regex: query, $options: 'i' } });
+            partList = await Part.find({ name: { $regex: query, $options: 'i' } })
+                .skip((page - 1) * limit)
+                .limit(limit)
+                .populate('tags')
+                .populate('photo');
+        } else {
+            // If no search query is provided, retrieve all parts
+            totalCount = await Part.countDocuments();
+            partList = await Part.find()
+                .skip((page - 1) * limit)
+                .limit(limit)
+                .populate('tags')
+                .populate('photo');
+        }
+        if (totalCount > 0)  {
+            res.status(200).json({ partsData: partList, totalCount });
+        } else {
+            res.sendStatus(204)
+        }
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
