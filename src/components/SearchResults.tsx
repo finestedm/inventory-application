@@ -2,10 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { Button, CircularProgress, Container, Pagination, Stack, Typography, responsiveFontSizes } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import NewPartModal from "../components/Modals/PartEditModal";
 import CardList from "../components/CardList";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartEditModalOpen } from "../features/modalSlide";
 import { IPart } from "@/components/interfaces";
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +37,6 @@ export default function SearchResults(): JSX.Element {
         setCurrentPage(page);
         setPerPage(limit);
         setSearchQuery(query);
-        console.log(page, limit, query)
     }
 
     const fetchParts = () => {
@@ -50,7 +46,6 @@ export default function SearchResults(): JSX.Element {
             limit: perPage,
             query: searchQuery,
         });
-        console.log(queryParams)
 
         axios
             .get(`/parts?${queryParams}`)
@@ -74,17 +69,9 @@ export default function SearchResults(): JSX.Element {
             });
     };
 
-    // useEffect(() => {
-    //     //this part changes value of page in URL
-    //     const queryParams = new URLSearchParams(window.location.search);
-    //     queryParams.set('limit', perPage.toString());
-    //     window.history.replaceState(
-    //         null,
-    //         '',
-    //         `${window.location.pathname}?${queryParams.toString()}`
-    //     );
-    //     setParamsBasedOnUrl()
-    // }, [window.location.search]);
+    useEffect(() => {
+        setParamsBasedOnUrl()
+    }, [window.location.search]);
 
     return (
         <Container maxWidth='xl' sx={{ py: '2rem' }}>
@@ -108,12 +95,13 @@ export default function SearchResults(): JSX.Element {
                     onChange={(event, page) => {
                         let queryParams = '';
                         if (page > 1) {
-                            queryParams = qs.stringify({ page, limit: perPage });
+                            queryParams = qs.stringify({ page, limit: perPage, query: searchQuery });
                         }
-                        navigate(`/catalog/parts${queryParams ? `?${queryParams}` : ''}`);
+                        navigate(`/catalog/search${queryParams ? `?${queryParams}` : ''}`);
                         setCurrentPage(page);
                     }}
                 />
+
             </Stack>
         </Container >
     )
