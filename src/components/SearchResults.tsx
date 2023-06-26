@@ -19,15 +19,19 @@ export default function SearchResults(): JSX.Element {
     const [perPage, setPerPage] = useState<number>(4);
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [hasMounted, setHasMounted] = useState<boolean>(false);
 
     //retrieve data from url
     useEffect(() => {
         setParamsBasedOnUrl()
+        setHasMounted(true);
     }, []);
 
     useEffect(() => {
-        fetchParts()
-    }, [perPage, searchQuery, currentPage])
+        if (hasMounted) {
+            fetchParts();
+        }
+    }, [perPage, searchQuery, currentPage, hasMounted])
 
     function setParamsBasedOnUrl() {
         const queryParams = new URLSearchParams(window.location.search);
