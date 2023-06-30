@@ -18,7 +18,7 @@ export default function PartEditModal() {
 
     const [newTagInput, setNewTagInput] = useState("");
 
-    
+
 
     useEffect(() => {
         axios.get('/parts/manufacturers')
@@ -55,19 +55,23 @@ export default function PartEditModal() {
         const value = e.target.value;
         // @ts-ignore
         if (e.nativeEvent.data === ' ') {
-            if (!partData.tags.map(tag => tag.name.toLowerCase()).includes(newTagInput.toLowerCase())) {
+            const existingTag = tags.find(tag => tag.name.toLowerCase() === newTagInput.toLowerCase());
+            if (existingTag) {
+                dispatch(setPartData({
+                    ...partData,
+                    tags: [...partData.tags, existingTag],
+                }));
+            } else {
                 dispatch(setPartData({
                     ...partData,
                     tags: [...partData.tags, { name: newTagInput }],
                 }));
-            } else {
-                e.target.blur();
-                e.target.focus();
             }
+            setNewTagInput("");
         } else if (value !== "" && !ALPHA_NUMERIC_DASH_REGEX.test(value)) {
-            return
+            return;
         } else {
-            setNewTagInput(value)
+            setNewTagInput(value);
         }
     }
 

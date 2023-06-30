@@ -96,10 +96,10 @@ export default function Part(): JSX.Element {
 
                         {photoUrl ?
                             <Box
-                                sx={{ width: '100%', height: '100%', borderRadius: '.25rem' }}
+                                sx={{ width: '100%', height: '100%', borderRadius: '.25rem', backgroundColor: 'white' }}
                             >
                                 <img
-                                    style={{ objectFit: 'cover', height: '100%', width: '100%', borderRadius: '.5rem' }}
+                                    style={{ objectFit: 'contain', height: '100%', width: '100%', borderRadius: '.5rem' }}
                                     src={photoUrl}
                                 />
                             </Box>
@@ -156,15 +156,17 @@ export default function Part(): JSX.Element {
                             <Divider />
                             <Box>
                                 <Typography gutterBottom> Categories: </Typography >
-                                {partData.tags.map(tag =>
-                                    <Chip
-                                        key={tag._id}
-                                        href={`/catalog/tags/${tag.name}`}
-                                        label={tag.name}
-                                        component="a"
-                                        clickable
-                                    />
-                                )}
+                                <Stack direction='row' spacing={2}>
+                                    {partData.tags.map(tag =>
+                                        <Chip
+                                            key={tag._id}
+                                            href={`/catalog/tags/${tag.name}`}
+                                            label={tag.name}
+                                            component="a"
+                                            clickable
+                                        />
+                                    )}
+                                </Stack>
                             </Box>
                             <Divider />
                             <Box sx={{ position: 'relative' }}>

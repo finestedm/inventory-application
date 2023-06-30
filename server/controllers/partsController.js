@@ -34,7 +34,7 @@ export async function part_list(req, res) {
                 .populate('tags')
                 .populate('photo');
         }
-        if (totalCount > 0)  {
+        if (totalCount > 0) {
             res.status(200).json({ partsData: partList, totalCount });
         }
         else {

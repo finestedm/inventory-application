@@ -69,7 +69,7 @@ export default function CardComponent({ part, location }: CardProps) {
                   sx={{ width: '100%', height: '100%', }}
                 >
                   <img
-                    style={{ objectFit: 'cover', height: '100%', width: '100%', }}
+                    style={{ objectFit: 'contain', height: '100%', width: '100%', }}
                     src={imageUrl}
                   />
                 </Box>
