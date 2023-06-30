@@ -74,6 +74,14 @@ export default function SearchResults(): JSX.Element {
     };
 
     useEffect(() => {
+        //this part changes value of page in URL
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('limit', perPage.toString());
+        window.history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}?${queryParams.toString()}`
+        );
         setParamsBasedOnUrl()
     }, [window.location.search]);
 
