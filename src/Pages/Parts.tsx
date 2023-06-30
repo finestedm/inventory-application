@@ -4,7 +4,8 @@ import { Button, CircularProgress, Container, Pagination, Stack, Typography } fr
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import CardList from "../components/CardList";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setPartEditModalOpen } from "../features/modalSlide";
+import { setPartEditModalOpen } from "../features/modalSlice";
+import { RootState } from "@/features/combineReducer";
 import { IPart } from "@/components/interfaces";
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';

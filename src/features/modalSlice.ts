@@ -103,7 +103,7 @@ const modalSlice = createSlice({
     },
     setLocationDeleteModalOpen: (state, action: PayloadAction<{ locationDeleteModalOpen: boolean, locationData?: ILocation }>) => {
       state.locationDeleteModalOpen = action.payload.locationDeleteModalOpen;
-      state.locationData = action.payload.locationData ? action.payload.locationData : state.locationData = initialState.locationData;
+      state.locationData = action.payload.locationData ? action.payload.locationData : state.locationData = initialModalState.locationData;
     },
     setLocationOpenHoursEditModalOpen: (state, action: PayloadAction<boolean>) => {
       state.locationOpenHoursEditModalOpen = action.payload;
@@ -137,33 +137,6 @@ const modalSlice = createSlice({
   },
 });
 
-const initialSearchState = {
-  searchPhrase: "",
-};
-
-
-const searchSlice = createSlice({
-  name: "search",
-  initialState: initialSearchState,
-  reducers: {
-    setSearchPhrase: (state, action) => {
-      state.searchPhrase = action.payload;
-    },
-    clearSearchPhrase: (state) => {
-      state.searchPhrase = "";
-    },
-  },
-});
-
-const rootReducer = combineReducers({
-  modal: modalSlice.reducer,
-  search: searchSlice.reducer
-});
-
-export const store = configureStore({
-  reducer: rootReducer,
-});
 
 export const { setPartEditModalOpen, setPartDeleteModalOpen, setPartData, setInventoryEditModalOpen, setInventoryData, setLocationEditModalOpen, setLocationData, setLocationDeleteModalOpen, setLocationOpenHoursEditModalOpen, setTagEditModalOpen, setTagData, setTagDeleteModalOpen, setPhotoData, setPhotoUploadModalOpen } = modalSlice.actions;
-export const { setSearchPhrase, clearSearchPhrase } = searchSlice.actions;
-export type RootState = ReturnType<typeof store.getState>
+export const modalReducer = modalSlice.reducer

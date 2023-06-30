@@ -15,7 +15,7 @@ import BreadcrumbsComponent from './components/Breadcrumbs';
 import { Provider } from "react-redux";
 import PartEditModal from './components/Modals/PartEditModal';
 import PartDeleteModal from './components/Modals/PartDeleteModal';
-import { store } from './features/modalSlide'
+import { store } from './features/combineReducer'
 import LocationEditModal from './components/Modals/LocationEditModal';
 import LocationDeleteModal from './components/Modals/LocationDeleteModal';
 import LocationOpenHoursEditModal from './components/Modals/LocationOpenHoursEditModal';

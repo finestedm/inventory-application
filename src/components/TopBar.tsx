@@ -2,7 +2,8 @@ import { AppBar, Button, Container, FormControl, InputAdornment, Stack, SvgIcon,
 import { useEffect, useState } from 'react';
 import logo from '../images/logo.svg'
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, clearSearchPhrase, setSearchPhrase } from '@/features/modalSlide';
+import { clearSearchPhrase, setSearchPhrase } from '@/features/searchSlice';
+import { RootState } from '@/features/combineReducer';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';

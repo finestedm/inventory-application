@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Button, Container, Typography } from "@mui/material";
 import CardList from "../components/CardList";
 import { useDispatch } from "react-redux";
-import { setLocationEditModalOpen } from "../features/modalSlide";
+import { setLocationEditModalOpen } from "../features/modalSlice";
 import { ILocation } from "@/components/interfaces";
 
 export default function Parts(): JSX.Element {
@@ -32,7 +32,7 @@ export default function Parts(): JSX.Element {
         <Container maxWidth='xl'>
             <Typography variant="h4">You can buy our products in the below shops:</Typography>
             <Button onClick={() => dispatch(setLocationEditModalOpen(true))}> Add new Shop </Button>
-            <CardList locations={locations} perPage={4} placeholder={isLoading}/>
+            <CardList locations={locations} perPage={4} placeholder={isLoading} />
         </Container>
     )
 

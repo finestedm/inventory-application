@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, setLocationDeleteModalOpen } from "../../features/modalSlide";
+import { RootState, setLocationDeleteModalOpen } from "../../features/modalSlice";
 import { Button, Card, CardActionArea, CardContent, CardHeader, Modal, Stack } from "@mui/material";
 import { useNavigate, useLocation } from 'react-router-dom';
 import deleteLocation from "../../methods/deleteLocation";

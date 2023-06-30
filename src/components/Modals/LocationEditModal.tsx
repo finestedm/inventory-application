@@ -4,7 +4,7 @@ import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { ITag, IPart, ILocation, IError } from "../interfaces";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../../features/modalSlide";
+import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen } from "../../features/modalSlice";
 
 export default function LocationEditModal() {
 

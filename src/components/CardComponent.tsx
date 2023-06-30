@@ -3,7 +3,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setPartData, setPartDeleteModalOpen, setPartEditModalOpen, setPhotoUploadModalOpen } from "../features/modalSlide";
+import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setPartData, setPartDeleteModalOpen, setPartEditModalOpen, setPhotoUploadModalOpen } from "../features/modalSlice";
+import { RootState } from '@/features/combineReducer';
 // @ts-ignore
 import { ILocation, IPart } from './interfaces';
 import LocationMap from './LocationMap';

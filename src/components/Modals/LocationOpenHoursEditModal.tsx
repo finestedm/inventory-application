@@ -3,7 +3,7 @@ import { Grid, Modal, Box, Typography, Card, CardContent, CardHeader, TextField,
 import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../../features/modalSlide";
+import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setLocationOpenHoursEditModalOpen } from "../../features/modalSlice";
 import { IError, ITag, IPart, ILocation, IOpeningHours } from "../interfaces";
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -84,7 +84,7 @@ function DayOpenCloseTimePickers({ day, errors, setErrors }: any) {
     const locationData = useSelector((state: RootState) => state.modal.locationData);
     const [isClosed, setIsClosed] = useState(!locationData.openingHours[day].open && !locationData.openingHours[day].closed)
     const dispatch = useDispatch();
-    
+
 
     return (
         <Grid container alignItems='center'>

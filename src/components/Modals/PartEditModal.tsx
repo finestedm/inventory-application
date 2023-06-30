@@ -4,7 +4,8 @@ import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { ITag, IPart, IError } from "../interfaces";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setPartData } from "../../features/modalSlide";
+import { setPartEditModalOpen, setPartData } from "../../features/modalSlice";
+import { RootState } from "@/features/combineReducer";
 
 export default function PartEditModal() {
 

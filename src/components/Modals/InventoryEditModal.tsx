@@ -4,7 +4,7 @@ import axios, { Axios, AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { ITag, IPart, ILocation, IError, IInventory } from "../interfaces";
 import { useSelector, useDispatch } from "react-redux";
-import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setInventoryEditModalOpen, setInventoryData } from "../../features/modalSlide";
+import { setPartEditModalOpen, RootState, setLocationData, setLocationEditModalOpen, setInventoryEditModalOpen, setInventoryData } from "../../features/modalSlice";
 import { v4 as uuid } from 'uuid';
 
 export default function InventoryEditModal() {

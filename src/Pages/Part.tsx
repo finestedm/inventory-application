@@ -6,7 +6,8 @@ import { Typography, CircularProgress, Button, Grid, Container, Skeleton, Box, C
 import BuyButton from "../components/BuyButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from "react-redux";
-import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen, RootState } from "../features/modalSlide";
+import { setPartData, setPartEditModalOpen, setPartDeleteModalOpen, setPhotoUploadModalOpen, setInventoryData, setInventoryEditModalOpen } from "../features/modalSlice";
+import { RootState } from "@/features/combineReducer";
 // @ts-ignore
 import { imagefrombuffer } from 'imagefrombuffer'
 import { StoreRounded, WarehouseRounded } from "@mui/icons-material";
