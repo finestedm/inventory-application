@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import CardList from "../components/CardList";
 import { IPart, ILocation } from "@/components/interfaces";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import TagCloud from "../components/TagCloud";
 import { Link } from "react-router-dom";
 import CampaignCarousel from "@/components/CampaignCarousel";
@@ -59,10 +59,14 @@ export default function Catalog(): JSX.Element {
             <Container maxWidth='xl'>
                 <Stack spacing={3}>
                     <Box>
-                        <Stack direction='row' justifyContent='space-between'>
-                            <Typography variant='h5' noWrap>Browser newest parts:</Typography>
-                            <Button href="catalog/parts/">See all parts</Button>
-                        </Stack>
+                        <Grid container direction='row' justifyContent='space-between'>
+                            <Grid item sm={12} lg={6}>
+                                <Typography variant='h5' noWrap>Browser newest parts:</Typography>
+                            </Grid>
+                            <Grid item sm={12} lg={6}>
+                                <Button href="catalog/parts/">See all parts</Button>
+                            </Grid>
+                        </Grid>
                         <CardList parts={parts} placeholder={isLoadingParts} perPage={4} />
                     </Box>
                     <Box>
