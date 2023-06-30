@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, clearSearchPhrase, setSearchPhrase } from '@/features/modalSlide';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useNavigate } from 'react-router-dom';
 
 export default function TopBar() {
@@ -24,17 +25,13 @@ export default function TopBar() {
     const dispatch = useDispatch();
     const searchData = useSelector((state: RootState) => state.search.searchPhrase);
 
-    useEffect(() => {
-        console.log(searchData)
-
-    }, [searchData])
-
     return (
         <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3rem', transition: 'all .25s ease' }}>
             <Container maxWidth="xl" sx={{ flexGrow: 1, display: "flex" }}>
                 <Toolbar variant="dense" disableGutters sx={{ width: '100%' }}>
                     <Stack direction='row' sx={{ display: "flex", alignItems: "center", width: '100%' }} spacing={4}>
-                        <Typography variant="h5" component="a" href="/" color="text.primary" sx={{ fontWeight: 700 }} style={{ marginRight: 'auto' }}>
+                        <div style={{ backgroundImage: `url(${logo})`, height: '32px', aspectRatio: '1/1' }} />
+                        <Typography variant="h5" component="a" href="/" color="text.primary" sx={{ fontWeight: 700, pt: '.5rem' }} style={{ marginRight: 'auto' }}>
                             Untitled
                         </Typography>
                         <FormControl component={Stack}>
@@ -63,9 +60,11 @@ export default function TopBar() {
                                 }}
                             />
                         </FormControl>
-                        <Stack alignItems="center">
-                            <div style={{ backgroundImage: `url(${logo})`, width: '100%', minHeight: '32px', aspectRatio: '1/1' }} />
-                            {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Icon</Typography> : ''}
+                        <Stack alignItems="center" >
+                            <Button variant='outlined'>
+                                <ShoppingCartOutlinedIcon />
+                            </Button>
+                            {/* {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Cart</Typography> : ''} */}
                         </Stack>
                     </Stack>
                 </Toolbar>
