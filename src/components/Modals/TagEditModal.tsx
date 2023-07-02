@@ -1,4 +1,5 @@
-import { RootState, setTagEditModalOpen, setTagData } from "@/features/modalSlide";
+import { setTagEditModalOpen, setTagData } from "@/features/modalSlice";
+import { RootState } from "@/features/combineReducer";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IError } from "../interfaces";

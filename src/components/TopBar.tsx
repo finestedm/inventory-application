@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useNavigate } from 'react-router-dom';
+import { setCartOpen } from '@/features/cart';
 
 export default function TopBar() {
     const [isAtTop, setIsAtTop] = useState(true);
@@ -63,7 +64,7 @@ export default function TopBar() {
                         </FormControl>
                         <Stack alignItems="center" >
                             <Button variant='outlined'>
-                                <ShoppingCartOutlinedIcon />
+                                <ShoppingCartOutlinedIcon onClick={() => dispatch(setCartOpen(true))} />
                             </Button>
                             {/* {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Cart</Typography> : ''} */}
                         </Stack>

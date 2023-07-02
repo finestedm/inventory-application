@@ -1,4 +1,5 @@
-import { RootState, setPartData, setPhotoData, setPhotoUploadModalOpen } from "@/features/modalSlide"
+import { setPhotoUploadModalOpen } from "@/features/modalSlice"
+import { RootState } from "@/features/combineReducer";
 import { Button, Card, CardContent, CardHeader, FormControl, Input, Modal, Stack } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

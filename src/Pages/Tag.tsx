@@ -6,8 +6,7 @@ import CardList from "../components/CardList";
 import { Button, Container, Menu, MenuItem, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { setTagDeleteModalOpen } from "@/features/modalSlide";
-
+import { setTagDeleteModalOpen } from "@/features/modalSlice";
 
 export default function Tag(): JSX.Element {
 

@@ -1,5 +1,5 @@
 import TagCloud from "@/components/TagCloud";
-import { setTagEditModalOpen } from "@/features/modalSlide";
+import { setTagEditModalOpen } from "@/features/modalSlice";
 import { Button, Container, Menu, Typography } from "@mui/material";
 import axios from "axios"
 import { useEffect, useState } from "react"

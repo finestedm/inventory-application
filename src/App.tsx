@@ -25,6 +25,7 @@ import TagDeleteModal from './components/Modals/TagDeleteModal';
 import PhotoUploadModal from './components/Modals/PhotoUploadModal';
 import InventoryEditModal from './components/Modals/InventoryEditModal';
 import SearchResults from './components/SearchResults';
+import CartDrawer from './components/CartDrawer';
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/catalog'
@@ -47,6 +48,7 @@ function App() {
         <TagEditModal />
         <TagDeleteModal />
         <PhotoUploadModal />
+        <CartDrawer />
         <Routes>
           <Route path='/' element={<Splash />} />
           <Route path='catalog'>

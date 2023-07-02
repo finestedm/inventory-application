@@ -1,4 +1,5 @@
-import { RootState, setTagDeleteModalOpen } from "@/features/modalSlide";
+import { setTagDeleteModalOpen } from "@/features/modalSlice";
+import { RootState } from "@/features/combineReducer";
 import deleteTag from "@/methods/deleteTag";
 import { Button, Card, CardActionArea, CardHeader, Modal, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
