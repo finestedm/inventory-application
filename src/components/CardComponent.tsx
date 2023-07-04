@@ -91,7 +91,7 @@ export default function CardComponent({ part, location }: CardProps) {
                       {part.price.toFixed(2)} PLN
                     </Typography>
                   </Stack>
-                  <BuyButton />
+                  <BuyButton part={part}/>
                 </Stack>
               </Box>
             </CardContent>

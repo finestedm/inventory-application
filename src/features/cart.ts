@@ -2,10 +2,12 @@ import { PayloadAction, combineReducers, configureStore, createSlice } from "@re
 
 interface ICartState {
     cartOpen: boolean;
+    cart: String[]
 }
 
 const initialCartState: ICartState = {
     cartOpen: false,
+    cart: [],
 };
 
 const cartSlice = createSlice({
@@ -15,6 +17,9 @@ const cartSlice = createSlice({
         setCartOpen: (state, action: PayloadAction<boolean>) => {
             state.cartOpen = action.payload;
         },
+        addToCart: (state, action: PayloadAction<String>) => {
+            state.cart = state.cart.push(action.payload)
+        }
     },
 });
 

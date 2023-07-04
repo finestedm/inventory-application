@@ -197,7 +197,7 @@ export default function Part(): JSX.Element {
                                 }
                             </Box>
                             <Divider />
-                            <BuyButton />
+                            {partData ? <BuyButton part={partData} /> : <CircularProgress />}
                         </Stack>
                     </Grid>
                 </Grid>
