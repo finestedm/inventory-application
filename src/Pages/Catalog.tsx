@@ -59,12 +59,16 @@ export default function Catalog(): JSX.Element {
             <Container maxWidth='xl'>
                 <Stack spacing={3}>
                     <Box>
-                        <Grid container direction='row' justifyContent='space-between'>
-                            <Grid item sm={12} lg={6}>
-                                <Typography variant='h5' noWrap>Browser newest parts:</Typography>
+                        <Grid container direction='row'>
+                            <Grid container item sm={12} lg={6}>
+                                <Grid item>
+                                    <Typography variant='h5' noWrap>Browser newest parts:</Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item sm={12} lg={6}>
-                                <Button href="catalog/parts/">See all parts</Button>
+                            <Grid container item sm={12} lg={6} justifyContent="flex-end">
+                                <Grid item>
+                                    <Button href="catalog/parts/">See all parts</Button>
+                                </Grid>
                             </Grid>
                         </Grid>
                         <CardList parts={parts} placeholder={isLoadingParts} perPage={4} />

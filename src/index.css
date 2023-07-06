@@ -14,3 +14,11 @@
 body {
   margin: 0;
 }
+
+.part-photo {
+  transition: all .2s ease;
+}
+
+.part-photo:hover {
+  scale: 1.1;
+}
