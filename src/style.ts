@@ -58,7 +58,11 @@ theme = createTheme(theme, {
             styleOverrides: {
                 root: {
                     borderRadius: borderRadiusStandard,
+                    boxShadow: shadow1,
                     // border: borderStandard,
+                    '&:hover': {
+                        boxShadow: shadow4, // Modify the shadow on hover
+                    }
                 }
             }
         },

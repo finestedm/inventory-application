@@ -15,10 +15,22 @@ body {
   margin: 0;
 }
 
-.part-photo {
+.card-part-photo {
   transition: all .2s ease;
 }
 
-.part-photo:hover {
+.css-1v2exvi-MuiCardActionArea-focusHighlight {
+  background-color: white !important;
+}
+
+.MuiCard-root:hover .css-1v2exvi-MuiCardActionArea-focusHighlight {
+  opacity: .15 !important;
+}
+/* below lines scales photo on card hover */
+.MuiCard-root:hover .card-part-photo {
   scale: 1.1;
+}
+
+.css-y0orxu-MuiButtonBase-root-MuiCardActionArea-root:hover .MuiCardActionArea-focusHighlight {
+  background-color: white;
 }
