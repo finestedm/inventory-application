@@ -1,9 +1,14 @@
 import { IPart } from "@/components/interfaces";
-import { PayloadAction, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+interface ICartItem {
+    part: IPart;
+    numberOfParts: number;
+}
 
 interface ICartState {
     cartOpen: boolean;
-    cart: IPart[]
+    cart: ICartItem[];
 }
 
 const initialCartState: ICartState = {
@@ -19,10 +24,18 @@ const cartSlice = createSlice({
             state.cartOpen = action.payload;
         },
         addToCart: (state, action: PayloadAction<IPart>) => {
-            state.cart.push(action.payload);
+            const existingCartItem = state.cart.find(
+                (item) => item.part._id === action.payload._id
+            );
+            if (existingCartItem) {
+                existingCartItem.numberOfParts++;
+            } else {
+                state.cart.push({ part: action.payload, numberOfParts: 1 });
+            }
         },
     },
 });
+
 
 export const { setCartOpen, addToCart } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

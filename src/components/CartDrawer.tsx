@@ -9,6 +9,8 @@ export default function CartDrawer() {
     const cart = useSelector((state: RootState) => state.cart.cart);
     const dispatch = useDispatch()
 
+    console.log(cart)
+
     return (
         <Drawer
             anchor='right'
@@ -19,7 +21,7 @@ export default function CartDrawer() {
                 {cart.length > 0 ?
                     (
                         <List>
-                            {cart.map(item => <ListItem>{item.name}</ListItem>)}
+                            {cart.map(item => <ListItem>{item.part.name}, {item.numberOfParts }</ListItem>)}
                         </List>
                     )
                     :
