@@ -31,7 +31,7 @@ export default function TopBar() {
         <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3rem', transition: 'all .25s ease' }}>
             <Container maxWidth="xl" sx={{ flexGrow: 1, display: "flex" }}>
                 <Toolbar variant="dense" disableGutters sx={{ width: '100%' }}>
-                    <Stack direction='row' sx={{ display: "flex", alignItems: "center", width: '100%' }} spacing={4}>
+                    <Stack direction='row' sx={{ width: '100%' }} spacing={4}>
                         <div style={{ backgroundImage: `url(${logo})`, height: '32px', aspectRatio: '1/1' }} />
                         <Typography variant="h5" component="a" href="/" color="text.primary" sx={{ fontWeight: 700, pt: '.5rem' }} style={{ marginRight: 'auto' }}>
                             Untitled
@@ -62,12 +62,10 @@ export default function TopBar() {
                                 }}
                             />
                         </FormControl>
-                        <Stack alignItems="center" >
-                            <Button variant='outlined'>
-                                <ShoppingCartOutlinedIcon onClick={() => dispatch(setCartOpen(true))} />
-                            </Button>
-                            {/* {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Cart</Typography> : ''} */}
-                        </Stack>
+                        <Button variant='outlined' onClick={() => dispatch(setCartOpen(true))}>
+                            <ShoppingCartOutlinedIcon />
+                        </Button>
+                        {/* {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Cart</Typography> : ''} */}
                     </Stack>
                 </Toolbar>
             </Container>
