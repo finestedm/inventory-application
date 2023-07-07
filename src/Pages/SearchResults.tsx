@@ -93,12 +93,7 @@ export default function SearchResults(): JSX.Element {
                     <Button variant="outlined" onClick={() => navigate(`/catalog/parts`)}> Show all </Button>
                     <PerPageDropdown perPage={perPage} setPerPage={setPerPage} />
                 </Stack>
-
-                {parts.length > 0 ?
-                    <CardList parts={parts} perPage={perPage} placeholder={isLoading} />
-                    :
-                    <h1>Nothing Found :( </h1>
-                }
+                <CardList parts={parts} perPage={perPage} placeholder={isLoading} />
                 <Pagination
                     sx={{ width: '100%' }}
                     count={totalPages}

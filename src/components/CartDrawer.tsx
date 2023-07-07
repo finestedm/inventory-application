@@ -21,7 +21,7 @@ export default function CartDrawer() {
                 {cart.length > 0 ?
                     (
                         <List>
-                            {cart.map(item => <ListItem>{item.part.name}, {item.numberOfParts }</ListItem>)}
+                            {cart.map(item => <ListItem>{item.part.name}, {item.numberOfParts}. Total: {item.part.price * item.numberOfParts} PLN</ListItem>)}
                         </List>
                     )
                     :

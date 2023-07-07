@@ -31,8 +31,16 @@ export default function CardList(props: CardListProps) {
         return (
             <Box>
                 <Grid container spacing={4} flex={1} justifyContent='center'>
-                    <Grid container item direction='row' spacing={2}>{parts?.map(part => <CardComponent key={part._id} part={part} />)}</Grid>
-                    <Grid container item direction='row' spacing={2}>{locations?.map(location => <CardComponent key={location._id} location={location} />)}</Grid>
+                    <Grid container item direction='row' spacing={2}>
+                        {parts && parts.length > 0 ?
+                            parts?.map(part => <CardComponent key={part._id} part={part} />)
+                            :
+                            <h1>Nothing found</h1>
+                        }
+                    </Grid>
+                    <Grid container item direction='row' spacing={2}>
+                        {locations?.map(location => <CardComponent key={location._id} location={location} />)}
+                    </Grid>
                 </Grid>
             </Box>
         )

@@ -24,7 +24,7 @@ import Footer from './components/Footer';
 import TagDeleteModal from './components/Modals/TagDeleteModal';
 import PhotoUploadModal from './components/Modals/PhotoUploadModal';
 import InventoryEditModal from './components/Modals/InventoryEditModal';
-import SearchResults from './components/SearchResults';
+import SearchResults from './Pages/SearchResults';
 import CartDrawer from './components/CartDrawer';
 
 
