@@ -1,8 +1,9 @@
-import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, Link, CardActionArea, Stack, Menu, MenuItem, CardMedia } from '@mui/material'
+import { Box, Card, CardActions, CardContent, Button, Typography, Skeleton, Paper, Grid, useTheme, CardActionArea, Stack, Menu, MenuItem, CardMedia } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import BuyButton from './BuyButton';
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 import { setLocationData, setLocationDeleteModalOpen, setLocationEditModalOpen, setPartData, setPartDeleteModalOpen, setPartEditModalOpen, setPhotoUploadModalOpen } from "../features/modalSlice";
 import { RootState } from '@/features/combineReducer';
 // @ts-ignore
@@ -61,7 +62,7 @@ export default function CardComponent({ part, location }: CardProps) {
             }>Delete</MenuItem>
           </Menu>
 
-          <CardActionArea href={`/catalog/parts/${part._id}`} sx={{ height: '100%' }}>
+          <CardActionArea component={Link} to={`/catalog/parts/${part._id}`} sx={{ height: '100%' }}>
             <CardMedia sx={{ width: '100%', height: 275, }}>
 
               {part.photo ?
@@ -92,7 +93,7 @@ export default function CardComponent({ part, location }: CardProps) {
                       {part.price.toFixed(2)} PLN
                     </Typography>
                   </Stack>
-                  <BuyButton part={part}/>
+                  <BuyButton part={part} />
                 </Stack>
               </Box>
             </CardContent>
@@ -124,7 +125,7 @@ export default function CardComponent({ part, location }: CardProps) {
               Delete</MenuItem>
           </Menu>
 
-          <CardActionArea href={`/catalog/locations/${location._id}`}>
+          <CardActionArea component={Link} to={`/catalog/locations/${location._id}`}>
             <CardMedia>
               <Box sx={{ height: 250, width: '100%' }}>
                 <LocationMap city={location.city} street={location.street} options={googleMapOptions} />

@@ -1,4 +1,4 @@
-import { AppBar, Button, Container, FormControl, InputAdornment, Stack, SvgIcon, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Button, Container, FormControl, InputAdornment, Stack, SvgIcon, TextField, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import logo from '../images/logo.svg'
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,9 +26,10 @@ export default function TopBar() {
 
     const dispatch = useDispatch();
     const searchData = useSelector((state: RootState) => state.search.searchPhrase);
+    const cart = useSelector((state: RootState) => state.cart.cart);
 
     return (
-        <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3rem', transition: 'all .25s ease' }}>
+        <AppBar position="sticky" sx={{ height: isAtTop ? '5rem' : '3.25rem', transition: 'all .25s ease' }}>
             <Container maxWidth="xl" sx={{ flexGrow: 1, display: "flex" }}>
                 <Toolbar variant="dense" disableGutters sx={{ width: '100%' }}>
                     <Stack direction='row' sx={{ width: '100%' }} spacing={4}>
@@ -62,9 +63,11 @@ export default function TopBar() {
                                 }}
                             />
                         </FormControl>
-                        <Button variant='outlined' onClick={() => dispatch(setCartOpen(true))}>
-                            <ShoppingCartOutlinedIcon />
-                        </Button>
+                        <Badge badgeContent={cart.length} color="primary" overlap="circular">
+                            <Button variant='outlined' onClick={() => dispatch(setCartOpen(true))}>
+                                <ShoppingCartOutlinedIcon />
+                            </Button>
+                        </Badge>
                         {/* {isAtTop ? <Typography sx={{ visibility: isAtTop ? 'visible' : 'collapse', transition: 'all .25s ease' }}>Cart</Typography> : ''} */}
                     </Stack>
                 </Toolbar>
