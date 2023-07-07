@@ -73,6 +73,13 @@ theme = createTheme(theme, {
                 }
             }
         },
+        MuiDrawer: {
+            styleOverrides: {
+                paper: {
+                    width: '400px', // specify the desired width here
+                },
+            },
+        },
         MuiDivider: {
             styleOverrides: {
                 root: {

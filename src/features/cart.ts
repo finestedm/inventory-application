@@ -1,8 +1,9 @@
+import { IPart } from "@/components/interfaces";
 import { PayloadAction, combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
 
 interface ICartState {
     cartOpen: boolean;
-    cart: String[]
+    cart: IPart[]
 }
 
 const initialCartState: ICartState = {
@@ -17,19 +18,11 @@ const cartSlice = createSlice({
         setCartOpen: (state, action: PayloadAction<boolean>) => {
             state.cartOpen = action.payload;
         },
-        addToCart: (state, action: PayloadAction<String>) => {
-            state.cart = state.cart.push(action.payload)
-        }
+        addToCart: (state, action: PayloadAction<IPart>) => {
+            state.cart.push(action.payload);
+        },
     },
 });
 
-const rootReducer = combineReducers({
-    cart: cartSlice.reducer,
-});
-
-export const store = configureStore({
-    reducer: rootReducer,
-});
-
-export const { setCartOpen } = cartSlice.actions;
+export const { setCartOpen, addToCart } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
