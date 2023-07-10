@@ -32,10 +32,10 @@ export default function CardList(props: CardListProps) {
             <Box>
                 <Grid container spacing={4} flex={1} justifyContent='center'>
                     <Grid container item direction='row' spacing={2}>
-                        {parts && parts.length > 0 ?
-                            parts?.map(part => <CardComponent key={part._id} part={part} />)
-                            :
+                        {parts?.length === 0 ?
                             <h1>Nothing found</h1>
+                            :
+                            parts?.map(part => <CardComponent key={part._id} part={part} />)
                         }
                     </Grid>
                     <Grid container item direction='row' spacing={2}>
