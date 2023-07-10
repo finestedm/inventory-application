@@ -1,15 +1,15 @@
 import { RootState } from "@/features/combineReducer";
-import { Box, Drawer, List, ListItem, Typography } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Drawer, Grid, List, ListItem, Skeleton, Stack, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartOpen } from '@/features/cart';
+import CartPartCard from "./CartPartCard";
 
 export default function CartDrawer() {
 
     const cartOpen = useSelector((state: RootState) => state.cart.cartOpen);
     const cart = useSelector((state: RootState) => state.cart.cart);
     const dispatch = useDispatch()
-
-    console.log(cart)
+    const theme = useTheme()
 
     return (
         <Drawer
@@ -17,19 +17,20 @@ export default function CartDrawer() {
             open={cartOpen}
             onClose={() => dispatch(setCartOpen(false))}
         >
-            <Box>
+            <Stack direction='column' flex={1} alignItems='center' spacing={6} sx={{ p: 4 }}>
+                <Typography variant="h4">Your cart</Typography>
                 {cart.length > 0 ?
                     (
-                        <List>
-                            {cart.map(item => <ListItem>{item.part.name}, {item.numberOfParts}. Total: {item.part.price * item.numberOfParts} PLN</ListItem>)}
+                        <List component={Stack} spacing={3}>
+                            {cart.map(cartPart => <CartPartCard cartPart={cartPart} />)}
                         </List>
                     )
                     :
                     (
                         <Typography variant="h2"> Cart empty </Typography>
-                     )
+                    )
                 }
-            </Box>
+            </Stack>
         </Drawer >
     )
 }

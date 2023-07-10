@@ -76,7 +76,7 @@ theme = createTheme(theme, {
         MuiDrawer: {
             styleOverrides: {
                 paper: {
-                    width: '400px', // specify the desired width here
+                    width: '600px', // specify the desired width here
                 },
             },
         },

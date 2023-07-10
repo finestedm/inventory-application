@@ -1,7 +1,7 @@
 import { IPart } from "@/components/interfaces";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ICartItem {
+export interface ICartItem {
     part: IPart;
     numberOfParts: number;
 }
